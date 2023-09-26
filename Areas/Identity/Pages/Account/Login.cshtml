@@ -1,0 +1,246 @@
+﻿@page
+@model LoginModel
+@{
+    ViewData["Title"] = "Log in";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="keywords"
+          content="wrappixel, admin dashboard, html css dashboard, web dashboard, bootstrap 5 admin, bootstrap 5, css3 dashboard, bootstrap 5 dashboard, Ample admin bootstrap 5 dashboard, frontend, responsive bootstrap 5 admin template, " />
+    <meta name="description"
+          content="Ample is powerful and clean admin dashboard template, inpired from Google's Material Design" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>Ample Template by WrapPixel</title>
+    <link rel="canonical"
+          href="https://www.wrappixel.com/templates/ampleadmin/" />
+    <!-- Favicon icon -->
+    <link rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="~/favicon/LogoFavicon.png" />
+    <!-- Custom CSS -->
+    <link href="~/dist/css/style.min.css" rel="stylesheet" />
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <div class="main-wrapper">
+        <!-- ============================================================== -->
+        <!-- Preloader - style you can find in spinners.css -->
+        <!-- ============================================================== -->
+        <div class="preloader">
+            <svg class="tea lds-ripple"
+                 width="37"
+                 height="48"
+                 viewBox="0 0 37 48"
+                 fill="none"
+                 xmlns="http://www.w3.org/2000/svg">
+                <path d="M27.0819 17H3.02508C1.91076 17 1.01376 17.9059 1.0485 19.0197C1.15761 22.5177 1.49703 29.7374 2.5 34C4.07125 40.6778 7.18553 44.8868 8.44856 46.3845C8.79051 46.79 9.29799 47 9.82843 47H20.0218C20.639 47 21.2193 46.7159 21.5659 46.2052C22.6765 44.5687 25.2312 40.4282 27.5 34C28.9757 29.8188 29.084 22.4043 29.0441 18.9156C29.0319 17.8436 28.1539 17 27.0819 17Z"
+                      stroke="#233242"
+                      stroke-width="2"></path>
+                <path d="M29 23.5C29 23.5 34.5 20.5 35.5 25.4999C36.0986 28.4926 34.2033 31.5383 32 32.8713C29.4555 34.4108 28 34 28 34"
+                      stroke="#233242"
+                      stroke-width="2"></path>
+                <path id="teabag"
+                      fill="#233242"
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M16 25V17H14V25H12C10.3431 25 9 26.3431 9 28V34C9 35.6569 10.3431 37 12 37H18C19.6569 37 21 35.6569 21 34V28C21 26.3431 19.6569 25 18 25H16ZM11 28C11 27.4477 11.4477 27 12 27H18C18.5523 27 19 27.4477 19 28V34C19 34.5523 18.5523 35 18 35H12C11.4477 35 11 34.5523 11 34V28Z"></path>
+                <path id="steamL"
+                      d="M17 1C17 1 17 4.5 14 6.5C11 8.5 11 12 11 12"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke="#233242"></path>
+                <path id="steamR"
+                      d="M21 6C21 6 21 8.22727 19 9.5C17 10.7727 17 13 17 13"
+                      stroke="#233242"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"></path>
+            </svg>
+        </div>
+        <!-- ============================================================== -->
+        <!-- Preloader - style you can find in spinners.css -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Login box.scss -->
+        <!-- ============================================================== -->
+        <div class="
+          auth-wrapper
+          d-flex
+          no-block
+          justify-content-center
+          align-items-center
+        "
+             style="
+          background: url(../assets/images/background/login-register.jpg)
+            no-repeat center center;
+          background-size: cover;
+        ">
+            <div class="auth-box p-4 bg-white rounded">
+                <div id="loginform">
+                    <div class="logo">
+                        <h3 class="box-title mb-3">Sign In</h3>
+                    </div>
+                    <!-- Form -->
+                    <div class="row">
+                        <div class="col-12">
+                            <form id="loginform" method="post" class="form-horizontal mt-3 form-material">
+                                <div class="form-group mb-3">
+                                    <div class="">
+                                        <input asp-for="Input.Email" class="form-control" type="text" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                                        <label asp-for="Input.Email">Email</label>
+                                        <span asp-validation-for="Input.Email"></span>
+                                        <div class="invalid-feedback">Email is required</div>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-4">
+                                    <div class="">
+                                        <input asp-for="Input.Password" id="text-password" class="form-control form-input-bg" autocomplete="current-password" aria-required="true" placeholder="password" />
+                                        <label asp-for="Input.Password" class="form-label">Password</label>
+                                        <div class="invalid-feedback">Password is required</div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="d-flex">
+                                        <div class="checkbox checkbox-info pt-0">
+
+                                            <label asp-for="Input.RememberMe" class="form-label">
+                                                <input class="form-check-input" asp-for="Input.RememberMe" />
+                                                @Html.DisplayNameFor(m => m.Input.RememberMe)
+                                            </label>
+
+                                        </div>
+                                        <div class="ms-auto">
+                                            <a href="javascript:void(0)"
+                                               id="to-recover"
+                                               class="link font-weight-medium"><i class="fa fa-lock me-1"></i> Forgot pwd?</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group text-center mt-4 mb-3">
+                                    <div class="col-xs-6 d-flex justify-content-center">
+                                        <button class="btn btn-info d-block w-50 waves-effect waves-light" type="submit">Log In</button>
+                                    </div>
+
+                                </div>
+                                <div class="btn-group  mt-2" >
+                                    <button type="button" class="btn btn-secondary">Demo LogIn</button>
+                                    <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span class="sr-only">Demo LogIn</span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <button class="dropdown-item" type="submit" name="demoEmail" value="DemoAdminEmail">Demo Admin</button>
+                                        <button class="dropdown-item" type="submit" name="demoEmail" value="DemoPMEmail">Demo PM</button>
+                                        <button class="dropdown-item" type="submit" name="demoEmail" value="DemoDevEmail">Demo Developer</button>
+                                        <button class="dropdown-item" type="submit" name="demoEmail" value="DemoSubEmail">Demo Submitter</button>
+
+                                    </ul>
+                                </div>
+
+                                <div class="form-group mb-0 mt-4">
+                                    <div class="col-sm-12 justify-content-center d-flex">
+                                        <p>
+                                            Don't have an account?
+                                            <a class=" asp-area=" Identity" asp-page="/Account/Register" asp-route-returnUrl="@Url.Action("Index", "Home")" aria-expanded="false" text-info font-weight-medium ms-1">Register your company</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div id="recoverform">
+                    <div class="logo">
+                        <h3 class="font-weight-medium mb-3">Recover Password</h3>
+                        <span class="text-muted">Enter your Email and instructions will be sent to you!</span>
+                    </div>
+                    <div class="row mt-3 form-material">
+                        <!-- Form -->
+                        <form class="col-12" action="index.html">
+                            <!-- email -->
+                            <div class="form-group row">
+                                <div class="col-12">
+                                    <input class="form-control"
+                                           type="email"
+                                           required=""
+                                           placeholder="Username" />
+                                </div>
+                            </div>
+                            <!-- pwd -->
+                            <div class="row mt-3">
+                                <div class="col-12">
+                                    <button class="btn d-block w-100 btn-primary text-uppercase"
+                                            type="submit"
+                                            name="action">
+                                        Reset
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- All Required js -->
+    <!-- ============================================================== -->
+
+
+    <script src="~/dist/libs/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="~/dist/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- ============================================================== -->
+    <!-- This page plugin js -->
+    <!-- ============================================================== -->
+    <script src="~/dist/js/feather.min.js"></script>
+    <script src="~/dist/js/custom.min.js"></script>
+    <script>
+        $(".preloader").fadeOut();
+        // ==============================================================
+        // Login and Recover Password
+        // ==============================================================
+        $("#to-recover").on("click", function () {
+            $("#loginform").slideUp();
+            $("#recoverform").fadeIn();
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#btnGroupDrop1').on('click', function () {
+                $(this).next().toggle();
+            });
+
+            $('.dropdown-menu button').on('click', function () {
+                alert('Has seleccionado: ' + $(this).text());
+            });
+        });
+    </script>
+
+</body>
+</html>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    }
+
+
+
+
+

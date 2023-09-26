@@ -1,0 +1,513 @@
+﻿@using BugTrackingSystem.Areas.Identity.Pages.Account;
+@using Microsoft.AspNetCore.Identity;
+@inject UserManager<BTUser> UserManager
+@inject IBTNotificationService NotificationService
+
+@{
+    BTUser? appUser = await UserManager.GetUserAsync(User);
+}
+
+
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="keywords"
+          content="wrappixel, admin dashboard, html css dashboard, web dashboard, bootstrap 5 admin, bootstrap 5, css3 dashboard, bootstrap 5 dashboard, material pro admin bootstrap 5 dashboard, frontend, responsive bootstrap 5 admin template, material design, material dashboard bootstrap 5 dashboard template" />
+    <meta name="description"
+          content="Admin Pro is powerful and clean admin dashboard template" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>Bug Tracking System</title>
+    <link rel="canonical"
+          href="https://www.wrappixel.com/templates/adminpro/" />
+    <!-- Favicon icon -->
+    <link rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="~/favicon/LogoFavicon.png" />
+    <!-- Custom CSS -->
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="~/dist/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="~/dist/libs/prismjs/themes/prism-okaidia.min.css">
+
+
+    <link href="~/dist/css/style.min.css" rel="stylesheet" />
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <!-- -------------------------------------------------------------- -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- -------------------------------------------------------------- -->
+    <div class="preloader">
+        <svg class="tea lds-ripple"
+             width="37"
+             height="48"
+             viewBox="0 0 37 48"
+             fill="none"
+             xmlns="http://www.w3.org/2000/svg">
+            <path d="M27.0819 17H3.02508C1.91076 17 1.01376 17.9059 1.0485 19.0197C1.15761 22.5177 1.49703 29.7374 2.5 34C4.07125 40.6778 7.18553 44.8868 8.44856 46.3845C8.79051 46.79 9.29799 47 9.82843 47H20.0218C20.639 47 21.2193 46.7159 21.5659 46.2052C22.6765 44.5687 25.2312 40.4282 27.5 34C28.9757 29.8188 29.084 22.4043 29.0441 18.9156C29.0319 17.8436 28.1539 17 27.0819 17Z"
+                  stroke="#1e88e5"
+                  stroke-width="2"></path>
+            <path d="M29 23.5C29 23.5 34.5 20.5 35.5 25.4999C36.0986 28.4926 34.2033 31.5383 32 32.8713C29.4555 34.4108 28 34 28 34"
+                  stroke="#1e88e5"
+                  stroke-width="2"></path>
+            <path id="teabag"
+                  fill="#1e88e5"
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M16 25V17H14V25H12C10.3431 25 9 26.3431 9 28V34C9 35.6569 10.3431 37 12 37H18C19.6569 37 21 35.6569 21 34V28C21 26.3431 19.6569 25 18 25H16ZM11 28C11 27.4477 11.4477 27 12 27H18C18.5523 27 19 27.4477 19 28V34C19 34.5523 18.5523 35 18 35H12C11.4477 35 11 34.5523 11 34V28Z"></path>
+            <path id="steamL"
+                  d="M17 1C17 1 17 4.5 14 6.5C11 8.5 11 12 11 12"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke="#1e88e5"></path>
+            <path id="steamR"
+                  d="M21 6C21 6 21 8.22727 19 9.5C17 10.7727 17 13 17 13"
+                  stroke="#1e88e5"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"></path>
+        </svg>
+    </div>
+    <!-- -------------------------------------------------------------- -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- -------------------------------------------------------------- -->
+    <div id="main-wrapper">
+        <!-- -------------------------------------------------------------- -->
+        <!-- Topbar header - style you can find in pages.scss -->
+        <!-- -------------------------------------------------------------- -->
+        <header class="topbar">
+            <nav class="navbar top-navbar navbar-expand-md navbar-dark">
+                <div class="navbar-header border-end">
+                    <!-- This is for the sidebar toggle which is visible on mobile only -->
+                    <a class="nav-toggler waves-effect waves-light d-block d-md-none"
+                       href="javascript:void(0)">
+                        <i class="ti-menu ti-close"></i>
+                    </a>
+                    <a class="navbar-brand" href="index.html">
+                        <!-- Logo icon -->
+                        <b class="logo-icon">
+                            <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
+                            <!-- Dark Logo icon -->
+                            <img src="../../assets/images/logos/logo-icon.png"
+                                 alt="homepage"
+                                 class="dark-logo" />
+                            <!-- Light Logo icon -->
+                            <img src="../../assets/images/logos/logo-light-icon.png"
+                                 alt="homepage"
+                                 class="light-logo" />
+                        </b>
+                        <!--End Logo icon -->
+                        <!-- Logo text -->
+                        <span class="logo-text">
+                            <!-- dark Logo text -->
+                            <img src="../../assets/images/logos/logo-text.png"
+                                 alt="homepage"
+                                 class="dark-logo" />
+                            <!-- Light Logo text -->
+                            <img src="../../assets/images/logos/logo-light-text.png"
+                                 class="light-logo"
+                                 alt="homepage" />
+                        </span>
+                    </a>
+                    <!-- ============================================================== -->
+                    <!-- End Logo -->
+                    <!-- ============================================================== -->
+                    <!-- ============================================================== -->
+                    <!-- Toggle which is visible on mobile only -->
+                    <!-- ============================================================== -->
+                    <a class="topbartoggler d-block d-md-none waves-effect waves-light"
+                       href="javascript:void(0)"
+                       data-bs-toggle="collapse"
+                       data-bs-target="#navbarSupportedContent"
+                       aria-controls="navbarSupportedContent"
+                       aria-expanded="false"
+                       aria-label="Toggle navigation">
+                        <i class="ti-more"></i>
+                    </a>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Logo -->
+                <!-- ============================================================== -->
+                <div class="navbar-collapse collapse" id="navbarSupportedContent">
+                    <!-- ============================================================== -->
+                    <!-- toggle and nav items -->
+                    <!-- ============================================================== -->
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item d-none d-md-block">
+                            <a class="nav-link sidebartoggler waves-effect waves-light"
+                               href="javascript:void(0)"
+                               data-sidebartype="mini-sidebar">
+                                <i class="mdi mdi-menu fs-5"></i>
+                            </a>
+                        </li>
+                    </ul>
+
+
+                    <partial name="_LoginPartial" />
+
+
+                </div>
+            </nav>
+        </header>
+
+        <!-- -------------------------------------------------------------- -->
+        <!-- End Topbar header -->
+        <!-- -------------------------------------------------------------- -->
+        <!-- ============================================================== -->
+        <!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <aside class="left-sidebar">
+            <!-- Sidebar scroll-->
+            <div class="scroll-sidebar">
+                <!-- Sidebar navigation-->
+                <nav class="sidebar-nav">
+                    <ul id="sidebarnav">
+                        @if (User.Identity!.IsAuthenticated)
+                        {
+                            @*Home*@
+                            <li class="sidebar-item">
+                                <a class="sidebar-link waves-effect waves-dark" asp-area="" asp-controller="Home" asp-action="index" aria-expanded="false">
+
+                                    <i class="mdi mdi-home-variant"></i>
+
+                                    <span class="hide-menu">Home</span>
+                                </a>
+
+                            </li>
+
+                            @* Company *@
+
+                            <li class="sidebar-item">
+                                <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
+                                    <i class="mdi mdi-city"></i>
+                                    <span class="hide-menu">Company</span>
+                                </a>
+                                <ul aria-expanded="false" class="collapse first-level">
+                                    <li class="sidebar-item">
+                                        <a asp-action="Create" asp-controller="Invites" class="sidebar-link">
+                                            <i class="mdi mdi-toggle-switch"></i>
+                                            <span class="hide-menu"> Company Invite </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+
+                            @* Manage Roles *@
+
+                            <li class="sidebar-item">
+                                <a class="sidebar-link  waves-effect waves-dark" asp-area="" asp-controller="Companies" asp-action="ManageUserRoles" aria-expanded="false">
+                                    <i class="mdi mdi-pencil-box"></i>
+                                    <span class="hide-menu">Manage Roles</span>
+                                </a>
+                            </li>
+
+
+                            @* Projects *@
+
+                            <li class="sidebar-item">
+                                <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
+                                    <i class="mdi mdi-folder-multiple"></i>
+                                    <span class="hide-menu"> Projects </span>
+                                </a>
+
+                                <ul aria-expanded="false" class="collapse first-level">
+
+                                    <li class="sidebar-item">
+                                        <a asp-area="" asp-controller="Projects" asp-action="Create" class="sidebar-link">
+                                            <i class="mdi mdi-plus-circle-outline"></i>
+                                            <span class="hide-menu"> New Project</span>
+                                        </a>
+                                    </li>
+                                    <li class="sidebar-item">
+                                        <a asp-area="" asp-controller="Projects" asp-action="index" class="sidebar-link">
+                                            <i class="mdi mdi-toggle-switch"></i>
+                                            <span class="hide-menu"> All Projects</span>
+                                        </a>
+                                    </li>
+                                    <li class="sidebar-item">
+                                        <a href="ui-modals.html" class="sidebar-link">
+                                            <i class="mdi mdi-tablet"></i>
+                                            <span class="hide-menu">  Unassigned Projects</span>
+                                        </a>
+                                    </li>
+                                    <li class="sidebar-item">
+                                        <a asp-area="" asp-controller="Projects" asp-action="ProjectsArchive" class="sidebar-link">
+                                            <i class="mdi mdi-sort-variant"></i>
+                                            <span class="hide-menu"> Archived Projects</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+
+                            @* Tickets *@
+
+                            <li class="sidebar-item">
+                                <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
+                                    <i class="mdi mdi-ticket"></i>
+                                    <span class="hide-menu"> Ticket </span>
+                                </a>
+                                <ul aria-expanded="false" class="collapse first-level">
+
+                                    <li class="sidebar-item">
+                                        <a asp-controller="Tickets" asp-action="Create" class="sidebar-link">
+                                            <i class="mdi mdi-plus-circle-outline"></i>
+                                            <span class="hide-menu"> New Ticket</span>
+                                        </a>
+                                    </li>
+                                    <li class="sidebar-item">
+                                        <a asp-area="" asp-controller="Tickets" asp-action="index" class="sidebar-link">
+                                            <i class="mdi mdi-toggle-switch"></i>
+                                            <span class="hide-menu"> All Tickets</span>
+                                        </a>
+                                    </li>
+                                    <li class="sidebar-item">
+                                        <a href="ui-modals.html" class="sidebar-link">
+                                            <i class="mdi mdi-tablet"></i>
+                                            <span class="hide-menu">  Unassigned Tickets</span>
+                                        </a>
+                                    </li>
+                                    <li class="sidebar-item">
+                                        <a asp-area="" asp-controller="Tickets" asp-action="TicketsArchive" class="sidebar-link">
+                                            <i class="mdi mdi-sort-variant"></i>
+                                            <span class="hide-menu"> Archived Tickets</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            @* } *@
+
+                            @* Notifications *@
+
+                            <li class="sidebar-item">
+                                <a class="sidebar-link waves-effect waves-dark" asp-area="" asp-controller="Notifications" asp-action="index" aria-expanded="false">
+                                    <i class="mdi mdi-notification-clear-all"></i>
+                                    <span class="hide-menu">Notifications</span>
+                                </a>
+
+                            </li>
+
+
+                            <li class="devider"></li>
+
+                            @* Logout *@
+
+                            <li class="sidebar-item">
+                                <a class="sidebar-link waves-effect waves-dark" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home")" aria-expanded="false">
+                                    <i class="mdi mdi-logout"></i>
+                                    <span class="hide-menu">Logout  </span>
+                                </a>
+                            </li>
+                        }
+
+                        @* Login *@
+                        else
+                        {
+                            <li class="sidebar-item">
+                                <a class="sidebar-link waves-effect waves-dark" asp-area="Identity" asp-page="/Account/Login" aria-expanded="false">
+                                    <i class="mdi mdi-login"></i>
+                                    <span class="hide-menu"> Login </span>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </nav>
+                <!-- End Sidebar navigation -->
+            </div>
+            <!-- End Sidebar scroll-->
+        </aside>
+        <!-- ============================================================== -->
+        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <!-- -------------------------------------------------------------- -->
+        <!-- Page wrapper  -->
+        <!-- -------------------------------------------------------------- -->
+        <div class="page-wrapper">
+
+            <div class="page-breadcrumb border-bottom">
+                <div class="row">
+                    <div class="
+                col-lg-3 col-md-4 col-xs-12
+                justify-content-start
+                d-flex
+                align-items-center
+              ">
+                        <h6 class="font-weight-medium text-uppercase mb-0">Dashboard</h6>
+                    </div>
+                    <div class="
+                col-lg-9 col-md-8 col-xs-12
+                d-flex
+                justify-content-start justify-content-md-end
+                align-self-center
+              ">
+                        <nav aria-label="breadcrumb" class="mt-2">
+                            <ol class="breadcrumb mb-0 p-0">
+                                <li class="breadcrumb-item"><a asp-action="index" asp-controller="Home">Home</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">
+                                    Dashboard
+                                </li>
+                            </ol>
+                        </nav>
+
+                    </div>
+                </div>
+            </div>
+            <!-- -------------------------------------------------------------- -->
+            <!-- Container fluid  -->
+            <!-- -------------------------------------------------------------- -->
+            <div class="page-content container-fluid mt-5">
+
+                @RenderBody()
+            </div>
+            <!-- -------------------------------------------------------------- -->
+            <!-- End Container fluid  -->
+            <!-- -------------------------------------------------------------- -->
+            <!-- -------------------------------------------------------------- -->
+            <!-- footer -->
+            <!-- -------------------------------------------------------------- -->
+            <footer class="footer text-center">
+                All Rights Reserved by Bug Tracking System.
+            </footer>
+            <!-- -------------------------------------------------------------- -->
+            <!-- End footer -->
+            <!-- -------------------------------------------------------------- -->
+        </div>
+        <!-- -------------------------------------------------------------- -->
+        <!-- End Page wrapper  -->
+        <!-- -------------------------------------------------------------- -->
+    </div>
+    <!-- -------------------------------------------------------------- -->
+    <!-- End Wrapper -->
+    <!-- -------------------------------------------------------------- -->
+
+    <div class="chat-windows"></div>
+    <script src="~/dist/libs/jquery/dist/jquery.min.js"></script>
+    <script src="~/assets/extra-libs/taskboard/js/jquery-ui.min.js"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="~/dist/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- apps -->
+    <script src="~/dist/js/app.min.js"></script>
+    <script src="~/dist/js/app.init.js"></script>
+    <script src="~/dist/js/app-style-switcher.js"></script>
+    <!-- slimscrollbar scrollbar JavaScript -->
+    <script src="~/dist/libs/perfect-scrollbar/dist/js/perfect-scrollbar.jquery.js"></script>
+    <script src="~/dist/libs/jquery-sparkline/jquery.sparkline.min.js"></script>
+    <!--Wave Effects -->
+    <script src="~/dist/js/waves.js"></script>
+    <!--Menu sidebar -->
+    <script src="~/dist/js/sidebarmenu.js"></script>
+    <!--Custom JavaScript -->
+    <script src="~/dist/js/feather.min.js"></script>
+    <script src="~/dist/js/custom.min.js"></script>
+    <!-- Details Page JS -->
+    <script src="~/dist/libs/apexcharts/dist/apexcharts.min.js"></script>
+    <script src="~/dist/js/pages/dashboards/dashboard1.js"></script>
+    <script src="~/dist/libs/moment/min/moment.min.js"></script>
+    <script src="~/dist/libs/fullcalendar/index.global.min.js"></script>
+    <script src="~/dist/js/pages/calendar/cal-init.js"></script>
+    <script src="~/dist/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="~/dist/js/pages/datatable/datatable-basic.init.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="~/dist/libs/tinymce/tinymce.min.js"></script>
+    <!--c3 charts -->
+    <script src="~/dist/libs/c3/htdocs/js/d3-3.5.6.js"></script>
+    <script src="~/dist/libs/c3/htdocs/js/c3-0.4.9.min.js"></script>
+    @*    Dropdown *@
+    <script src="~/dist/libs/prismjs/prism.js"></script>
+    <script src="../../dist/libs/apexcharts/dist/apexcharts.min.js"></script>
+    <script src="../../dist/js/pages/dashboards/dashboard1.js"></script>
+    <script src="../../dist/libs/moment/min/moment.min.js"></script>
+    <script src="../../dist/libs/fullcalendar/index.global.min.js"></script>
+    <script src="../../dist/js/pages/calendar/cal-init.js"></script>
+    <script>
+        $(function () {
+            tinymce.init({
+                selector: 'textarea#mymce'
+            });
+            // ==============================================================
+            // Our Visitor
+            // ==============================================================
+
+            var chart = c3.generate({
+                bindto: "#visitor",
+                data: {
+                    columns: [
+                        ["Open", 4],
+                        ["Closed", 2],
+                        ["In progress", 2],
+                        ["Other", 0],
+                    ],
+
+                    type: "donut",
+                    tooltip: {
+                        show: true,
+                    },
+                },
+                donut: {
+                    label: {
+                        show: false,
+                    },
+                    title: "Tickets",
+                    width: 35,
+                },
+
+                legend: {
+                    hide: true,
+                    //or hide: 'data1'
+                    //or hide: ['data1', 'data2']
+                },
+                color: {
+                    pattern: ["#40c4ff", "#2961ff", "#ff821c", "#7e74fb"],
+                },
+            });
+        });
+    </script>
+
+    <!-- <script>
+      $("#calendar").fullCalendar("option", "height", 650);
+    </script> -->
+
+    <script>
+
+        $(document).ready(function () {
+            $('#myTable').DataTable({
+                "order": [[3, "desc"]]
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('.badge').each(function () {
+                var status = $(this).text();
+                if (status == 'New') {
+                    $(this).addClass('bg-light-danger text-danger font-weight-medium');
+                } else if (status == 'Development') {
+                    $(this).addClass('bg-light-success text-success font-weight-medium');
+                } else if (status == 'Testing') {
+                    $(this).addClass('bg-light-warning text-warning font-weight-medium');
+                } else if (status == 'Resolved') {
+                    $(this).addClass('bg-light-info text-info font-weight-medium');
+                } else if (status == 'Not Status') {
+                    $(this).addClass('text-info font-weight-medium');
+                }
+            });
+        });
+
+
+    </script>
+</body>
+</html>

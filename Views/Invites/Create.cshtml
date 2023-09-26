@@ -1,0 +1,84 @@
+﻿@model BugTrackingSystem.Models.Invite
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Invite</h4>
+<hr />
+
+<div class="col-lg-6 col-md-12">
+    <div class="card custom-card">
+        <div class="card-body">
+            <div>
+                <h6 class="main-content-label mb-1">Company Invite</h6>
+                <p class="text-muted card-sub-title">Invite a new user to join your Bug Tracker company.</p>
+            </div>
+            <form asp-action="Create">
+                <div class="row row-xs align-items-center mg-b-20">
+                    <div class="col-md-4">
+                        <label class="mg-b-0">Email</label>
+                    </div>
+                    <div class="col-md-8 mg-t-5 mg-md-t-0">
+                        <input type="email" asp-for="InviteeEmail" class="form-control" placeholder="Enter email">
+                    </div>
+                </div>
+                <div class="row row-xs align-items-center mg-b-20">
+                    <div class="col-md-4">
+                        <label class="mg-b-0">Email</label>
+                    </div>
+                    <div class="col-md-8 mg-t-5 mg-md-t-0">
+                        <input type="email" asp-for="InviteeEmail" class="form-control" placeholder="Enter email">
+                    </div>
+                </div>
+                <div class="row row-xs align-items-center mg-b-20">
+                    <div class="col-md-4">
+                        <label class="mg-b-0">Firstname</label>
+                    </div>
+                    <div class="col-md-8 mg-t-5 mg-md-t-0">
+                        <input type="text" asp-for="InviteeFirstName" class="form-control" placeholder="Enter first name">
+                    </div>
+                </div>
+                <div class="row row-xs align-items-center mg-b-20">
+                    <div class="col-md-4">
+                        <label class="mg-b-0">Lastname</label>
+                    </div>
+                    <div class="col-md-8 mg-t-5 mg-md-t-0">
+                        <input type="text" asp-for="InviteeLastName" class="form-control" placeholder="Enter last name">
+                    </div>
+                </div>
+                <div class="row row-xs align-items-center mg-b-20">
+                    <div class="col-md-4">
+                        <label class="mg-b-0">Select Project</label>
+                    </div>
+                    <div class="col-md-8 mg-t-5 mg-md-t-0">
+                        <select class="form-control" asp-for="ProjectId" asp-items="@ViewBag.ProjectId">
+                            <option value="">Select Project</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row row-xs align-items-center mg-b-20">
+                    <div class="col-md-4">
+                        <label class="mg-b-0">Message</label>
+                    </div>
+                    <div class="col-md-8 mg-t-5 mg-md-t-0">
+                        <textarea asp-for="Message" multiple="multiple" class="form-control"></textarea>
+                    </div>
+                </div>
+                <div class="form-group row justify-content-end mb-0">
+                    <div class="col-md-8 pl-md-2">
+                        <input type="submit" class="btn ripple btn-primary pd-x-30 mg-r-5" value="Send Invite" />
+                        <button class="btn ripple btn-secondary pd-x-30">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
