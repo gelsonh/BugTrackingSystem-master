@@ -11,8 +11,10 @@ namespace BugTrackingSystem.Models
         private DateTime _created;
         
         public int Id { get; set; }
-        public int ProjectId { get; set; }
-        public int TicketId { get; set; }
+
+
+        public int? ProjectId { get; set; }
+        public int? TicketId { get; set; }
 
         [Required]
         public string? Title { get; set; }

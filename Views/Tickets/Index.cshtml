@@ -6,47 +6,48 @@
 }
 
 
-<div class="row mt-4">
-    <!-- Column -->
-    <div class="col-md-6 col-lg-3 col-xlg-3">
-        <div class="card card-hover">
-            <div class="p-2 rounded bg-light-primary text-center">
-                <h1 class="fw-light text-primary">@ViewBag.NewCount</h1>
-                <h6 class="text-primary">New</h6>
-            </div>
-        </div>
-    </div>
 
-    <!-- Column -->
-    <div class="col-md-6 col-lg-3 col-xlg-3">
-        <div class="card card-hover">
-            <div class="p-2 rounded bg-light-warning text-center">
-                <h1 class="fw-light text-warning">@ViewBag.DevelopmentCount</h1>
-                <h6 class="text-warning">Development</h6>
+    <div class="row mt-4">
+        <!-- Column -->
+        <div class="col-md-6 col-lg-3 col-xlg-3">
+            <div class="card card-hover">
+                <div class="p-2 rounded bg-light-primary text-center">
+                    <h1 class="fw-light text-primary">@ViewBag.NewCount</h1>
+                    <h6 class="text-primary">New</h6>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- Column -->
-    <div class="col-md-6 col-lg-3 col-xlg-3">
-        <div class="card card-hover">
-            <div class="p-2 rounded bg-light-success text-center">
-                <h1 class="fw-light text-success">@ViewBag.TestingCount</h1>
-                <h6 class="text-success">Testing</h6>
+        <!-- Column -->
+        <div class="col-md-6 col-lg-3 col-xlg-3">
+            <div class="card card-hover">
+                <div class="p-2 rounded bg-light-warning text-center">
+                    <h1 class="fw-light text-warning">@ViewBag.DevelopmentCount</h1>
+                    <h6 class="text-warning">Development</h6>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- Column -->
-    <div class="col-md-6 col-lg-3 col-xlg-3">
-        <div class="card card-hover">
-            <div class="p-2 rounded bg-light-danger text-center">
-                <h1 class="fw-light text-danger">@ViewBag.ResolvedCount</h1>
-                <h6 class="text-danger">Resolved</h6>
+        <!-- Column -->
+        <div class="col-md-6 col-lg-3 col-xlg-3">
+            <div class="card card-hover">
+                <div class="p-2 rounded bg-light-success text-center">
+                    <h1 class="fw-light text-success">@ViewBag.TestingCount</h1>
+                    <h6 class="text-success">Testing</h6>
+                </div>
+            </div>
+        </div>
+
+        <!-- Column -->
+        <div class="col-md-6 col-lg-3 col-xlg-3">
+            <div class="card card-hover">
+                <div class="p-2 rounded bg-light-danger text-center">
+                    <h1 class="fw-light text-danger">@ViewBag.ResolvedCount</h1>
+                    <h6 class="text-danger">Resolved</h6>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 
 @* Table *@
@@ -74,8 +75,8 @@
                                 <th>TITLE</th>
                                 <th>SUBMITTER</th>
                                 <th>DEVELOPER</th>
-                                <th>STATUS</th>                            
-                                <th></th>
+                                <th style="text-align: center;">STATUS</th>
+                                <th>Manage</th>
 
                             </tr>
                         </thead>
@@ -84,12 +85,24 @@
                             {
                                 <tr>
                                     <td>@ticket.Id</td>
-                                    <td>@ticket.Project!.Name</td>
+                                    <td>@(ticket.Project != null ? ticket.Project.Name : "")</td>
                                     <td>@ticket.Title</td>
-                                    <td>@ticket.SubmitterUser!.FullName</td>
-                                    <td>@(ticket.DeveloperUser != null ? ticket.DeveloperUser.FullName : "No Developer")</td>
+                                    <td>@(ticket.SubmitterUser != null ? ticket.SubmitterUser.FullName : "")</td>
                                     <td>
-                                        <span class="badge">@ticket.TicketStatus!.Name</span>
+                                        @if (ticket.DeveloperUser != null)
+                                        {
+                                            @ticket.DeveloperUser.FullName
+                                        }
+                                        else
+                                        {
+                                            <span class="">Unassigned</span>
+                                            @* <a asp-action="AssignTicket" asp-route-id="@ticket.Id">Assign Developer</a> *@
+                                        }
+                                    </td>
+
+
+                                    <td style="text-align: center;">
+                                        <span class="badge">@(ticket.TicketStatus != null ? ticket.TicketStatus.Name : "")</span>
                                     </td>
                                     <td style="text-align: center;">
                                         <a asp-controller="Tickets" asp-action="Details" asp-route-Id="@ticket.Id" class="btn waves-effect waves-light text-info custom-tooltip" data-title="Details">
@@ -144,4 +157,5 @@
             opacity: 1;
         }
 </style>
+
 

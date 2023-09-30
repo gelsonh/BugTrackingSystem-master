@@ -27,7 +27,7 @@ namespace BugTrackingSystem.Models
 
         public int TicketId { get; set; }
 
-        [Required]
+ 
         public string? BTUserId { get; set; }
 
         [NotMapped]

@@ -8,8 +8,10 @@ using BugTrackingSystem.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using BugTrackingSystem.Models.ViewModels;
 using BugTrackingSystem.Models.Enums;
+using System.IO;
 using BugTrackingSystem.Extensions;
 using Org.BouncyCastle.Tls;
+using System.ComponentModel.DataAnnotations;
 
 namespace BugTrackingSystem.Controllers
 {
@@ -19,6 +21,7 @@ namespace BugTrackingSystem.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<BTUser> _userManager;
+        private readonly IBTCompanyService _companyService;
         private readonly IBTTicketService _ticketService;
         private readonly IBTFileService _fileService;
         private readonly IBTProjectService _projectService;
@@ -26,10 +29,11 @@ namespace BugTrackingSystem.Controllers
         private readonly IBTTicketHistoryService _ticketHistoryService;
         private readonly IBTNotificationService _notificationService;
 
-        public TicketsController(ApplicationDbContext context, UserManager<BTUser> userManager, IBTTicketService ticketService, IBTFileService fileService, IBTProjectService projectService, IBTRolesService rolesService, IBTTicketHistoryService ticketHistoryService, IBTNotificationService notificationService)
+        public TicketsController(ApplicationDbContext context, UserManager<BTUser> userManager, IBTCompanyService companyService, IBTTicketService ticketService, IBTFileService fileService, IBTProjectService projectService, IBTRolesService rolesService, IBTTicketHistoryService ticketHistoryService, IBTNotificationService notificationService)
         {
             _context = context;
             _userManager = userManager;
+            _companyService = companyService;
             _ticketService = ticketService;
             _fileService = fileService;
             _projectService = projectService;
@@ -38,34 +42,32 @@ namespace BugTrackingSystem.Controllers
             _notificationService = notificationService;
         }
 
-
-
-        [Authorize(Roles = "Admin")]
-        // GET: Tickets
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             BTUser? user = await _userManager.GetUserAsync(User);
-            IEnumerable<Ticket> tickets = await _ticketService.GetAllTicketsByCompanyIdAsync(_companyId);
+            IEnumerable<Ticket> tickets = new List<Ticket>();
 
-            
-            tickets = tickets.Where(t => !t.Archived);
-
-            if (tickets != null)
+            if (await _userManager.IsInRoleAsync(user!, "Admin"))
             {
-                ViewBag.TicketCount = tickets.Count(); 
-                ViewBag.NewCount = tickets.Count(t => t.TicketStatus!.Name == "New"); 
+                tickets = await _ticketService.GetAllTicketsByCompanyIdAsync(_companyId);
+
+                ViewBag.TicketCount = tickets.Count();
+                ViewBag.NewCount = tickets.Count(t => t.TicketStatus!.Name == "New");
                 ViewBag.DevelopmentCount = tickets.Count(t => t.TicketStatus!.Name == "Development");
                 ViewBag.TestingCount = tickets.Count(t => t.TicketStatus!.Name == "Testing");
                 ViewBag.ResolvedCount = tickets.Count(t => t.TicketStatus!.Name == "Resolved");
             }
             else
             {
-                ViewBag.TicketCount = 0; 
+                if (await _userManager.IsInRoleAsync(user!, "Developer") || await _userManager.IsInRoleAsync(user!, "ProjectManager"))
+                {
+                    tickets = await _context.Tickets.Where(t => t.DeveloperUserId == user!.Id && t.Project!.CompanyId == _companyId).ToListAsync();
+                }
+
             }
-            return View(tickets); 
+            return View(tickets);
         }
-
-
 
 
         [HttpGet]
@@ -85,31 +87,40 @@ namespace BugTrackingSystem.Controllers
 
             return View(viewModel);
         }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AssignTicket(AssignTicketViewModel viewModel)
         {
             if (viewModel.DeveloperId != null && viewModel.Ticket?.Id != null)
             {
+                // Guarda una copia del ticket antiguo antes de la actualización
+                Ticket? oldTicket = await _ticketService.GetTicketAsNoTrackingAsync(viewModel.Ticket?.Id, _companyId);
+
                 try
                 {
                     await _ticketService.AssignTicketAsync(viewModel.Ticket?.Id, viewModel.DeveloperId);
-                    return RedirectToAction(nameof(Details), new { id = viewModel.Ticket?.Id });
                 }
                 catch (Exception)
                 {
-
                     throw;
                 }
 
-                // TODO: Add History
+                // Obtiene una instantánea de los nuevos datos del ticket después de la actualización
+                Ticket? newTicket = await _ticketService.GetTicketAsNoTrackingAsync(viewModel.Ticket?.Id, _companyId);
 
-                // TODO: Add Notification
+                // Añade el historial
+                string? userId = _userManager.GetUserId(User);
+                await _ticketHistoryService.AddHistoryAsync(oldTicket, newTicket, userId);
+
+                // Añade la notificación
+                await _notificationService.NewDeveloperNotificationAsync(viewModel.Ticket?.Id, viewModel.DeveloperId, userId);
+
+                return RedirectToAction(nameof(Details), new { id = viewModel.Ticket?.Id });
             }
 
             return View(viewModel);
         }
+
 
 
         [HttpPost]
@@ -131,10 +142,9 @@ namespace BugTrackingSystem.Controllers
                 return RedirectToAction("Details", new { id = ticketId });
             }
 
-      
+
             return View(ticketComment);
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -156,12 +166,14 @@ namespace BugTrackingSystem.Controllers
             }
             else
             {
-                statusMessage = "Error: Invalid data.";
 
+
+                statusMessage = "Error: Invalid data.";
             }
 
             return RedirectToAction("Details", new { id = ticketAttachment.TicketId, message = statusMessage });
         }
+
 
         [HttpGet]
         public async Task<IActionResult> AssignDeveloper(int? id)
@@ -178,6 +190,7 @@ namespace BugTrackingSystem.Controllers
                 .Include(t => t.TicketPriority)
                 .Include(t => t.TicketStatus)
                 .Include(t => t.TicketType)
+                .Include(t => t.History)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (ticket == null)
@@ -194,7 +207,6 @@ namespace BugTrackingSystem.Controllers
 
             return View(ticket);
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -249,6 +261,7 @@ namespace BugTrackingSystem.Controllers
         }
 
 
+
         public async Task<IActionResult> ShowFile(int id)
         {
             TicketAttachment? ticketAttachment = await _ticketService.GetTicketAttachmentByIdAsync(id);
@@ -263,7 +276,7 @@ namespace BugTrackingSystem.Controllers
         // GET: Tickets/Details/5
         public async Task<IActionResult> Details(int? Id)
         {
-            if (Id == null &&  _context.Tickets == null)
+            if (Id == null && _context.Tickets == null)
             {
                 return NotFound();
             }
@@ -274,8 +287,8 @@ namespace BugTrackingSystem.Controllers
                 .Include(t => t.SubmitterUser)
                 .Include(t => t.TicketPriority)
                 .Include(t => t.TicketStatus)
-                .Include(t => t.History)
                 .Include(t => t.TicketType)
+                .Include(t => t.History)
                 .Include(t => t.Comments)
                     .ThenInclude(c => c.User)  // Load the User associated with each Comment
                 .Include(t => t.Attachments)
@@ -288,21 +301,31 @@ namespace BugTrackingSystem.Controllers
             return View(ticket);
         }
 
-        // GET: Tickets/Create
-        public IActionResult Create()
+
+
+        public async Task<IActionResult> Create()
         {
+            string? userId = _userManager.GetUserId(User);
+            bool isAdmin = User.IsInRole("Admin");
 
+            int? companyId = int.Parse(User.Claims.First(c => c.Type == "CompanyId").Value);
 
-            ViewData["ProjectId"] = new SelectList(_context.Projects.Where(p => p.CompanyId == _companyId), "Id", "Name");
-            ViewData["TicketTypeId"] = new SelectList(_context.TicketTypes, "Id", "Name");
-            ViewData["TicketPriorityId"] = new SelectList(_context.TicketPriorities, "Id", "Name");
-            ViewData["TicketStatusId"] = new SelectList(_context.TicketStatus, "Id", "Name");
+            List<Project> projects = await _projectService.GetAllProjectsByCompanyIdAsync(companyId);
+
+            ViewData["ProjectId"] = new SelectList(projects, "Id", "Name");
+            ViewData["TicketTypeId"] = new SelectList(_context.TicketTypes.ToList(), "Id", "Name");
+            ViewData["TicketPriorityId"] = new SelectList(_context.TicketPriorities.ToList(), "Id", "Name");
+            ViewData["TicketStatusId"] = new SelectList(_context.TicketStatus.ToList(), "Id", "Name");
+
             return View();
         }
 
+
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Description,Created,Updated,Archived,ArchivedByProject,ProjectId,TicketTypeId,TicketStatusId,TicketPriorityId,DeveloperUserId")] Ticket ticket)
+        public async Task<IActionResult> Create([Bind("Id,Title,Description,Created,Updated,Archived,ArchivedByProject,ProjectId,TicketTypeId,TicketPriorityId,DeveloperUserId")] Ticket ticket)
         {
             string? userId = _userManager.GetUserId(User);
 
@@ -311,10 +334,13 @@ namespace BugTrackingSystem.Controllers
             if (ModelState.IsValid)
             {
                 ticket.SubmitterUserId = userId;
-
                 ticket.Created = DateTime.Now;
 
-
+                var defaultStatus = await _context.TicketStatus.FirstOrDefaultAsync();
+                if (defaultStatus != null)
+                {
+                    ticket.TicketStatusId = defaultStatus.Id;
+                }
 
                 // Add the service 
                 await _ticketService.AddTicketAsync(ticket);
@@ -335,13 +361,10 @@ namespace BugTrackingSystem.Controllers
             ViewData["ProjectId"] = new SelectList(_context.Projects.Where(p => p.Id == ticket.ProjectId), "Id", "Name", ticket.ProjectId);
             ViewData["SubmitterUserId"] = new SelectList(_context.Users, "Id", "FullName", ticket.SubmitterUserId);
             ViewData["TicketPriorityId"] = new SelectList(_context.TicketPriorities, "Id", "Name", ticket.TicketPriorityId);
-            ViewData["TicketStatusId"] = new SelectList(_context.TicketStatus, "Id", "Name", ticket.TicketStatus?.Id);
             ViewData["TicketTypesId"] = new SelectList(_context.TicketTypes, "Id", "Name", ticket.TicketTypeId);
 
             return View(ticket);
         }
-
-
 
 
         // GET: Tickets/Edit/5
@@ -354,16 +377,14 @@ namespace BugTrackingSystem.Controllers
                 return NotFound();
             }
 
-          
             ViewData["ProjectId"] = new SelectList(_context.Projects, "Id", "Name", ticket.ProjectId);
-            
-            ViewData["TicketPriorityId"] = new SelectList(_context.TicketPriorities, "Id", "Name", ticket.TicketPriorityId);
-            ViewData["TicketStatusId"] = new SelectList(_context.TicketStatus, "Id", "Name", ticket.TicketStatusId);
-            ViewData["TicketTypeId"] = new SelectList(_context.TicketTypes, "Id", "Name", ticket.TicketTypeId);
+
+            ViewData["TicketPriorityId"] = new SelectList(await _ticketService.GetTicketPrioritiesAsync(), "Id", "Name", ticket.TicketPriorityId);
+            ViewData["TicketStatusId"] = new SelectList(await _ticketService.GetTicketStatusAsync(), "Id", "Name", ticket.TicketStatusId);
+            ViewData["TicketTypeId"] = new SelectList(await _ticketService.GetTicketTypesAsync(), "Id", "Name", ticket.TicketTypeId);
 
             return View(ticket);
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -380,8 +401,6 @@ namespace BugTrackingSystem.Controllers
 
             if (ModelState.IsValid)
             {
-
-                ticket.SubmitterUserId = userId;
                 Ticket? oldTicket = await _ticketService.GetTicketAsNoTrackingAsync(ticket.Id, _companyId);
 
                 ticket.Updated = DateTime.Now;
@@ -398,6 +417,10 @@ namespace BugTrackingSystem.Controllers
 
                 await _notificationService.NewTicketNotificationAsync(ticket.Id, userId);
 
+                // Save changes to the database
+                _context.Update(ticket);
+                await _context.SaveChangesAsync();
+
                 return RedirectToAction("Details", "Projects", new { id = ticket.ProjectId });
             }
 
@@ -410,7 +433,6 @@ namespace BugTrackingSystem.Controllers
 
             return View(ticket);
         }
-
 
 
 
@@ -481,6 +503,7 @@ namespace BugTrackingSystem.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
         public async Task<IActionResult> Restore(int id)
         {
             Ticket? ticket = await _context.Tickets.FindAsync(id);
@@ -498,3 +521,6 @@ namespace BugTrackingSystem.Controllers
         }
     }
 }
+
+
+

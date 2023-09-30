@@ -37,8 +37,7 @@
   <ItemGroup>
     <Folder Include="Controllers\" />
     <Folder Include="Data\" />
-    <Folder Include="wwwroot\img\contenttype\" />
-    <Folder Include="wwwroot\js\" />
+    <Folder Include="wwwroot\img\content-type\" />
     <Folder Include="wwwroot\lib\bootstrap\" />
     <Folder Include="wwwroot\lib\bootstrap\dist\js\" />
     <Folder Include="wwwroot\lib\jquery-validation-unobtrusive\" />

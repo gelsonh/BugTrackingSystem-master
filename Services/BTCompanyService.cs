@@ -86,16 +86,13 @@ namespace BugTrackingSystem.Services
         }
         public async Task<int?> GetCompanyIdByUserIdAsync(string userId)
         {
-            // Busca al usuario en la base de datos
             BTUser? user = await _context.Users.FindAsync(userId);
 
-            // Si no se encuentra al usuario, devuelve null
             if (user == null)
             {
                 return null;
             }
 
-            // Si se encuentra al usuario, devuelve su CompanyId
             return user.CompanyId;
         }
 

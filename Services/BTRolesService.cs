@@ -11,14 +11,14 @@ namespace BugTrackingSystem.Services
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<BTUser> _userManager;
-       
-        
-        public BTRolesService(ApplicationDbContext context, UserManager<BTUser> userManager )
+
+
+        public BTRolesService(ApplicationDbContext context, UserManager<BTUser> userManager)
         {
             _context = context;
             _userManager = userManager;
-          
-       
+
+
         }
         public async Task<bool> AddUserToRoleAsync(BTUser? user, string? roleName)
         {
@@ -64,7 +64,7 @@ namespace BugTrackingSystem.Services
                     return result;
 
                 }
-              
+
                 return null;
             }
             catch (Exception)
@@ -84,7 +84,7 @@ namespace BugTrackingSystem.Services
                 if (!string.IsNullOrEmpty(roleName) && companyId != null)
                 {
                     users = (await _userManager.GetUsersInRoleAsync(roleName)).ToList();
-                    result = users.Where(u =>u.CompanyId == companyId).ToList();
+                    result = users.Where(u => u.CompanyId == companyId).ToList();
                 }
                 return result;
             }

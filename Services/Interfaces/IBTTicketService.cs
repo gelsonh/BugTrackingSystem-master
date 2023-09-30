@@ -19,7 +19,7 @@ namespace BugTrackingSystem.Services.Interfaces
 
         public Task<List<Ticket>> GetTicketsByUserIdAsync(string? userId, int? companyId);
         public Task<IEnumerable<TicketPriority>> GetTicketPrioritiesAsync();
-        public Task<IEnumerable<TicketStatus>> GetTicketStatusesAsync();
+        public Task<IEnumerable<TicketStatus>> GetTicketStatusAsync();
         public Task<IEnumerable<TicketType>> GetTicketTypesAsync();
 
         public Task ArchiveTicketAsync(Ticket? ticket);

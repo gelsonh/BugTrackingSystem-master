@@ -80,10 +80,11 @@ namespace BugTrackingSystem.Services
                 {
 
                     notifications = await _context.Notifications
-                                                  .Where(n => n.RecipientId == userId && n.SenderId == userId)
-                                                  .Include(n => n.Recipient)
-                                                  .Include(n => n.Sender)
-                                                  .ToListAsync();
+                               .Where(n => n.RecipientId == userId && n.SenderId == userId)
+                               .Include(n => n.Recipient)
+                               .Include(n => n.Sender)
+                               .ToListAsync();
+
                 }
 
                 return notifications;
@@ -137,6 +138,8 @@ namespace BugTrackingSystem.Services
             BTUser? btUser = await _userManager.FindByIdAsync(senderId!);
             Ticket? ticket = await _context.Tickets.FindAsync(ticketId);
             BTUser? projectManager = await _projectService.GetProjectManagerAsync(ticket?.ProjectId);
+            int? notificationTypeId = (await _context.NotificationTypes.FirstOrDefaultAsync(n=>n.Name == BTNotificationType.Ticket.ToString()))?.Id; 
+
 
             if (ticket != null && btUser != null)
             {
@@ -148,10 +151,7 @@ namespace BugTrackingSystem.Services
                     Created = DataUtility.GetPostGresDate(DateTime.Now),
                     SenderId = senderId,
                     RecipientId = projectManager?.Id ?? senderId,
-                    NotificationType = new NotificationType()
-                    {
-                        Name = BTNotificationType.Ticket.ToString()
-                    }
+                    NotificationTypeId =  notificationTypeId.Value
                 };
 
 
@@ -279,6 +279,7 @@ namespace BugTrackingSystem.Services
             BTUser? btUser = await _userManager.FindByIdAsync(senderId!);
             Project? project = await _context.Projects.FindAsync(projectId);
             BTUser? projectManager = await _projectService.GetProjectManagerAsync(project?.Id);
+            int? notificationTypeId = (await _context.NotificationTypes.FirstOrDefaultAsync(n => n.Name == BTNotificationType.Ticket.ToString()))?.Id;
 
             if (project != null && btUser != null)
             {
@@ -290,10 +291,7 @@ namespace BugTrackingSystem.Services
                     Created = DataUtility.GetPostGresDate(DateTime.Now),
                     SenderId = senderId,
                     RecipientId = projectManager?.Id ?? senderId,
-                    NotificationType = new NotificationType()
-                    {
-                        Name = BTNotificationType.Project.ToString()
-                    }
+                    NotificationTypeId = notificationTypeId.Value
                 };
 
 

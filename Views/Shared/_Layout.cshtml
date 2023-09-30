@@ -33,6 +33,8 @@
     <link rel="stylesheet" href="cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
     <link rel="stylesheet" href="~/dist/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" href="~/dist/libs/prismjs/themes/prism-okaidia.min.css">
+    <link rel="stylesheet" href="~/dist/libs/morris.js/morris.css">
+
 
 
     <link href="~/dist/css/style.min.css" rel="stylesheet" />
@@ -152,6 +154,63 @@
                                 <i class="mdi mdi-menu fs-5"></i>
                             </a>
                         </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle waves-effect waves-dark"
+                               href=""
+                               data-bs-toggle="dropdown"
+                               aria-haspopup="true"
+                               aria-expanded="false">
+                                <i class="mdi mdi-check-circle fs-5"></i>
+                                <div class="notify">
+                                    <span class="heartbit"></span>
+                                    <span class="point"></span>
+                                </div>
+                            </a>
+                            <div class="
+                    dropdown-menu dropdown-menu-start
+                    mailbox
+                    dropdown-menu-animate-up
+                  ">
+                                <ul class="list-style-none">
+                                    <li>
+                                        <div class="border-bottom rounded-top py-3 px-4">
+                                            <div class="mb-0 font-weight-medium fs-4">
+                                                Notifications
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="message-center notifications position-relative" style="height: 230px">
+                                            @if (ViewBag.Notifications != null)
+                                            {
+                                                @foreach (var notification in ViewBag.Notifications)
+                                                {
+                                                    <a href="javascript:void(0)" class="message-item d-flex align-items-center border-bottom px-3 py-2">
+                                                        <span class="btn btn-light-danger text-danger btn-circle">
+                                                            <i data-feather="link" class="feather-sm fill-white"></i>
+                                                        </span>
+                                                        <div class="w-75 d-inline-block v-middle ps-3">
+                                                            <h5 class="message-title mb-0 mt-1 fs-3 fw-bold">@notification.Title</h5>
+                                                            <span class="fs-2 text-nowrap d-block time text-truncate fw-normal text-muted mt-1">@notification.Message</span>
+                                                            <span class="fs-2 text-nowrap d-block subtext text-muted">@notification.Time</span>
+                                                        </div>
+                                                    </a>
+                                                }
+                                            }
+                                        </div>
+
+                                    </li>
+                                    <li>
+                                        <a class="nav-link border-top text-center text-dark pt-3"
+                                           href="javascript:void(0);">
+                                            <strong>Check all notifications</strong>
+                                            <i class="fa fa-angle-right"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
                     </ul>
 
 
@@ -178,7 +237,7 @@
                         {
                             @*Home*@
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark" asp-area="" asp-controller="Home" asp-action="index" aria-expanded="false">
+                                <a class="sidebar-link waves-effect waves-dark" asp-area="" asp-controller="Home" asp-action="Dashboard" aria-expanded="false">
 
                                     <i class="mdi mdi-home-variant"></i>
 
@@ -275,7 +334,7 @@
                                         </a>
                                     </li>
                                     <li class="sidebar-item">
-                                        <a href="ui-modals.html" class="sidebar-link">
+                                        <a asp-action="AssignTicket" asp-controller="Tickets" class="sidebar-link">
                                             <i class="mdi mdi-tablet"></i>
                                             <span class="hide-menu">  Unassigned Tickets</span>
                                         </a>
@@ -396,42 +455,55 @@
     <div class="chat-windows"></div>
     <script src="~/dist/libs/jquery/dist/jquery.min.js"></script>
     <script src="~/assets/extra-libs/taskboard/js/jquery-ui.min.js"></script>
+
     <!-- Bootstrap tether Core JavaScript -->
     <script src="~/dist/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
     <!-- apps -->
     <script src="~/dist/js/app.min.js"></script>
     <script src="~/dist/js/app.init.js"></script>
     <script src="~/dist/js/app-style-switcher.js"></script>
+
     <!-- slimscrollbar scrollbar JavaScript -->
     <script src="~/dist/libs/perfect-scrollbar/dist/js/perfect-scrollbar.jquery.js"></script>
     <script src="~/dist/libs/jquery-sparkline/jquery.sparkline.min.js"></script>
+
     <!--Wave Effects -->
     <script src="~/dist/js/waves.js"></script>
+
     <!--Menu sidebar -->
     <script src="~/dist/js/sidebarmenu.js"></script>
+
     <!--Custom JavaScript -->
     <script src="~/dist/js/feather.min.js"></script>
     <script src="~/dist/js/custom.min.js"></script>
+
     <!-- Details Page JS -->
     <script src="~/dist/libs/apexcharts/dist/apexcharts.min.js"></script>
     <script src="~/dist/js/pages/dashboards/dashboard1.js"></script>
     <script src="~/dist/libs/moment/min/moment.min.js"></script>
     <script src="~/dist/libs/fullcalendar/index.global.min.js"></script>
     <script src="~/dist/js/pages/calendar/cal-init.js"></script>
+
     <script src="~/dist/libs/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="~/dist/js/pages/datatable/datatable-basic.init.js"></script>
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    @*<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>*@
     <script src="~/dist/libs/tinymce/tinymce.min.js"></script>
     <!--c3 charts -->
     <script src="~/dist/libs/c3/htdocs/js/d3-3.5.6.js"></script>
     <script src="~/dist/libs/c3/htdocs/js/c3-0.4.9.min.js"></script>
     @*    Dropdown *@
     <script src="~/dist/libs/prismjs/prism.js"></script>
-    <script src="../../dist/libs/apexcharts/dist/apexcharts.min.js"></script>
-    <script src="../../dist/js/pages/dashboards/dashboard1.js"></script>
-    <script src="../../dist/libs/moment/min/moment.min.js"></script>
-    <script src="../../dist/libs/fullcalendar/index.global.min.js"></script>
-    <script src="../../dist/js/pages/calendar/cal-init.js"></script>
+    <script src="~/dist/libs/apexcharts/dist/apexcharts.min.js"></script>
+    <script src="~/dist/js/pages/dashboards/dashboard1.js"></script>
+    <script src="~/dist/libs/moment/min/moment.min.js"></script>
+    <script src="~/dist/libs/fullcalendar/index.global.min.js"></script>
+    <script src="~/dist/js/pages/calendar/cal-init.js"></script>
+
+    <!--Morris JavaScript -->
+    <script src="~/dist/libs/raphael/raphael.min.js"></script>
+    <script src="~/dist/libs/morris.js/morris.min.js"></script>
+    <script src="~/dist/js/pages/morris/morris-data.js"></script>
     <script>
         $(function () {
             tinymce.init({
@@ -482,32 +554,30 @@
 
     <script>
 
+      
         $(document).ready(function () {
-            $('#myTable').DataTable({
-                "order": [[3, "desc"]]
-            });
-        });
-    </script>
-
-    <script>
-        $(document).ready(function () {
-            $('.badge').each(function () {
-                var status = $(this).text();
-                if (status == 'New') {
-                    $(this).addClass('bg-light-danger text-danger font-weight-medium');
-                } else if (status == 'Development') {
-                    $(this).addClass('bg-light-success text-success font-weight-medium');
-                } else if (status == 'Testing') {
-                    $(this).addClass('bg-light-warning text-warning font-weight-medium');
-                } else if (status == 'Resolved') {
-                    $(this).addClass('bg-light-info text-info font-weight-medium');
-                } else if (status == 'Not Status') {
-                    $(this).addClass('text-info font-weight-medium');
+            var table = $('#myTable').DataTable({
+                "order": [[3, "desc"]],
+                "drawCallback": function (settings) {
+                    $('.badge').each(function () {
+                        var status = $(this).text();
+                        if (status == 'New') {
+                            $(this).addClass('bg-light-danger text-danger font-weight-medium');
+                        } else if (status == 'Development') {
+                            $(this).addClass('bg-light-success text-success font-weight-medium');
+                        } else if (status == 'Testing') {
+                            $(this).addClass('bg-light-warning text-warning font-weight-medium');
+                        } else if (status == 'Resolved') {
+                            $(this).addClass('bg-light-info text-info font-weight-medium');
+                        } else if (status == 'Not Status') {
+                            $(this).addClass('text-info font-weight-medium');
+                        }
+                    });
                 }
             });
         });
-
-
     </script>
+    
+
 </body>
 </html>

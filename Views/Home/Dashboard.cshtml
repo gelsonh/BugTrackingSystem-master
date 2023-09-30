@@ -1,0 +1,256 @@
+﻿@model BugTrackingSystem.Models.ViewModels.DashboardViewModel
+
+@inject IBTRolesService _BTRolesService
+@{
+    ViewData["Title"] = "Dashboard";
+
+    @* Instantiate the btUser *@
+    @inject UserManager<BTUser> UserManager
+
+
+}
+<link rel="stylesheet" href="~/dist/libs/morris.js/morris.css">
+<h1>Dashboard</h1>
+<a href="javascript:void(0);">
+    @* User Info *@
+    [Code: Copy from Ticket/Details]
+</a><a href="\\mac\home\downloads\bugtrackingsystem-master\views\home\dashboard.cshtml">\\mac\home\downloads\bugtrackingsystem-master\views\home\dashboard.cshtml</a>
+@* Get The btUser FullName *@
+<strong>[User's FullName]</strong>
+<span class="text-muted" style="font-size:x-small;">
+    @* Company Name *@
+    <strong>[Show CompanyName]</strong>
+</span>
+
+
+<div>
+    <div classxfont-weighteighteightgetainer-fluid">
+
+
+        <div class="row">
+            <div class="col-md-6 col-lg-3">
+                <a asp-action="AllProjects" asp-controller="Projects">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Active Projects</h5>
+                            <div class="d-flex align-items-center mb-2 mt-4">
+                                <h2 class="mb-0 display-5">
+                                    <i class="icon-people text-info"></i>
+                                </h2>
+                                <div class="ms-auto">
+                                    <h2 class="mb-0 display-6">
+                                        <span class="fw-normal">@Model.Projects.Where(p => p.StartDate < DateTime.Now && p.EndDate > DateTime.Now).Count()</span>
+
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <a asp-action="AllTickets" asp-controller="Tickets">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Tickets</h5>
+                            <div class="d-flex align-items-center mb-2 mt-4">
+                                <h2 class="mb-0 display-5">
+                                    <i class="icon-folder text-primary"></i>
+                                </h2>
+                                <div class="ms-auto">
+                                    <h2 class="mb-0 display-6">
+                                        <span class="fw-normal">@Model.Tickets.Count()</span>
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-6 col-lg-3">
+
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Unassigned Tickets</h5>
+                        <div class="d-flex align-items-center mb-2 mt-4">
+                            <h2 class="mb-0 display-5">
+                                <i class="icon-folder-alt text-danger"></i>
+                            </h2>
+                            <div class="ms-auto">
+                                <h2 class="mb-0 display-6">
+                                    <span class="fw-normal">@Model.Tickets.Where(t => string.IsNullOrEmpty(t.DeveloperUserId)).Count()</span>
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Data</h5>
+                        <div class="d-flex align-items-center mb-2 mt-4">
+                            <h2 class="mb-0 display-5">
+                                <i class="ti-wallet text-success"></i>
+                            </h2>
+                            <div class="ms-auto">
+                                <h2 class="mb-0 display-6">
+                                    <span class="fw-normal">
+                                        @(
+                                            Model.Projects.Count()
+                                            + Model.Tickets.Count()
+                                            + Model.Members.Count()
+                                            )
+                                    </span>
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <div class="row gy-2">
+            <div class="cols mt-5 bg-secondary">
+                <div class="card col m-1 p-2">
+                    <div class="card-body" style="height:600px;overflow-y:auto;">
+                        <h5>Project: Tickets vs Developers</h5>
+                        <p>[Plotly]</p>
+                        <!-- HTML -->
+
+                        <div id="plotlyChart"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="mt-5 ">
+        <div class="row">
+            @* Projects Table *@
+            <div class="col">
+                <div class="bg-secondary">
+                    <div class="card m-1 p-2">
+                        <div class="card-header">
+                            <h2>Projects</h2>
+                        </div>
+                        <div class="card-body">
+                            @* [Copy and format table from Unassigned Tickets] *@
+                        </div>
+                        <div class="card-footer">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @* Tickets Table *@
+            <div class="col">
+                <div class="bg-secondary">
+                    <div class="card m-1 p-2">
+                        <div class="card-header">
+                            <h2>Tickets</h2>
+                        </div>
+                        <div class="card-body">
+
+                            @* Copy and format table from Unassigned Tickets *@
+                        </div>
+                        <div class="card-footer">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @* List Members *@
+            <div class="col-md-12 col-lg-6">
+                <div class="card">
+                    <h5 class="card-title card-header p-3 mb-0">Members</h5>
+                    <div class="p-3">
+                        <ul class="list-style-none chat-list">
+                            @foreach (var member in Model.Members)
+                            {
+                                <li class="mb-3">
+                                    <a href="javascript:void(0)">
+                                        <div class="d-flex align-items-center">
+                                            <img src="../../assets/images/users/1.jpg"
+                                                 class="rounded-circle"
+                                                 width="40" />
+                                            <div class="ms-3">
+                                                <h5 class="mb-0">@member.FullName</h5>
+                                                <small class="text-success">
+                                              
+                                                    @foreach (var role in await _BTRolesService.GetUserRolesAsync(member))
+                                                    {
+                                                        <br>
+
+                                                        @role
+                                                    }
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                            }
+
+                          
+                        </ul>  
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<!--  Plotly Charts  -->
+<!-- Load plotly.js into the DOM -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src='https://cdn.plot.ly/plotly-2.4.2.min.js'></script>
+<script>
+    $.ajax({
+        type: "POST",
+        url: "/Home/PlotlyBarChart",
+        data: '{}',
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+            var data = result;
+
+            var layout = { barmode: 'group' };
+
+            Plotly.newPlot('plotlyChart', data, layout);
+        },
+        failure: function (result) {
+            alert(result.d);
+        },
+        error: function (result) {
+            alert(result.d);
+        }
+    });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

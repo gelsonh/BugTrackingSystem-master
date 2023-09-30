@@ -21,10 +21,11 @@ namespace BugTrackingSystem.Controllers
         private readonly IBTTicketService _ticketService;
         private readonly IBTTicketHistoryService _ticketHistoryService;
         private readonly IBTNotificationService _notificationService;
+        private readonly IBTFileService _fileService;
 
 
 
-        public ProjectsController(ApplicationDbContext context, UserManager<BTUser> userManager, IBTProjectService projectService, IBTRolesService rolesService, IBTTicketService ticketService, IBTTicketHistoryService ticketHistoryService, IBTNotificationService notificationService)
+        public ProjectsController(ApplicationDbContext context, UserManager<BTUser> userManager, IBTProjectService projectService, IBTRolesService rolesService, IBTTicketService ticketService, IBTTicketHistoryService ticketHistoryService, IBTNotificationService notificationService, IBTFileService fileService)
         {
             _context = context;
             _userManager = userManager;
@@ -33,7 +34,7 @@ namespace BugTrackingSystem.Controllers
             _ticketService = ticketService;
             _ticketHistoryService = ticketHistoryService;
             _notificationService = notificationService;
-
+            _fileService = fileService;
         }
 
         // GET: Projects
@@ -192,9 +193,14 @@ namespace BugTrackingSystem.Controllers
         public async Task<IActionResult> Details(int id)
         {
             Project? project = await _context.Projects
+               
+                .Include(p => p.ProjectPriority)  // Include the related ProjectPriority entity
+                .Include(p => p.Tickets)
+                    .ThenInclude(t => t.TicketStatus)  // Include the related TicketStatus entity for each Ticket
+                .Include(p => p.Tickets)
+                    .ThenInclude(t => t.TicketPriority)  // Include the related TicketPriority entity for each Ticket
                 .Include(p => p.Tickets)
                     .ThenInclude(t => t.History)
-               
                 .FirstOrDefaultAsync(p => p.Id == id && p.CompanyId == _companyId);
 
             if (project == null)
@@ -220,37 +226,51 @@ namespace BugTrackingSystem.Controllers
             return View();
         }
 
-
-
         [Authorize(Roles = "Admin, ProjectManager")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CompanyId,Name,Description,Created,StartDate,EndDate,ProjectPriorityId,ImageFileData,ImageFileType,Archived")] Project project)
+        public async Task<IActionResult> Create([Bind("Id,Name,Description,Created,StartDate,EndDate,ProjectPriorityId,ImageFileData,ImageFileType,Archived")] Project project)
         {
             string? userId = _userManager.GetUserId(User);
 
-          
-
             if (ModelState.IsValid)
             {
+                // Obtén el CompanyId del usuario que inició sesión
+                var user = await _userManager.FindByIdAsync(userId!);
+                project.CompanyId = user!.CompanyId;
+
                 project.Created = DateTime.Now;
-                // Add the service 
+
+                if (project.ImageFormFile != null)
+                {
+                    using var memoryStream = new MemoryStream();
+                    await project.ImageFormFile.CopyToAsync(memoryStream);
+                    project.ImageFileData = memoryStream.ToArray();
+                }
+
                 await _projectService.AddProjectAsync(project);
 
-                Project? newProject = await _projectService.GetProjectAsNoTrackingAsync(project.Id, _companyId);
-             
-
-                await _notificationService.NewProjectNotificationAsync(project.Id, userId);
-
-                return RedirectToAction("Details", "Projects", new { id = project.Id });
+                if (project?.Id > 0)
+                {
+                    await _notificationService.NewProjectNotificationAsync(project.Id, userId);
+                    return RedirectToAction("Details", "Projects", new { id = project.Id });
+                }
+                else
+                {
+                    ModelState.AddModelError("", "El proyecto no se guardó correctamente.");
+                    ViewData["CompanyId"] = new SelectList(_context.Companies, "Id", "Name", project!.CompanyId);
+                    ViewData["ProjectPriorityId"] = new SelectList(_context.ProjectPriorities, "Id", "Name", project.ProjectPriorityId);
+                    return View(project);
+                }
             }
 
             ViewData["CompanyId"] = new SelectList(_context.Companies, "Id", "Name", project.CompanyId);
             ViewData["ProjectPriorityId"] = new SelectList(_context.ProjectPriorities, "Id", "Name", project.ProjectPriorityId);
-          
 
             return View(project);
         }
+
+
 
 
         // GET: Projects/Edit/5
@@ -272,11 +292,9 @@ namespace BugTrackingSystem.Controllers
                 return Unauthorized();
             }
 
-            // Prepara los datos para la vista
             ViewData["CompanyId"] = new SelectList(_context.Companies, "Id", "Name", project.CompanyId);
-            ViewData["ProjectPriorityId"] = new SelectList(_context.ProjectPriorities, "Id", "Name", project.ProjectPriorityId);
+            ViewData["ProjectPriorityId"] = new SelectList(await _projectService.GetProjectPrioritiesAsync(), "Id", "Name", project.ProjectPriorityId);
 
-            // Retorna la vista con el proyecto
             return View(project);
         }
 
@@ -296,7 +314,6 @@ namespace BugTrackingSystem.Controllers
             if (ModelState.IsValid)
             {
 
-                project.Created = DateTime.Now;
 
                 // Update the service 
                 await _projectService.UpdateProjectAsync(project);
@@ -313,6 +330,7 @@ namespace BugTrackingSystem.Controllers
             ViewData["ProjectPriorityId"] = new SelectList(_context.ProjectPriorities, "Id", "Name", project.ProjectPriorityId);
             return View(project);
         }
+
 
         [Authorize(Roles = "Admin, ProjectManager")]
         [HttpGet]

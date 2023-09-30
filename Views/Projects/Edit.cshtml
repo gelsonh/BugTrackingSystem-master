@@ -13,7 +13,11 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
-           
+            <input type="hidden" asp-for="Created" />
+            <input type="hidden" asp-for="CompanyId" />
+            <input type="hidden" asp-for="Archived" />
+            <input type="hidden" asp-for="Tickets" />
+
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
@@ -32,11 +36,11 @@
                 <span asp-validation-for="ProjectPriorityId" class="text-danger"></span>
             </div>
 
-            <div class="form-group form-check">
+        @*     <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="Archived" /> @Html.DisplayNameFor(model => model.Archived)
                 </label>
-            </div>
+            </div> *@
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>

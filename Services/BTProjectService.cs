@@ -104,9 +104,26 @@ namespace BugTrackingSystem.Services
         }
         public async Task AddProjectAsync(Project project)
         {
-            _context.Add(project);
-            await _context.SaveChangesAsync();
+            if (project == null)
+            {
+                throw new ArgumentNullException(nameof(project));
+            }
+
+            try
+            {
+                _context.Projects.Add(project);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+                Console.WriteLine(ex.InnerException!.Message);
+            }
         }
+
+
+
+
+
 
         public async Task<bool> AddProjectManagerAsync(string? userId, int? projectId)
         {
@@ -304,9 +321,9 @@ namespace BugTrackingSystem.Services
         }
 
 
-        public Task<IEnumerable<ProjectPriority>> GetProjectPrioritiesAsync()
+        public async Task<IEnumerable<ProjectPriority>> GetProjectPrioritiesAsync()
         {
-            throw new NotImplementedException();
+            return await _context.ProjectPriorities.ToListAsync();
         }
 
         public async Task<List<Project>?> GetUserProjectsAsync(string? userId)
@@ -448,10 +465,36 @@ namespace BugTrackingSystem.Services
         }
 
 
-        public Task UpdateProjectAsync(Project? project)
+        public async Task UpdateProjectAsync(Project? project)
         {
-            throw new NotImplementedException();
+            if (project == null)
+            {
+                throw new ArgumentNullException(nameof(project));
+            }
+
+            try
+            {
+                var existingProject = await _context.Projects.FindAsync(project.Id);
+
+                if (existingProject == null)
+                {
+                    throw new Exception("Project not found");
+                }
+
+                // Actualiza solo las propiedades que deseas cambiar
+                existingProject.Name = project.Name;
+                existingProject.Description = project.Description;
+                existingProject.ProjectPriorityId = project.ProjectPriorityId;
+
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
+
+
 
         public async Task<Project> GetProjectAsNoTrackingAsync(int? projectId, int? companyId)
         {

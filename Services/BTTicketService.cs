@@ -20,32 +20,23 @@ namespace BugTrackingSystem.Services
 
         public async Task AddTicketAsync(Ticket? ticket)
         {
-            try
+            if (ticket != null)
             {
-                if (ticket != null)
-                {
-                    await _context.AddAsync(ticket);
-                    await _context.SaveChangesAsync();
-                }
-
-            }
-            catch (Exception)
-            {
-
-                throw;
+               
+                await _context.AddAsync(ticket);
+                await _context.SaveChangesAsync();
             }
         }
+
+
 
         public async Task AddTicketAttachmentAsync(TicketAttachment? ticketAttachment)
         {
             try
             {
-                if (ticketAttachment != null)
-                {
-                    await _context.AddAsync(ticketAttachment);
+                    await _context.AddAsync(ticketAttachment!);
 
-                }
-                await _context.SaveChangesAsync();
+                    await _context.SaveChangesAsync();
             }
             catch (Exception)
             {
@@ -212,30 +203,78 @@ namespace BugTrackingSystem.Services
         }
 
 
-        public Task<BTUser?> GetTicketDeveloperAsync(int? ticketId, int? companyId)
+        public async Task<BTUser?> GetTicketDeveloperAsync(int? ticketId, int? companyId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (ticketId == null)
+                {
+                    return null;
+                }
+
+                Ticket? ticket = await _context.Tickets.FindAsync(ticketId);
+
+                if (ticket == null)
+                {
+                    return null;
+                }
+
+                Project? project = await _context.Projects.FindAsync(ticket.ProjectId);
+
+                if (companyId != null && project?.CompanyId != companyId)
+                {
+                    return null;
+                }
+
+                BTUser? developer = await _userManager.FindByIdAsync(ticket.DeveloperUserId!);
+
+                return developer;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
         }
 
-        public Task<IEnumerable<TicketPriority>> GetTicketPrioritiesAsync()
+
+
+        public async Task<IEnumerable<TicketPriority>> GetTicketPrioritiesAsync()
         {
-            throw new NotImplementedException();
+            return await _context.TicketPriorities.ToListAsync();
         }
 
-        public Task<List<Ticket>> GetTicketsByUserIdAsync(string? userId, int? companyId)
+
+        public async Task<List<Ticket>> GetTicketsByUserIdAsync(string? userId, int? companyId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (userId != null && companyId != null)
+                {
+                    return new List<Ticket>();
+                }
+
+                return await _context.Tickets
+                    .Where(t => t.SubmitterUserId == userId && t.Project!.CompanyId == companyId)
+                    .ToListAsync();
+            }
+            catch (Exception)
+            {
+                // Devuelve una lista vacía si ocurre una excepción
+                return new List<Ticket>();
+            }
         }
 
-        public Task<IEnumerable<TicketStatus>> GetTicketStatusesAsync()
+
+        public async Task<IEnumerable<TicketStatus>> GetTicketStatusAsync()
         {
-            throw new NotImplementedException();
+            return await _context.TicketStatus.ToListAsync();
+        }
+        public async Task<IEnumerable<TicketType>> GetTicketTypesAsync()
+        {
+            return await _context.TicketTypes.ToListAsync();
         }
 
-        public Task<IEnumerable<TicketType>> GetTicketTypesAsync()
-        {
-            throw new NotImplementedException();
-        }
 
         public async Task RestoreTicketAsync(Ticket? ticket)
         {

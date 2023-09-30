@@ -1,141 +1,17 @@
 ﻿@using BugTrackingSystem.Models
 
-
+@inject UserManager<BTUser> UserManager
 @inject IBTTicketService _TicketService
 
 @{
     ViewData["Title"] = "Home Page";
 }
 
-@if (User.IsInRole("Admin"))
-{
-
-    <div class="row">
-        <!-- ============================================================== -->
-        <!-- Card Group  -->
-        <!-- ============================================================== -->
-        <div class="card-group">
-            <div class="card p-2 p-lg-3">
-                <div class="p-lg-3 p-2">
-                    <div class="d-flex align-items-center">
-                        <button class="btn btn-circle btn-danger text-white btn-lg"
-                                href="javascript:void(0)">
-                            <i class="ti-clipboard"></i>
-                        </button>
-                        <div class="ms-4" style="width: 38%">
-                            <h4 class="fw-normal">Total Projects</h4>
-                            <div class="progress">
-                                <div class="progress-bar bg-danger"
-                                     role="progressbar"
-                                     style="width: 40%"
-                                     aria-valuenow="40"
-                                     aria-valuemin="0"
-                                     aria-valuemax="40"></div>
-                            </div>
-                        </div>
-                        <div class="ms-auto">
-                            <h2 class="display-7 mb-0">23</h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card p-2 p-lg-3">
-                <div class="p-lg-3 p-2">
-                    <div class="d-flex align-items-center">
-                        <button class="btn btn-circle btn-cyan text-white btn-lg"
-                                href="javascript:void(0)">
-                            <i class="ti-wallet"></i>
-                        </button>
-                        <div class="ms-4" style="width: 38%">
-                            <h4 class="fw-normal">Total Earnings</h4>
-                            <div class="progress">
-                                <div class="progress-bar bg-cyan"
-                                     role="progressbar"
-                                     style="width: 40%"
-                                     aria-valuenow="40"
-                                     aria-valuemin="0"
-                                     aria-valuemax="40"></div>
-                            </div>
-                        </div>
-                        <div class="ms-auto">
-                            <h2 class="display-7 mb-0">76</h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card p-2 p-lg-3">
-                <div class="p-lg-3 p-2">
-                    <div class="d-flex align-items-center">
-                        <button class="btn btn-circle btn-warning text-white btn-lg"
-                                href="javascript:void(0)">
-                            <i class="fas fa-dollar-sign"></i>
-                        </button>
-                        <div class="ms-4" style="width: 38%">
-                            <h4 class="fw-normal">Total Earnings</h4>
-                            <div class="progress">
-                                <div class="progress-bar bg-warning"
-                                     role="progressbar"
-                                     style="width: 40%"
-                                     aria-valuenow="40"
-                                     aria-valuemin="0"
-                                     aria-valuemax="40"></div>
-                            </div>
-                        </div>
-                        <div class="ms-auto">
-                            <h2 class="display-7 mb-0">83</h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
 
+@* @{
 
-        <!-- -------------------------------------------------------------- -->
-        <!-- Members -->
-        <!-- -------------------------------------------------------------- -->
-        <!-- Column -->
-        <div class="col-lg-5 col-xl-6 col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex no-block align-items-center mb-4">
-                        <h4 class="card-title">All Members</h4>
-                    </div>
-                    <div class="table-responsive">
-                        <table id="file_export"
-                               class="table table-bordered nowrap display">
-                            <thead>
+    Layout = null;
 
-                                <tr>
-                                    <th></th>
-                                    <th>Name</th>
-                                    <th>Projects</th>
-                                    <th>Role</th>
-                                </tr>
-
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <img src="../../assets/images/users/1.jpg"
-                                             alt="user"
-                                             class="rounded-circle"
-                                             width="30" />
-                                    </td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-
-                                </tr>
-
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-
-    </div>
-}
+<partial name="_LandingPagePartial" />
+} *@

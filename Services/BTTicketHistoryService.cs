@@ -24,7 +24,7 @@ namespace BugTrackingSystem.Services
         public async Task AddHistoryAsync(Ticket? oldTicket, Ticket? newTicket, string? userId)
         {
             // NEW TICKET HAS BEEN ADDED
-            if (oldTicket == null && newTicket != null)
+            if (oldTicket != null && newTicket != null)
             {
                 TicketHistory history = new()
                 {
@@ -89,8 +89,9 @@ namespace BugTrackingSystem.Services
                     {
                         TicketId = newTicket!.Id,
                         PropertyName = "TicketPriority",
-                        OldValue = oldTicket?.TicketPriority!.Name,
-                        NewValue = newTicket?.TicketPriority!.Name,
+                        OldValue = oldTicket?.TicketPriority?.Name,
+                        NewValue = newTicket?.TicketPriority?.Name,
+
                         Created = DateTime.UtcNow,
                         UserId = userId,
                         Description = $"New ticket priority: {newTicket?.TicketPriority?.Name}"
@@ -106,8 +107,8 @@ namespace BugTrackingSystem.Services
                         TicketId = newTicket!.Id,
 
                         PropertyName = "TicketStatus",
-                        OldValue = oldTicket?.TicketStatus!.Name,
-                        NewValue = newTicket?.TicketStatus!.Name,
+                        OldValue = oldTicket?.TicketStatus?.Name,
+                        NewValue = newTicket?.TicketStatus?.Name,
                         Created = DateTime.UtcNow,
                         UserId = userId,
                         Description = $"New ticket Status: {newTicket?.TicketStatus?.Name}"
@@ -118,18 +119,22 @@ namespace BugTrackingSystem.Services
                 //Check Ticket Type
                 if (oldTicket?.TicketTypeId != newTicket?.TicketTypeId)
                 {
-                    TicketHistory? history = new()
+                    if (oldTicket?.TicketType != null && newTicket?.TicketType != null)
                     {
-                        TicketId = newTicket!.Id,
-                        PropertyName = "TicketTypeId",
-                        OldValue = oldTicket?.TicketType!.Name,
-                        NewValue = newTicket?.TicketType!.Name,
-                        Created = DateTime.UtcNow,
-                        UserId = userId,
-                        Description = $"New ticket Type: {newTicket?.TicketType?.Name}"
-                    };
-                    await _context.TicketHistories.AddAsync(history);
+                        TicketHistory? history = new()
+                        {
+                            TicketId = newTicket!.Id,
+                            PropertyName = "TicketTypeId",
+                            OldValue = oldTicket.TicketType.Name,
+                            NewValue = newTicket.TicketType.Name,
+                            Created = DateTime.UtcNow,
+                            UserId = userId,
+                            Description = $"New ticket Type: {newTicket.TicketType.Name}"
+                        };
+                        await _context.TicketHistories.AddAsync(history);
+                    }
                 }
+
 
                 //Check Ticket Developer
                 if (oldTicket?.DeveloperUserId != newTicket?.DeveloperUserId)
