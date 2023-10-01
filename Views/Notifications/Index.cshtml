@@ -43,41 +43,358 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Message)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Created)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.HasBeenViewed)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NotificationType.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ticket.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Project.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Sender.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Recipient.Id)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Message)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Created)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HasBeenViewed)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NotificationType.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ticket.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Project.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sender.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Recipient.Id)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+
+
+<div class="page-wrapper">
+    <div class="email-app todo-box-container">
+        <!-- -------------------------------------------------------------- -->
+        <!-- Left Part -->
+        <!-- -------------------------------------------------------------- -->
+        <div class="left-part list-of-tasks">
+            <a class="
+                ti-menu ti-close
+                btn btn-success
+                show-left-part
+                d-block d-md-none
+              "
+               href="javascript:void(0)"></a>
+            <div class="scrollable" style="height: 100%">
+                <div class="p-3">
+                    <a class="waves-effect waves-light btn btn-info d-block"
+                       href="javascript: void(0)"
+                       id="add-task">Add New Task</a>
+                </div>
+                <div class="divider"></div>
+                <ul class="list-group">
+                    <li>
+                        <small class="
+                      p-3
+                      d-block
+                      text-uppercase text-dark
+                      font-weight-medium
+                    ">Folders</small>
+                    </li>
+                    <li class="list-group-item p-0 border-0">
+                        <a href="javascript:void(0)"
+                           class="todo-link active list-group-item-action p-3 d-flex align-items-center"
+                           id="all-todo-list">
+                            <i data-feather="list" class="feather-sm me-2"></i> All Tasks
+                            <span class="todo-badge badge bg-light-info text-info rounded-pill px-3 font-weight-medium ms-auto d-flex align-items-center justify-content-center">
+                                @ViewBag.NotificationCount
+                            </span>
+                        </a>
+                    </li>
+
+                    <li class="list-group-item p-0 border-0">
+                        <a href="javascript:void(0)"
+                           class="
+                      todo-link
+                      list-group-item-action
+                      p-3
+                      d-flex
+                      align-items-center
+                    "
+                           id="current-task-ticket">
+                            <i data-feather="star" class="feather-sm me-2"></i>
+                            By Ticket
+                            <span class="
+                        todo-badge
+                        badge
+                        rounded-pill
+                        px-3
+                        bg-light-danger
+                        ms-auto
+                        text-danger
+                        font-weight-medium
+                      "></span>
+                        </a>
+                    </li>
+                    <li class="list-group-item p-0 border-0">
+                        <a href="javascript:void(0)"
+                           class="
+                      todo-link
+                      list-group-item-action
+                      p-3
+                      d-flex
+                      align-items-center
+                    "
+                           id="current-task-project">
+                            <i data-feather="star" class="feather-sm me-2"></i>
+                            By Project
+                            <span class="
+                        todo-badge
+                        badge
+                        rounded-pill
+                        px-3
+                        bg-light-danger
+                        ms-auto
+                        text-danger
+                        font-weight-medium
+                      "></span>
+                        </a>
+                    </li>
+                    <li class="list-group-item p-0 border-0">
+                        <hr />
+                    </li>
+                    <li class="list-group-item p-0 border-0">
+                        <a href="javascript:void(0)"
+                           class="list-group-item-action p-3 d-flex align-items-center"
+                           id="current-todo-delete">
+                            <i data-feather="trash-2" class="feather-sm me-2"></i> Trash
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- -------------------------------------------------------------- -->
+        <!-- Right Part -->
+        <!-- -------------------------------------------------------------- -->
+        <div class="right-part mail-list bg-white overflow-auto">
+            @*  <div id="todo-list-container"> *@
+            <div class="p-3 border-bottom">
+                <div class="input-group searchbar">
+                    <span class="input-group-text" id="search">
+                        <i class="icon-magnifier text-muted"></i>
+                    </span>
+                    <input type="text"
+                           class="form-control"
+                           placeholder="Search Tasks Here"
+                           aria-describedby="search" />
+                </div>
+            </div>
+            <!-- Todo list-->
+            <div class="todo-listing">
+                <div id="all-todo-container" class="p-3">
+                    <!-- Item 1 -->
+                    @foreach (var notification in Model)
+                    {
+                        <div class="todo-item all-todo-list p-3 border-bottom position-relative">
+                            <div class="inner-item d-flex align-items-start">
+                                <div class="w-100">
+                                    <!-- Checkbox -->
+                                    <div class="checkbox checkbox-info d-flex align-items-start form-check">
+                                        <input type="checkbox" class="form-check-input flex-shrink-0 me-3" id="checkbox1" />
+                                        <label class="form-check-label" for="checkbox1"></label>
+                                        <div>
+                                            <div class="content-todo">
+                                                <h5 class="font-weight-medium fs-4 todo-header" data-todo-header="@notification.Title">
+                                                    @notification.Title
+                                                </h5>
+                                                <div class="todo-subtext text-muted fs-3" data-todosubtext-html="@notification.Message">
+                                                    @notification.Message
+                                                </div>
+                                                <span class="todo-time fs-2 text-muted">
+                                                    <i class="icon-calender me-1"></i>@notification.Created.ToString("MMM dd yyyy")
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <!-- ./Item 1 -->
+
+                </div>
+            </div>
+            <div id="current-task-ticket" class="p-3">
+                <!-- Item 2 -->
+                @foreach (var notification in Model)
+                {
+                    <div class="todo-item all-todo-list p-3 border-bottom position-relative">
+                        <div class="inner-item d-flex align-items-start">
+                            <div class="w-100">
+                                <!-- Checkbox -->
+                                <div class="checkbox checkbox-info d-flex align-items-start form-check">
+                                    <input type="checkbox" class="form-check-input flex-shrink-0 me-3" id="checkbox1" />
+                                    <label class="form-check-label" for="checkbox1"></label>
+                                    <div>
+                                        <div class="content-todo">
+                                            <h5 class="font-weight-medium fs-4 todo-header" data-todo-header="@notification.Title">
+                                                @notification.Title
+                                            </h5>
+                                            <div class="todo-subtext text-muted fs-3" data-todosubtext-html="@notification.Message">
+                                                @notification.Message
+                                            </div>
+                                            <span class="todo-time fs-2 text-muted">
+                                                <i class="icon-calender me-1"></i>@notification.Created.ToString("MMM dd yyyy")
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <!-- ./Item 2 -->
+
+            <div id="current-task-project" class="p-3">
+                <!-- Item 3 -->
+                @foreach (var notification in Model)
+                {
+                    <div class="todo-item all-todo-list p-3 border-bottom position-relative">
+                        <div class="inner-item d-flex align-items-start">
+                            <div class="w-100">
+                                <!-- Checkbox -->
+                                <div class="checkbox checkbox-info d-flex align-items-start form-check">
+                                    <input type="checkbox" class="form-check-input flex-shrink-0 me-3" id="checkbox1" />
+                                    <label class="form-check-label" for="checkbox1"></label>
+                                    <div>
+                                        <div class="content-todo">
+                                            <h5 class="font-weight-medium fs-4 todo-header" data-todo-header="@notification.Title">
+                                                @notification.Title
+                                            </h5>
+                                            <div class="todo-subtext text-muted fs-3" data-todosubtext-html="@notification.Message">
+                                                @notification.Message
+                                            </div>
+                                            <span class="todo-time fs-2 text-muted">
+                                                <i class="icon-calender me-1"></i>@notification.Created.ToString("MMM dd yyyy")
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <!-- ./Item 3 -->
+            <!-- Modal -->
+            <div class="modal fade"
+                 id="todoShowListItem"
+                 tabindex="-1"
+                 role="dialog"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered"
+                     role="document">
+                    <div class="modal-content border-0">
+                        <div class="modal-header bg-light d-flex">
+                            <h5 class="modal-title task-heading"></h5>
+                            <button type="button"
+                                    class="btn-close"
+                                    data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="compose-box">
+                                <div class="compose-content">
+                                    <label class="mb-0 fs-4">Task Details</label>
+                                    <p class="task-text text-muted"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-danger btn-block"
+                                    data-bs-dismiss="modal">
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @* </div> *@
+    </div>
+    <!-- Modal -->
+    <div class="modal fade"
+         id="addTaskModal"
+         tabindex="-1"
+         role="dialog"
+         aria-labelledby="addTaskModalTitle"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content border-0">
+                <div class="modal-header bg-info text-white">
+                    <h5 class="modal-title text-white">Add Task</h5>
+                    <button type="button"
+                            class="btn-close btn-close-white"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="compose-box">
+                        <div class="compose-content" id="addTaskModalTitle">
+                            <form>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="d-flex mail-to mb-4">
+                                            <div class="w-100">
+                                                <input id="task"
+                                                       type="text"
+                                                       placeholder="Task"
+                                                       class="form-control"
+                                                       name="task"
+                                                       required />
+                                                <span class="validation-text"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex mail-subject mb-4">
+                                    <div class="w-100">
+                                        <div id="taskdescription" class=""></div>
+                                        <span class="validation-text"></span>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger" data-bs-dismiss="modal">
+                        <i class="flaticon-cancel-12"></i> Discard
+                    </button>
+                    <button class="btn btn-info add-tsk" disabled>
+                        Add Task
+                    </button>
+                    <button class="btn btn-success edit-tsk">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>

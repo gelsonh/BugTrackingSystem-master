@@ -218,11 +218,17 @@ namespace BugTrackingSystem.Controllers
         // GET: Projects/Create
         public IActionResult Create()
         {
-            
+
             ViewData["CompanyId"] = new SelectList(_context.Companies, "Id", "Name");
 
             ViewData["ProjectPriorityId"] = new SelectList(_context.ProjectPriorities, "Id", "Name");
+
+        
+
+            //// Si el método fue exitoso, puedes obtener la lista de product managers de esta manera
+            //ViewData["PMId"] = new SelectList(_context.Users.Where(u => u.Roles.Any(r => r.RoleId == "ProjectManager")), "Id", "Name");
             
+
             return View();
         }
 
