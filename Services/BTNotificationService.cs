@@ -279,7 +279,7 @@ namespace BugTrackingSystem.Services
             BTUser? btUser = await _userManager.FindByIdAsync(senderId!);
             Project? project = await _context.Projects.FindAsync(projectId);
             BTUser? projectManager = await _projectService.GetProjectManagerAsync(project?.Id);
-            int? notificationTypeId = (await _context.NotificationTypes.FirstOrDefaultAsync(n => n.Name == BTNotificationType.Ticket.ToString()))?.Id;
+            int? notificationTypeId = (await _context.NotificationTypes.FirstOrDefaultAsync(n => n.Name == BTNotificationType.Project.ToString()))?.Id;
 
             if (project != null && btUser != null)
             {
@@ -291,7 +291,7 @@ namespace BugTrackingSystem.Services
                     Created = DataUtility.GetPostGresDate(DateTime.Now),
                     SenderId = senderId,
                     RecipientId = projectManager?.Id ?? senderId,
-                    NotificationTypeId = notificationTypeId.Value
+                    NotificationTypeId = notificationTypeId!.Value
                 };
 
 
