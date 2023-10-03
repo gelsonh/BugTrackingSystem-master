@@ -347,7 +347,7 @@
                                     </li>
                                 </ul>
                             </li>
-                            @* } *@
+
 
                             @* Notifications *@
 
@@ -362,25 +362,7 @@
 
                             <li class="devider"></li>
 
-                            @* Logout *@
 
-                            <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home")" aria-expanded="false">
-                                    <i class="mdi mdi-logout"></i>
-                                    <span class="hide-menu">Logout  </span>
-                                </a>
-                            </li>
-                        }
-
-                        @* Login *@
-                        else
-                        {
-                            <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark" asp-area="Identity" asp-page="/Account/Login" aria-expanded="false">
-                                    <i class="mdi mdi-login"></i>
-                                    <span class="hide-menu"> Login </span>
-                                </a>
-                            </li>
                         }
                     </ul>
                 </nav>
@@ -488,7 +470,7 @@
     <script src="~/dist/libs/fullcalendar/index.global.min.js"></script>
     <script src="~/dist/js/pages/calendar/cal-init.js"></script>
 
-  
+
 
     <script src="~/dist/libs/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="~/dist/js/pages/datatable/datatable-basic.init.js"></script>
@@ -553,10 +535,10 @@
         });
     </script>
 
-  
+
 
     <script>
-  
+
         $(document).ready(function () {
             var table = $('#myTable').DataTable({
                 "order": [[3, "desc"]],
@@ -580,7 +562,7 @@
         });
     </script>
 
-  
+
 
 </body>
 </html>
