@@ -32,10 +32,10 @@ namespace BugTrackingSystem.Controllers
 
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var notifications = await _context.Notifications.ToListAsync();
-            return View(notifications);
+            
+            return View();
           
         }
 
@@ -81,7 +81,7 @@ namespace BugTrackingSystem.Controllers
             //Bar One
             PlotlyBar barOne = new()
             {
-                X = projects.Select(p => p.Name).ToArray(),
+                X = projects.Select(p => p.Name).ToArray()!,
                 Y = projects.SelectMany(p => p.Tickets).GroupBy(t => t.ProjectId).Select(g => g.Count()).ToArray(),
                 Name = "Tickets",
                 Type = "bar"
@@ -90,7 +90,7 @@ namespace BugTrackingSystem.Controllers
             //Bar Two
             PlotlyBar barTwo = new()
             {
-                X = projects.Select(p => p.Name).ToArray(),
+                X = projects.Select(p => p.Name).ToArray()!,
                 Y = projects.Select(async p => (await _projectService.GetProjectMembersByRoleAsync(p.Id, nameof(BTRoles.Developer), companyId)).Count).Select(c => c.Result).ToArray(),
                 Name = "Developers",
                 Type = "bar"
