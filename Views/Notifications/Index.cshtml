@@ -4,81 +4,85 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Notification</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-  <table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Message)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Created)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.HasBeenViewed)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NotificationType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Ticket)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Project)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Sender)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Recipient)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Message)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Created)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.HasBeenViewed)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.NotificationType.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Ticket.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Project.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Sender.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Recipient.Id)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
+
+
+<style>
+    .tab-pane {
+        max-height: 800px; /* Ajusta este valor según tus necesidades */
+        overflow-y: auto; /* Habilita el scrollbar verticalmente cuando el contenido excede la altura máxima */
+    }
+        /* Estiliza el scrollbar */
+        .tab-pane::-webkit-scrollbar {
+            width: 5px; /* Ajusta el ancho del scrollbar */
         }
-    </tbody>
-</table> 
+
+        .tab-pane::-webkit-scrollbar-track {
+            background: #f1f1f1; /* Color de la pista del scrollbar */
+        }
+
+        .tab-pane::-webkit-scrollbar-thumb {
+            background: #888; /* Color del scrollbar */
+        }
+
+            .tab-pane::-webkit-scrollbar-thumb:hover {
+                background: #555; /* Color del scrollbar al pasar el mouse */
+            }
+
+</style>
+<!-- Nav tabs -->
+<ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" data-bs-toggle="tab" href="#all-notifications" role="tab">
+            <span>All Notifications</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="tab" href="#ticket-notifications" role="tab">
+            <span>Tickets Notification</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="tab" href="#project-notifications" role="tab">
+            <span>Projects Notification</span>
+        </a>
+    </li>
+</ul>
+<!-- Tab panes -->
+<div class="tab-content">
+    <div class="tab-pane active" id="all-notifications" role="tabpanel">
+        @foreach (var notification in Model)
+        {
+            <div class="notification">
+                <h3>@notification.Title</h3>
+                <h4>@notification.NotificationType.Name</h4>
+                <p>@notification.Message</p>
+                <p>Created: @notification.Created.ToString("MMM dd yyyy HH:mm:ss")</p>
+            </div>
+        }
+    </div>
+    <div class="tab-pane p-3" id="ticket-notifications" role="tabpanel">
+        @foreach (var notification in Model.Where(n => n.NotificationType.Name == "Ticket"))
+        {
+            <div class="notification">
+                <h3>@notification.Title</h3>
+                <h4>@notification.NotificationType.Name</h4>
+                <p>@notification.Message</p>
+                <p>Created: @notification.Created.ToString("MMM dd yyyy HH:mm:ss")</p>
+            </div>
+        }
+    </div>
+    <div class="tab-pane p-3" id="project-notifications" role="tabpanel">
+        @foreach (var notification in Model.Where(n => n.NotificationType.Name == "Project"))
+        {
+            <div class="notification">
+                <h3>@notification.Title</h3>
+                <h4>@notification.NotificationType.Name</h4>
+                <p>@notification.Message</p>
+                <p>Created: @notification.Created.ToString("MMM dd yyyy HH:mm:ss")</p>
+            </div>
+        }
+    </div>
+</div>
+

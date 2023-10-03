@@ -105,21 +105,21 @@ namespace BugTrackingSystem.Services
                 BTUser? btUser = await _userManager.FindByIdAsync(senderId!);
                 Ticket? ticket = await _context.Tickets.FindAsync(ticketId);
 
-                Notification? notification = new()
-                {
-                    TicketId = ticket!.Id,
-                    Title = "Developer Assigned",
-                    Message = $"Ticket: {ticket.Title} was assigned by {btUser?.FullName} ",
-                    Created = DataUtility.GetPostGresDate(DateTime.Now),
-                    SenderId = senderId,
-                    RecipientId = developerId,
-                    NotificationType = new NotificationType()
+              
+                    Notification? notification = new()
                     {
-                        Name = BTNotificationType.Ticket.ToString()
-                    }
-                };
-
-
+                        TicketId = ticket!.Id,
+                        Title = "Developer Assigned",
+                        Message = $"Ticket: {ticket.Title} was assigned by {btUser?.FullName} ",
+                        Created = DataUtility.GetPostGresDate(DateTime.Now),
+                        SenderId = senderId,
+                        RecipientId = developerId,
+                        NotificationType = new NotificationType()
+                        {
+                            Name = BTNotificationType.Ticket.ToString()
+                        }
+                    };
+ 
                 await AddNotificationAsync(notification);
                 await SendEmailNotificationAsync(notification, "Ticket Developer Assigned");
 
