@@ -1,11 +1,13 @@
-﻿@using BugTrackingSystem.Areas.Identity.Pages.Account;
+﻿
+
+@using BugTrackingSystem.Areas.Identity.Pages.Account;
 @using Microsoft.AspNetCore.Identity;
 @inject UserManager<BTUser> UserManager
 @inject IBTNotificationService NotificationService
 
-@{
+@* @{
     BTUser? appUser = await UserManager.GetUserAsync(User);
-}
+} *@
 
 
 <!DOCTYPE html>
@@ -181,9 +183,9 @@
                                     </li>
                                     <li>
                                         <div class="message-center notifications position-relative" style="height: 230px">
-                                            @if (ViewBag.Notifications != null)
+                                            @if (Model != null)
                                             {
-                                                @foreach (var notification in ViewBag.Notifications)
+                                                @foreach (var notification in Model)
                                                 {
                                                     <a href="javascript:void(0)" class="message-item d-flex align-items-center border-bottom px-3 py-2">
                                                         <span class="btn btn-light-danger text-danger btn-circle">
@@ -191,18 +193,21 @@
                                                         </span>
                                                         <div class="w-75 d-inline-block v-middle ps-3">
                                                             <h5 class="message-title mb-0 mt-1 fs-3 fw-bold">@notification.Title</h5>
-                                                            <span class="fs-2 text-nowrap d-block time text-truncate fw-normal text-muted mt-1">@notification.Message</span>
-                                                            <span class="fs-2 text-nowrap d-block subtext text-muted">@notification.Time</span>
+                                                            @if (notification.NotificationType != null)
+                                                            {
+                                                                <span class="fs-2 text-nowrap d-block time text-truncate fw-normal text-muted mt-1">@notification.NotificationType.Name</span>
+                                                            }
+                                                            <span class="fs-2 text-nowrap d-block subtext text-muted">@notification.Message</span>
+                                                            <span class="fs-2 text-nowrap d-block subtext text-muted">Created: @notification.Created.ToString("MMM dd yyyy HH:mm:ss")</span>
                                                         </div>
                                                     </a>
                                                 }
                                             }
                                         </div>
-
                                     </li>
                                     <li>
                                         <a class="nav-link border-top text-center text-dark pt-3"
-                                           href="javascript:void(0);">
+                                           asp-action="index" asp-controller="Notifications">
                                             <strong>Check all notifications</strong>
                                             <i class="fa fa-angle-right"></i>
                                         </a>

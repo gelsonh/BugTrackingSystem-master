@@ -1,4 +1,5 @@
-﻿using BugTrackingSystem.Extensions;
+﻿using BugTrackingSystem.Data;
+using BugTrackingSystem.Extensions;
 using BugTrackingSystem.Models;
 using BugTrackingSystem.Models.Enums;
 using BugTrackingSystem.Models.ViewModels;
@@ -6,20 +7,23 @@ using BugTrackingSystem.Services;
 using BugTrackingSystem.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace BugTrackingSystem.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly ApplicationDbContext _context;
         private readonly ILogger<HomeController> _logger;
         private readonly UserManager<BTUser> _userManager;
         private readonly IBTCompanyService _companyService;
         private readonly IBTProjectService _projectService;
         private readonly IBTTicketService _ticketService;
 
-        public HomeController(ILogger<HomeController> logger,UserManager<BTUser> userManager, IBTCompanyService bTCompanyService, IBTProjectService projectService, IBTTicketService ticketService)
+        public HomeController(ApplicationDbContext context, ILogger<HomeController> logger,UserManager<BTUser> userManager, IBTCompanyService bTCompanyService, IBTProjectService projectService, IBTTicketService ticketService)
         {
+            _context = context;
             _logger = logger;
             _userManager = userManager;
             _companyService = bTCompanyService;
@@ -28,9 +32,11 @@ namespace BugTrackingSystem.Controllers
 
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var notifications = await _context.Notifications.ToListAsync();
+            return View(notifications);
+          
         }
 
         public IActionResult Privacy()
