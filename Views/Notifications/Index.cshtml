@@ -32,7 +32,7 @@
 
 </style>
 <!-- Nav tabs -->
-<ul class="nav nav-tabs mb-4" role="tablist">
+<ul class="nav nav-tabs mb-5" role="tablist">
     <li class="nav-item">
         <a class="nav-link active" data-bs-toggle="tab" href="#all-notifications" role="tab">
             <span>All Notifications</span>
@@ -55,33 +55,36 @@
         @foreach (var notification in Model)
         {
             <div class="notification">
-                <h3>@notification.Title</h3>
-                <h4>@notification.NotificationType.Name</h4>
+                <h4>@notification.Title</h4>
+                <h5>@notification.NotificationType.Name</h5>
                 <p>@notification.Message</p>
-                <p>Created: @notification.Created.ToString("MMM dd yyyy HH:mm:ss")</p>
+                <p>Created: @notification.Created.ToString("MMM dd yyyy HH:mm:ss")</p>          
             </div>
+            <div class="my-3" style="height: 1px; background-color: #333;"></div>
         }
     </div>
     <div class="tab-pane p-3" id="ticket-notifications" role="tabpanel">
         @foreach (var notification in Model.Where(n => n.NotificationType.Name == "Ticket"))
         {
             <div class="notification">
-                <h3>@notification.Title</h3>
-                <h4>@notification.NotificationType.Name</h4>
+                <h4>@notification.Title</h4>
+                <h5>@notification.NotificationType.Name</h5>
                 <p>@notification.Message</p>
                 <p>Created: @notification.Created.ToString("MMM dd yyyy HH:mm:ss")</p>
             </div>
+            <div class="my-3" style="height: 1px; background-color: #333;"></div>
         }
     </div>
     <div class="tab-pane p-3" id="project-notifications" role="tabpanel">
         @foreach (var notification in Model.Where(n => n.NotificationType.Name == "Project"))
         {
             <div class="notification">
-                <h3>@notification.Title</h3>
-                <h4>@notification.NotificationType.Name</h4>
+                <h4>@notification.Title</h4>
+                <h5>@notification.NotificationType.Name</h5>
                 <p>@notification.Message</p>
                 <p>Created: @notification.Created.ToString("MMM dd yyyy HH:mm:ss")</p>
             </div>
+            <div class="my-3" style="height: 1px; background-color: #333;"></div>
         }
     </div>
 </div>

@@ -59,6 +59,12 @@ namespace BugTrackingSystem.Controllers
 
             projects = projects!.Where(p => !p.Archived);
 
+            // Obtén el número de proyectos
+            int projectCount = projects.Count();
+
+            // Puedes pasar este número a la vista a través de ViewBag o ViewData
+            ViewBag.ProjectCount = projectCount;
+
             return View(projects);
         }
 
@@ -185,6 +191,23 @@ namespace BugTrackingSystem.Controllers
 
 
             return View(viewModel);
+        }
+
+
+        public async Task<IActionResult> UnassignedProjects()
+        {
+            // Obtén el companyId del usuario que inició sesión
+            int? companyId = _userManager.GetUserAsync(User).Result?.CompanyId;
+
+            List<Project> projects = await _projectService.GetUnassignedProjectsAsync(companyId);
+
+            // Obtén el número de proyectos no asignados
+            int unassignedProjectCount = projects.Count;
+
+            // Puedes pasar este número a la vista a través de ViewBag o ViewData
+            ViewBag.UnassignedProjectCount = unassignedProjectCount;
+
+            return View(projects);
         }
 
 
@@ -348,6 +371,12 @@ namespace BugTrackingSystem.Controllers
                 .Include(p => p.ProjectPriority)        
                 .Where(p => p.Archived)
                 .ToListAsync();
+
+            // Obtén el número de proyectos archivados
+            int archivedProjectCount = archivedProjects.Count;
+
+            // Puedes pasar este número a la vista a través de ViewBag o ViewData
+            ViewBag.ArchivedProjectCount = archivedProjectCount;
 
             return View(archivedProjects);
         }

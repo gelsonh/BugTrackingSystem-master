@@ -6,10 +6,12 @@
 
     @* Instantiate the btUser *@
     @inject UserManager<BTUser> UserManager
+
 }
 
 
-
+<!-- needed css -->
+<link href="~/dist/css/style.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
 <link rel="stylesheet" href="~/dist/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css">
 <link rel="stylesheet" href="~/dist/libs/morris.js/morris.css">
@@ -18,7 +20,7 @@
 
 <a href="javascript:void(0);">
     @* User Info *@
-   
+
 </a>
 @* Get The btUser FullName *@
 <strong></strong>
@@ -132,6 +134,50 @@
             </div>
         </div>
     </div>
+
+
+
+
+    <!-- ============================================================== -->
+    <!-- Products yearly sales, Weather Cards Section  -->
+    <!-- ============================================================== -->
+ @*    <div class="row">
+        <div class="d-flex align-items-stretch col-lg-8">
+            <div class="card w-100">
+                <div class="card-body">
+                    <h5 class="card-title">Products Yearly Sales</h5>
+                    <ul class="list-inline dl mb-0 d-flex justify-content-end">
+                        <li class="list-inline-item text-info">
+                            <i class="fa fa-circle"></i> Mac
+                        </li>
+                        <li class="list-inline-item text-muted">
+                            <i class="fa fa-circle"></i> Windows
+                        </li>
+                    </ul>
+                    <div id="products-yearly-sales"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row gy-2">
+            <div class="cols mt-5 bg-secondary">
+                <div class="card col m-1 p-2">
+                    <div class="card-body" style="height:600px;overflow-y:auto;">
+                        <h5>Project: Tickets vs Developers</h5>
+                        <!-- HTML -->
+                        <div id="plotlyChart"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> *@
+
+
+
+
+
+
+
+
     <hr />
     <div class="mt-5 ">
         @* Projects Table *@
@@ -210,9 +256,9 @@
                         <h4 class=" d-flex">
                             <div>
                                 Total Tickets:
-                                
+
                             </div>
-                           
+
                         </h4>
 
                         <div class="table-responsive">
@@ -338,6 +384,10 @@
 <script src="~/dist/js/pages/datatable/datatable-basic.init.js"></script>
 @*<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>*@
 <script src="~/dist/libs/tinymce/tinymce.min.js"></script>
+
+<!-- This Page JS -->
+<script src="~/dist/libs/apexcharts/dist/apexcharts.min.js"></script>
+<script src="~/dist/js/pages/dashboards/dashboard4.js"></script>
 <script>
     $.ajax({
         type: "POST",

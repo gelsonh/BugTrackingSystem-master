@@ -33,7 +33,7 @@
                             </th>
 
                             <th scope="col"
-                                class="border-0 fs-4 font-weight-medium">
+                                class="border-0 fs-4 font-weight-medium" style="text-align: center;">
                                 Manage
                             </th>
                         </tr>
@@ -61,13 +61,15 @@
                                             <select class="form-select category-select" asp-for="@viewModel.SelectedRoles" asp-items="@viewModel.Roles" id="exampleFormControlSelect1">
                                             </select>
                                         </div>
-                                       
+
                                     </form>
-                                    <td>
+                                <td style="text-align: center;">
                                     <a type="submit" class="btn-submit@(i) btn-submit">
                                         <i class="mdi mdi-sd"></i>
+                                        <span class="tooltip">Save</span>
                                     </a>
                                 </td>
+
                                 </td>
                             </tr>
                             i++;
@@ -80,6 +82,35 @@
     </div>
 </div>
 
+
+<style>
+    .btn-submit {
+        position: relative;
+        display: inline-block;
+    }
+
+        .btn-submit .tooltip {
+            visibility: hidden;
+            width: 120px;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -60px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .btn-submit:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+</style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <script>

@@ -1,8 +1,9 @@
-﻿@model IEnumerable<Project>
+﻿@model List<BugTrackingSystem.Models.Project>
 
 @{
-    ViewData["Title"] = "Projects Archive";
+    ViewData["Title"] = "Unassigned Projects";
 }
+
 
 
 
@@ -12,9 +13,9 @@
         <div class="card">
 
             <div class="card-body">
-                <h4 class=" mb-3">
-                    Projects Archive:
-                    <span class="fw-light text-primary px-2">@(ViewBag.ArchivedProjectCount ?? 0)</span>
+                <h4 class=" mb-3 d-flex">
+                    Unassigned Projects:
+                    <span class="fw-light text-primary px-2">@(ViewBag.UnassignedProjectCount ?? 0)</span>
                 </h4>
                 <div class="table-responsive">
                     <table id="myTable"
@@ -40,25 +41,29 @@
                                     <td>
                                         @project.Name
                                         <br>
-                                        <small>Start Date: @project.StartDate.ToString("MMM dd, yyyy")</small>
+                                        <small>Start Date: @project.StartDate.ToString("d")</small>
                                     </td>
 
                                     <td>@project.EndDate.ToString("d")</td>
-                                    <td>@project.ProjectPriority!.Name</td>
+                                    <td>@(project.ProjectPriority != null ? project.ProjectPriority.Name : "No Priority Assigned")</td>
                                     <td> <a asp-action="AssignPM" asp-route-id="@project.Id">Assign PM</a></td>
                                     <td> <a asp-action="AssignProjectMembers" asp-route-id="@project.Id">Manage Team</a></td>
                                     <td></td>
 
 
                                     <td style="text-align: center;">
-                                        <form method="post" asp-action="RestoreProject" asp-controller="Projects">
-                                            @foreach (var projects in Model)
-                                            {
-                                                <input type="hidden" name="id" value="@projects.Id" />
-                                            }
+                                        <a asp-controller="Projects" asp-action="Details" asp-route-Id="@project.Id" class="btn waves-effect waves-light text-info custom-tooltip" data-title="Details">
+                                            <i class="mdi mdi-details"></i>
+                                        </a>
+                                        <a asp-controller="Projects" asp-action="Edit" asp-route-id="@project.Id" class="btn waves-effect waves-light text-info custom-tooltip" data-title="Edit">
+                                            <i class="mdi mdi-pencil"></i>
+                                        </a>
 
-                                            <button type="submit" class="btn waves-effect waves-light text-danger custom-tooltip" data-title="Restore">
-                                                <i class="mdi mdi-auto-fix"></i>
+
+                                        <form asp-controller="Projects" asp-action="ArchiveProject" method="post" style="display: inline-block;">
+                                            <input type="hidden" name="id" value="@project.Id" />
+                                            <button type="submit" class="btn waves-effect waves-light text-danger custom-tooltip" data-title="Archive">
+                                                <i class="mdi mdi-archive"></i>
                                             </button>
                                         </form>
                                     </td>
@@ -101,3 +106,4 @@
             opacity: 1;
         }
 </style>
+

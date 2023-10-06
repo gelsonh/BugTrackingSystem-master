@@ -357,6 +357,24 @@ namespace BugTrackingSystem.Services
             }
         }
 
+        public async Task<List<Project>> GetUnassignedProjectsAsync(int? companyId)
+        {
+            // Obtén el DbContext a través de la inyección de dependencias
+            var context = _context;
+
+            // Busca los proyectos que no están asignados
+            List<Project> unassignedProjects = await context.Projects
+                .Include(p => p.Members)
+                .Include(p => p.ProjectPriority)
+                .Where(p => !p.Members.Any() && p.CompanyId == companyId)
+                .ToListAsync();
+
+            return unassignedProjects;
+        }
+
+
+
+
         public async Task<bool> RemoveMemberFromProjectAsync(BTUser? member, int? projectId)
         {
             try

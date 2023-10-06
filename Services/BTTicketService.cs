@@ -3,6 +3,7 @@ using BugTrackingSystem.Models;
 using BugTrackingSystem.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.Design;
 using System.Text.RegularExpressions;
 
 namespace BugTrackingSystem.Services
@@ -22,7 +23,7 @@ namespace BugTrackingSystem.Services
         {
             if (ticket != null)
             {
-               
+
                 await _context.AddAsync(ticket);
                 await _context.SaveChangesAsync();
             }
@@ -34,9 +35,9 @@ namespace BugTrackingSystem.Services
         {
             try
             {
-                    await _context.AddAsync(ticketAttachment!);
+                await _context.AddAsync(ticketAttachment!);
 
-                    await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
             }
             catch (Exception)
             {
@@ -274,6 +275,24 @@ namespace BugTrackingSystem.Services
         {
             return await _context.TicketTypes.ToListAsync();
         }
+
+        public async Task<List<Ticket>> GetUnassignedTicketsAsync(int? companyId)
+        {
+            // Obtén el DbContext a través de la inyección de dependencias
+            var context = _context;
+
+            // Busca los tickets que no están asignados y pertenecen a la compañía del usuario
+            List<Ticket> unassignedTickets = await context.Tickets
+                .Include(t => t.Project)
+                .Include(t => t.SubmitterUser)
+                .Include(t => t.TicketStatus)
+                .Where(t => t.DeveloperUserId == null && t.Project!.CompanyId == companyId)
+                .ToListAsync();
+
+            return unassignedTickets;
+        }
+
+
 
 
         public async Task RestoreTicketAsync(Ticket? ticket)

@@ -22,6 +22,9 @@ namespace BugTrackingSystem.Services.Interfaces
         public Task<List<BTUser>> GetProjectMembersByRoleAsync(int? projectId, string? roleName, int? companyId);
         public Task<IEnumerable<ProjectPriority>> GetProjectPrioritiesAsync();
         public Task<List<Project>?> GetUserProjectsAsync(string? userId);
+
+        public Task<List<Project>> GetUnassignedProjectsAsync(int? companyId);
+
         public Task RemoveMembersFromProjectAsync(int? projectId, int? companyId);
 
         public Task RemoveProjectManagerAsync(int? projectId);

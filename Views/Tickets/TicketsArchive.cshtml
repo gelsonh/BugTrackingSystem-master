@@ -1,6 +1,12 @@
 ﻿@model IEnumerable<Ticket>
 
-<h2>Tickets Archive</h2>
+
+@{
+    ViewData["Title"] = "Tickets Archive";
+}
+
+
+
 
 
 
@@ -11,10 +17,10 @@
 
             <div class="card-body">
                 <h4 class="mb-3 d-flex">
-
                     Tickets Archive:
-
+                    <span class="fw-light text-primary px-2">@(ViewBag.ArchivedTicketCount ?? 0)</span>
                 </h4>
+
 
                 <div class="table-responsive">
                     <table id="myTable"

@@ -21,12 +21,17 @@ namespace BugTrackingSystem.Controllers
             _context = context;
             _notificationService = notificationService;
         }
+
         // GET: Notifications
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.Notifications.Include(n => n.NotificationType).Include(n => n.Project).Include(n => n.Recipient).Include(n => n.Sender).Include(n => n.Ticket);
+
             return View(await applicationDbContext.ToListAsync());
+
+
         }
+
         // GET: Notifications/Details/5
         public async Task<IActionResult> Details(int? id)
         {

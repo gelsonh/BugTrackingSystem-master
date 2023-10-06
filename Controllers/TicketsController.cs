@@ -53,10 +53,10 @@ namespace BugTrackingSystem.Controllers
                 tickets = await _ticketService.GetAllTicketsByCompanyIdAsync(_companyId);
 
                 ViewBag.TicketCount = tickets.Count();
-                ViewBag.NewCount = tickets.Count(t => t.TicketStatus!.Name == "New");
-                ViewBag.DevelopmentCount = tickets.Count(t => t.TicketStatus!.Name == "Development");
-                ViewBag.TestingCount = tickets.Count(t => t.TicketStatus!.Name == "Testing");
-                ViewBag.ResolvedCount = tickets.Count(t => t.TicketStatus!.Name == "Resolved");
+                ViewBag.NewCount = tickets.Count(t => t.TicketStatus?.Name == "New");
+                ViewBag.DevelopmentCount = tickets.Count(t => t.TicketStatus?.Name == "Development");
+                ViewBag.TestingCount = tickets.Count(t => t.TicketStatus?.Name == "Testing");
+                ViewBag.ResolvedCount = tickets.Count(t => t.TicketStatus?.Name == "Resolved");
             }
             else
             {
@@ -260,6 +260,22 @@ namespace BugTrackingSystem.Controllers
             return View(ticket);
         }
 
+        public async Task<IActionResult> UnassignedTickets()
+        {
+            // Obtén el companyId del usuario que inició sesión
+            int? companyId = _userManager.GetUserAsync(User).Result?.CompanyId;
+
+            List<Ticket> tickets = await _ticketService.GetUnassignedTicketsAsync(companyId);
+
+            // Obtén el número de tickets no asignados
+            int unassignedTicketCount = tickets.Count;
+
+            // Puedes pasar este número a la vista a través de ViewBag o ViewData
+            ViewBag.UnassignedTicketCount = unassignedTicketCount;
+
+            return View(tickets);
+        }
+
 
 
         public async Task<IActionResult> ShowFile(int id)
@@ -448,6 +464,12 @@ namespace BugTrackingSystem.Controllers
                 .Include(t => t.TicketType)
                 .Where(t => t.Archived)
                 .ToListAsync();
+
+            // Obtén el número de tickets archivados
+            int archivedTicketCount = archivedTickets.Count;
+
+            // Puedes pasar este número a la vista a través de ViewBag o ViewData
+            ViewBag.ArchivedTicketCount = archivedTicketCount;
 
             return View(archivedTickets);
         }
