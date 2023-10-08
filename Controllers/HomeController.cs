@@ -8,6 +8,7 @@ using BugTrackingSystem.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 using System.Diagnostics;
 
 namespace BugTrackingSystem.Controllers
@@ -74,7 +75,7 @@ namespace BugTrackingSystem.Controllers
             List<PlotlyBar> barData = new();
 
             int? companyId = User.Identity?.GetCompanyId();
-            //int? companyId = User.Identity?.GetCompanyId().Value;
+       
            
             List<Project> projects = await _projectService.GetAllProjectsByCompanyIdAsync(companyId);
 
@@ -104,7 +105,35 @@ namespace BugTrackingSystem.Controllers
             return Json(plotlyData);
         }
 
-      
+        [HttpPost]
+        public async Task<JsonResult> ExtraAreaChart()
+        {
+            int? companyId = User.Identity?.GetCompanyId();
+            List<Project> projects =  await _projectService.GetAllProjectsByCompanyIdAsync(companyId);
+
+            var chartData = new ChartData
+            {
+                Labels = projects.Select(p => p.Name).ToArray()!,
+                Datasets = new[]
+                {
+            new Dataset
+            {
+                Label = "Site A",
+                Data = projects.SelectMany(p => p.Tickets).GroupBy(t => t.ProjectId).Select(g => g.Count()).ToArray(),
+                FillColor = "rgba(220,220,220,0.5)"
+            },
+            new Dataset
+            {
+                Label = "Site B",
+                Data = projects.Select(async p => (await _projectService.GetProjectMembersByRoleAsync(p.Id, nameof(BTRoles.Developer), companyId)).Count).Select(c => c.Result).ToArray(),
+                FillColor = "rgba(151,187,205,0.5)"
+            }
+        }
+            };
+
+            return Json(chartData);
+        }
+
 
 
     }

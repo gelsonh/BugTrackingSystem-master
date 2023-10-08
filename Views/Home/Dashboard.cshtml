@@ -120,14 +120,15 @@
 
 
 
+    
+    
         <div class="row gy-2">
-            <div class="cols mt-5 bg-secondary">
-                <div class="card col m-1 p-2">
-                    <div class="card-body" style="height:600px;overflow-y:auto;">
-                        <h5>Project: Tickets vs Developers</h5>
-                        <p>[Plotly]</p>
-                        <!-- HTML -->
-
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="title-part-padding border-bottom">
+                        <h4 class="card-title mb-0">Project: Tickets vs Developers</h4>
+                    </div>
+                    <div class="card-body">
                         <div id="plotlyChart"></div>
                     </div>
                 </div>
@@ -135,51 +136,8 @@
         </div>
     </div>
 
-
-
-
-    <!-- ============================================================== -->
-    <!-- Products yearly sales, Weather Cards Section  -->
-    <!-- ============================================================== -->
- @*    <div class="row">
-        <div class="d-flex align-items-stretch col-lg-8">
-            <div class="card w-100">
-                <div class="card-body">
-                    <h5 class="card-title">Products Yearly Sales</h5>
-                    <ul class="list-inline dl mb-0 d-flex justify-content-end">
-                        <li class="list-inline-item text-info">
-                            <i class="fa fa-circle"></i> Mac
-                        </li>
-                        <li class="list-inline-item text-muted">
-                            <i class="fa fa-circle"></i> Windows
-                        </li>
-                    </ul>
-                    <div id="products-yearly-sales"></div>
-                </div>
-            </div>
-        </div>
-        <div class="row gy-2">
-            <div class="cols mt-5 bg-secondary">
-                <div class="card col m-1 p-2">
-                    <div class="card-body" style="height:600px;overflow-y:auto;">
-                        <h5>Project: Tickets vs Developers</h5>
-                        <!-- HTML -->
-                        <div id="plotlyChart"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> *@
-
-
-
-
-
-
-
-
     <hr />
-    <div class="mt-5 ">
+    <div class="mt-4 ">
         @* Projects Table *@
         <div class="row">
             <div class="col-md-12 col-lg-12">
@@ -250,7 +208,7 @@
 
             @* Tickets Table *@
 
-            <div class="col-md-12 col-lg-12">
+            <div class="col-md-12 col-lg-12 mt-4">
                 <div class="card">
                     <div class="card-body">
                         <h4 class=" d-flex">
@@ -332,7 +290,7 @@
 
 
     @* List Members *@
-    <div class="row">
+    <div class="row mt-4">
         <div class="col-md-12 col-lg-12">
             <div class="card">
                 <h5 class="card-title card-header p-3 mb-0">Members</h5>
@@ -385,9 +343,12 @@
 @*<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>*@
 <script src="~/dist/libs/tinymce/tinymce.min.js"></script>
 
-<!-- This Page JS -->
-<script src="~/dist/libs/apexcharts/dist/apexcharts.min.js"></script>
-<script src="~/dist/js/pages/dashboards/dashboard4.js"></script>
+<!--Morris JavaScript -->
+<script src="~/dist/libs/raphael/raphael.min.js"></script>
+<script src="~/dist/libs/morris.js/morris.min.js"></script>
+<script src="~/dist/js/pages/morris/morris-data.js"></script>
+
+
 <script>
     $.ajax({
         type: "POST",

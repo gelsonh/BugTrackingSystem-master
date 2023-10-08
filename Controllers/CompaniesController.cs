@@ -12,6 +12,10 @@ using BugTrackingSystem.Services.Interfaces;
 using BugTrackingSystem.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using Azure;
+using NuGet.Protocol.Plugins;
+using Org.BouncyCastle.Pqc.Crypto.Lms;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace BugTrackingSystem.Controllers
 {
@@ -59,7 +63,7 @@ namespace BugTrackingSystem.Controllers
             //      - viewmodel to model
             string? btUserId = _userManager.GetUserId(User);
 
-            foreach(BTUser member in members)
+            foreach (BTUser member in members)
             {
                 if (string.Compare(btUserId, member.Id) != 0)
                 {
@@ -69,6 +73,8 @@ namespace BugTrackingSystem.Controllers
 
                     viewModel.BTUser = member;
                     viewModel.Roles = new MultiSelectList(await _rolesService.GetRolesAsync(), "Name", "Name", currentRoles);
+                    // Set the CurrentRole property
+                    viewModel.CurrentRole = currentRoles?.FirstOrDefault();
 
                     model.Add(viewModel);
                 }
@@ -79,11 +85,16 @@ namespace BugTrackingSystem.Controllers
             return View(model);
         }
 
+
+
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ManageUserRoles(ManageUserRolesViewModel viewModel)
         {
+
+
+            
             // 1- Get the company Id
             //
 
@@ -93,23 +104,23 @@ namespace BugTrackingSystem.Controllers
             // 3 - Get Roles for the User
             IEnumerable<string>? currentRoles = await _rolesService.GetUserRolesAsync(btUser);
 
-
             // 4 - Get Selected Role(s) for the User
-            string? selectedRole = viewModel.SelectedRoles!.FirstOrDefault();
+            IEnumerable<string>? selectedRoles = viewModel.SelectedRoles;
 
+           
 
-            // 5 - Remove current role(s) and Add new role
-            if (!string.IsNullOrEmpty(selectedRole))
+            // 5 - Remove current role(s) and Add new role(s)
+            if (selectedRoles != null && selectedRoles.Any())
             {
                 if (await _rolesService.RemoveUserFromRolesAsync(btUser, currentRoles))
                 {
-                    await _rolesService.AddUserToRoleAsync(btUser, selectedRole);
+                    foreach (var role in selectedRoles)
+                    {
+                        await _rolesService.AddUserToRoleAsync(btUser, role);
+                    }
                 }
             }
-
-            // Asigna el rol actual del usuario a CurrentRole
-            viewModel.CurrentRole = await _rolesService.GetCurrentRoleAsync(viewModel.BTUser);
-
+            
 
             // 6 - Navigate
             return RedirectToAction(nameof(ManageUserRoles));
@@ -117,11 +128,10 @@ namespace BugTrackingSystem.Controllers
 
 
 
-
         // GET: Companies/Details/5
         public async Task<IActionResult> Details()
         {
-         
+
             var company = await _context.Companies
                 .FirstOrDefaultAsync(m => m.Id == _companyId);
             if (company == null)
@@ -237,7 +247,7 @@ namespace BugTrackingSystem.Controllers
         //    {
         //        _context.Companies.Remove(company);
         //    }
-            
+
         //    await _context.SaveChangesAsync();
         //    return RedirectToAction(nameof(Index));
         //}
