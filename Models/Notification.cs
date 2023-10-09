@@ -9,7 +9,7 @@ namespace BugTrackingSystem.Models
     public class Notification
     {
         private DateTime _created;
-        
+
         public int Id { get; set; }
 
 
@@ -37,7 +37,7 @@ namespace BugTrackingSystem.Models
         [Required]
         public string? SenderId { get; set; }
 
-       
+
         [Required]
         public string? RecipientId { get; set; }
 
@@ -48,7 +48,7 @@ namespace BugTrackingSystem.Models
         // Navigation properties
 
         public virtual NotificationType? NotificationType { get; set; }
-     
+
         public virtual Ticket? Ticket { get; set; }
         public virtual Project? Project { get; set; }
         public virtual BTUser? Sender { get; set; }

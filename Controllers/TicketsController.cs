@@ -69,7 +69,7 @@ namespace BugTrackingSystem.Controllers
             return View(tickets);
         }
 
-
+        [Authorize(Roles = "Admin, ProjectManager")]
         [HttpGet]
         public async Task<IActionResult> AssignTicket(int? id)
         {
@@ -87,6 +87,8 @@ namespace BugTrackingSystem.Controllers
 
             return View(viewModel);
         }
+
+        [Authorize(Roles = "Admin, ProjectManager")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AssignTicket(AssignTicketViewModel viewModel)
@@ -174,7 +176,7 @@ namespace BugTrackingSystem.Controllers
             return RedirectToAction("Details", new { id = ticketAttachment.TicketId, message = statusMessage });
         }
 
-
+        [Authorize(Roles = "Admin, ProjectManager")]
         [HttpGet]
         public async Task<IActionResult> AssignDeveloper(int? id)
         {
@@ -208,6 +210,7 @@ namespace BugTrackingSystem.Controllers
             return View(ticket);
         }
 
+        [Authorize(Roles = "Admin, ProjectManager")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AssignDeveloper(int id, [Bind("Id,Title,Description,Created,Updated,Archived,ArchivedByProject,ProjectId,TicketTypeId,TicketStatusId,TicketPriorityId,DeveloperUserId,SubmitterUserId")] Ticket ticket)

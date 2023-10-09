@@ -15,22 +15,22 @@ namespace BugTrackingSystem.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ApplicationDbContext _context;
-        private readonly ILogger<HomeController> _logger;
         private readonly UserManager<BTUser> _userManager;
+        private readonly ApplicationDbContext _context;
         private readonly IBTCompanyService _companyService;
         private readonly IBTProjectService _projectService;
         private readonly IBTTicketService _ticketService;
+        private readonly IBTNotificationService _notificationService;
 
-        public HomeController(ApplicationDbContext context, ILogger<HomeController> logger,UserManager<BTUser> userManager, IBTCompanyService bTCompanyService, IBTProjectService projectService, IBTTicketService ticketService)
+        public HomeController(UserManager<BTUser> userManager, ApplicationDbContext context, IBTCompanyService bTCompanyService, IBTProjectService projectService, IBTTicketService ticketService, IBTNotificationService notificationService)
         {
-            _context = context;
-            _logger = logger;
+          
             _userManager = userManager;
+            _context = context;
             _companyService = bTCompanyService;
             _projectService = projectService;
             _ticketService = ticketService;
-
+            _notificationService = notificationService;
         }
 
         public IActionResult Index()
@@ -64,8 +64,14 @@ namespace BugTrackingSystem.Controllers
             model.Tickets = await _ticketService.GetAllTicketsByCompanyIdAsync(companyId);
             model.Members = await _companyService.GetMembersAsync(companyId);
 
+            // Obtén las últimas 4 notificaciones
+            var applicationDbContext = _context.Notifications.Include(n => n.NotificationType).Include(n => n.Project).Include(n => n.Recipient).Include(n => n.Sender).Include(n => n.Ticket).OrderByDescending(n => n.Created);
+            model.Notifications = await applicationDbContext.Take(7).ToListAsync();
+
+
             return View(model);
         }
+
 
 
         [HttpPost]
@@ -105,34 +111,7 @@ namespace BugTrackingSystem.Controllers
             return Json(plotlyData);
         }
 
-        [HttpPost]
-        public async Task<JsonResult> ExtraAreaChart()
-        {
-            int? companyId = User.Identity?.GetCompanyId();
-            List<Project> projects =  await _projectService.GetAllProjectsByCompanyIdAsync(companyId);
-
-            var chartData = new ChartData
-            {
-                Labels = projects.Select(p => p.Name).ToArray()!,
-                Datasets = new[]
-                {
-            new Dataset
-            {
-                Label = "Site A",
-                Data = projects.SelectMany(p => p.Tickets).GroupBy(t => t.ProjectId).Select(g => g.Count()).ToArray(),
-                FillColor = "rgba(220,220,220,0.5)"
-            },
-            new Dataset
-            {
-                Label = "Site B",
-                Data = projects.Select(async p => (await _projectService.GetProjectMembersByRoleAsync(p.Id, nameof(BTRoles.Developer), companyId)).Count).Select(c => c.Result).ToArray(),
-                FillColor = "rgba(151,187,205,0.5)"
-            }
-        }
-            };
-
-            return Json(chartData);
-        }
+   
 
 
 

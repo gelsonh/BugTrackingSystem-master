@@ -22,7 +22,9 @@
 
 
 <div class="row draggable-cards" id="draggable-area">
-    <div class="col-md-6 col-sm-12">
+
+    @* Project Description *@
+    <div class="col-md-8 col-sm-12">
         <div class="card card-hover">
             <div class="card-header bg-info">
                 <h4 class="mb-0 text-white">@Model.Name</h4>
@@ -50,7 +52,8 @@
         </div>
     </div>
 
-    <div class="col-md-6 col-sm-12">
+    @* Info *@
+    <div class="col-md-4 col-sm-12">
         <div class="card card-hover">
             <div class="card-header bg-info">
                 <h4 class="mb-0 text-white">Info</h4>
@@ -72,85 +75,16 @@
             </div>
         </div>
     </div>
+
 </div>
 
 
 
 <div class="row mt-3 ">
-    @*Project Manager *@ 
-    <div class="col-lg-4 col-md-6">
-        <div class="card text-center card-hover">
-            <div class="card-body">
-                @if (projectManager != null)
-                {
-                    <img src="~/assets/images/users/1.png"
-                         class="rounded-3 img-fluid"
-                         width="90" />
-                    <div class="mt-n2">
-
-                        <span class="badge bg-danger">Project Manager</span>
-                        <h3 class="card-title mt-3">@projectManager.FullName</h3>
-                        <h6 class="card-subtitle">@projectManager.Email</h6>
-                    </div>
-                    @if (User.IsInRole(nameof(BTRoles.Admin)) || (btUser?.Id == projectManager.Id))
-                    {
-                        <a class="btn btn-xs alert-primary" style="font:small" asp-action="AssignProjectMembers" asp-controller="Projects" asp-route-id="@Model.Id">Manage Team</a>
-                    }
-                   
-                }
-                else
-                {
-                    <img src="@(_FileService.ConvertByteArrayToFile(projectManager.ImageFileData!,projectManager.ImageFileType!,DefaultImage.BTUserImage))"
-                         class="rounded-3 img-fluid"
-                         width="90" />
-                    <div class="mt-n2">
-
-                        <span class="badge bg-danger">Project Manager</span>
-                        <h3 class="card-title mt-3">Not Assigned</h3>
-                        @if (User.IsInRole(nameof(BTRoles.Admin)))
-                        {
-                            <span><a asp-action="AssignPM" asp-controller="Projects" asp-route-id="@Model.Id" class="btn btn-xs btn-outline-info">Assign PM</a></span>
-                        }
-                    </div>
-                }
-            </div>
-        </div>
-    </div>
-
-
-    @* Project Team *@
-    <div class="col-md-4 col-sm-12">
-        <div class="card card-hover">
-            <div class="card-header bg-info">
-                <h4 class="mb-0 text-white">Project Team</h4>
-            </div>
-            <div class="card-body">
-                <h3 class="card-title pb-2">Team:</h3>
-                <!-- Aquí es donde has aplicado el estilo para hacer la lista desplazable -->
-                <div class="body" style="overflow-y:auto;height:300px;">
-                    <ul class="right_chat list-unstyled mb-0">
-                        @foreach (BTUser member in Model.Members)
-                        {
-                            <li>
-                                <div class="media">
-                                    <div class="chat_ib pb-3">
-                                        <span class="fs-4">@member.FullName</span>
-
-                                        <span class="" style="font-size:x-small">[@(string.Join(",", await _UserManager.GetRolesAsync(member)))]</span>
-                                    </div>
-                                </div>
-                            </li>
-                        }
-                    </ul>
-                </div>
-                <span> <a class="btn btn-lg alert-primary" asp-action="AssignProjectMembers" asp-route-id="@Model.Id">Manage Team</a></span>
-            </div>
-        </div>
-    </div>
 
 
     @* Project Activity *@
-    <div class="col-md-12 col-lg-4 d-flex align-items-stretch">
+    <div class="col-md-10 col-lg-8 col-sm-12 d-flex align-items-stretch">
         <div class="card w-100 card-hover">
             <h5 class="card-title p-3 card-header mb-0 bg-info text-white">Project Activity</h5>
             <div class="card-body scrollable" style="height: 598px">
@@ -201,18 +135,83 @@
         </div>
     </div>
 
-</div>
+    @*Project Manager *@
+    <div class="col-lg-4 col-md-8">
+        <div class="card text-center card-hover">
+            <div class="card-body">
+                @if (projectManager != null)
+                {
+                    <img src="~/assets/images/users/1.png"
+                         class="rounded-3 img-fluid"
+                         width="90" />
+                    <div class="mt-n2">
+
+                        <span class="badge bg-danger">Project Manager</span>
+                        <h3 class="card-title mt-3">@projectManager.FullName</h3>
+                        <h6 class="card-subtitle">@projectManager.Email</h6>
+                    </div>
+                    @if (User.IsInRole(nameof(BTRoles.Admin)) || (btUser?.Id == projectManager.Id))
+                    {
+                        <a class="btn btn-xs alert-primary" style="font:small" asp-action="AssignProjectMembers" asp-controller="Projects" asp-route-id="@Model.Id">Manage Team</a>
+                    }
+
+                }
+                else
+                {
+                    <img src="@(_FileService.ConvertByteArrayToFile(projectManager.ImageFileData!,projectManager.ImageFileType!,DefaultImage.BTUserImage))"
+                         class="rounded-3 img-fluid"
+                         width="90" />
+                    <div class="mt-n2">
+
+                        <span class="badge bg-danger">Project Manager</span>
+                        <h3 class="card-title mt-3">Not Assigned</h3>
+                        @if (User.IsInRole(nameof(BTRoles.Admin)))
+                        {
+                            <span><a asp-action="AssignPM" asp-controller="Projects" asp-route-id="@Model.Id" class="btn btn-xs btn-outline-info">Assign PM</a></span>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+        @*  </div> *@
+
+        @* Project Team *@
+        @*  <div class="col-lg-6 col-md-8 col-sm-12"> *@
+        <div class="card card-hover">
+            <div class="card-header bg-info">
+                <h4 class="mb-0 text-white">Project Team</h4>
+            </div>
+            <div class="card-body">
+                <h3 class="card-title pb-2">Team:</h3>
+                <!-- Aquí es donde has aplicado el estilo para hacer la lista desplazable -->
+                <div class="body" style="overflow-y:auto;height:300px;">
+                    <ul class="right_chat list-unstyled mb-0">
+                        @foreach (BTUser member in Model.Members)
+                        {
+                            <li>
+                                <div class="media">
+                                    <div class="chat_ib pb-3">
+                                        <span class="fs-4">@member.FullName</span>
+
+                                        <span class="" style="font-size:x-small">[@(string.Join(",", await _UserManager.GetRolesAsync(member)))]</span>
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                </div>
+                <span> <a class="btn btn-lg alert-primary" asp-action="AssignProjectMembers" asp-route-id="@Model.Id">Manage Team</a></span>
+            </div>
+        </div>
+    </div>
 
 
-<!-- order table -->
-<div class="row">
+    @* Table *@
     <div class="col-12">
         <div class="card card-hover">
-
             <div class="card-body">
                 <h4 class=" mb-3">
                     Tickets List
-
                 </h4>
                 <div class="table-responsive">
                     <table id="myTable"
@@ -258,17 +257,6 @@
         </div>
     </div>
 </div>
-    </div>
-</div>
-
-
-
-@* <div class="container-fluid">
-    <div class="row gy-2">
-    </div>
-</div> *@
-
-
 
 
 
@@ -300,9 +288,6 @@
 </style>
 
 <script>
-
-
-
     $(document).ready(function () {
         // Inicializamos la tabla con DataTables
         var table = $('#myTable').DataTable({
@@ -329,6 +314,4 @@
             }
         });
     });
-
-
 </script>

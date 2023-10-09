@@ -17,28 +17,39 @@
 }
 
 
+
+
+
 <div class="row">
     @*Ticket Title *@
-    <div class="col-lg-8">
-        <div class="card">
-            <div class="card-body">
-                <h1 class="card-title">Ticket Details</h1>
-                @*Title of Ticket*@
-                <h6>@Model.Title</h6>
-                @*Description of Ticket*@
-                <span>@Model.Description</span>
-            </div>
 
+    <div class="col-md-8 col-sm-12">
+        <div class="card card-hover">
+            <div class="card-header bg-info">
+                <h4 class="mb-0 text-white">Ticket Details</h4>
+            </div>
+            <div class="card-body">
+                <h3 class="card-title">@Model.Title</h3>
+                <p class="card-text">
+                    @Model.Description
+                </p>
+
+            </div>
         </div>
+
         @* Ticket Comments *@
-        <div class="card">
-            <h5 class="card-title p-3 card-header mb-0">Ticket Comments</h5>
+        <div class="card card-hover">
+            <h5 class="card-title p-3 card-header bg-info text-white mb-0">Ticket Comments</h5>
             <div class="card-body">
                 <div class="chat-box scrollable" style="height: 434px">
                     <!--chat Row -->
                     <ul class="chat-list m-0 p-0">
+                        @{
+                            var colors = new string[] { "bg-primary", "bg-success", "bg-danger", "bg-warning", "bg-info" };
+                        }
                         @foreach (TicketComment ticketComment in Model.Comments)
                         {
+                            var colorClass = colors[ticketComment.Id % colors.Length];
                             <li class="mt-4">
                                 <div class="chat-img d-inline-block align-top">
                                     <img src="../../assets/images/users/2.jpg"
@@ -47,26 +58,11 @@
                                 </div>
                                 <div class="chat-content ps-3 d-inline-block">
                                     <h5 class="text-muted fs-3 fw-normal">@ticketComment.User?.FullName</h5>
-                                    <div class="
-                                  message
-                                  fs-3
-                                  bg-primary
-                                  text-white
-                                  d-inline-block
-                                  mb-2
-                                  fw-normal
-                                  shadow
-                                ">
+                                    <div class="@colorClass message fs-3 text-white d-inline-block mb-2 fw-normal shadow">
                                         @ticketComment.Comment
                                     </div>
                                 </div>
-                                <div class="
-                                chat-time
-                                d-inline-block
-                                text-end
-                                fs-2
-                                font-weight-medium
-                              ">
+                                <div class="chat-time d-inline-block text-end fs-2 font-weight-medium">
                                     @ticketComment.Created.ToString("MMM dd, yyy hh:mm tt")
                                 </div>
                             </li>
@@ -85,72 +81,70 @@
             </div>
         </div>
 
+
+
+
+
         @* Attachments *@
-        <div class="card-body">
-            <div class="card m-1 p-2">
-                <div class="card">
-                    <h4>Attachments</h4>
-                </div>
-                <div class="card-body" style="overflow-y:auto;height:300px;">
 
-                    @* Refer to the Ticket Attachments document for this section *@
-                    @* Ticket attachments part 1 here *@
-                    <div class="row clearfix">
-                        <div>
-                            <form asp-action="AddTicketAttachment" asp-controller="Tickets" enctype="multipart/form-data" method="post">
-                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                                <input type="hidden" asp-for="@Model.Id" name="TicketId">
-                                <div class="media-body ml-3">
-                                    <label>
-                                        Description
-                                        <input name="Description" type="text" class="form-control" />
-                                    </label><br />
-                                    <label class="btn btn-outline-primary btn-sm">
-                                        <input name="FormFile" type="file" class="form-control-file" />
-                                    </label>
-                                    <button type="submit" class="btn btn-outline-secondary btn-sm md-btn-flat">Submit</button>
-                                </div>
-                            </form>
+        <div class="card card-hover">
+            <div class="card-header bg-info">
+                <h4 class="mb-0 text-white">Attachments</h4>
+            </div>
+            <div class="card-body">
+                <div>
+                    <form asp-action="AddTicketAttachment" asp-controller="Tickets" enctype="multipart/form-data" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="@Model.Id" name="TicketId">
+                        <div class="media-body ml-3">
+                            <label>
+                                Description
+                                <input name="Description" type="text" class="form-control" />
+                            </label><br />
+                            <label class="btn btn-outline-primary btn-sm">
+                                <input name="FormFile" type="file" class="form-control-file" />
+                            </label>
+                            <button type="submit" class="btn btn-outline-secondary btn-sm md-btn-flat">Submit</button>
                         </div>
-                    </div>
-
-                    @* Ticket attachments part 2 here *@
-                    <hr />
-                    <h6>Attachments</h6>
-                    <div class="container">
-                        <div class="row">
-                            @foreach (TicketAttachment item in Model.Attachments)
-                            {
-                                <div class="col col-sm-2">
-                                    <a asp-action="ShowFile" asp-controller="Tickets" asp-route-Id="@item.Id">
-                                        <div class="icon">
-                                            <img src="@BTFileService.GetFileIcon(item.FileName)" style="height:50px;width:50px" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="@item.FileName" />
-                                        </div>
-                                    </a>
-                                    <div style="font-size:x-small">
-                                        <div class="file-name">
-                                            <strong>@item.Description</strong>
-                                        </div>
-                                        <small>Size:@BTFileService.FormatFileSize(item.FileData.Length) </small>
+                    </form>
+                </div>
+                @* Ticket attachments part 2 here *@
+                <hr />
+                <h6>Attachments</h6>
+                <div class="container">
+                    <div class="row">
+                        @foreach (TicketAttachment item in Model.Attachments)
+                        {
+                            <div class="col col-sm-2">
+                                <a asp-action="ShowFile" asp-controller="Tickets" asp-route-Id="@item.Id">
+                                    <div class="icon">
+                                        <img src="@BTFileService.GetFileIcon(item.FileName)" style="height:50px;width:50px" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="@item.FileName" />
                                     </div>
+                                </a>
+                                <div style="font-size:x-small">
+                                    <div class="file-name">
+                                        <strong>@item.Description</strong>
+                                    </div>
+                                    <small>Size:@BTFileService.FormatFileSize(item.FileData.Length) </small>
                                 </div>
-                            }
-                        </div>
+                            </div>
+                        }
                     </div>
                 </div>
-
             </div>
         </div>
+
+
     </div>
 
     @* TicketInfo *@
     <div class="col-lg-4">
-        <div class="card">
-            <div class="card-body">
-                <h4 class="card-title mb-0">
+        <div class="card card-hover">
+            <div class="card-body bg-info">
+                <h4 class="card-title text-white mb-0">
                     Ticket Info
                     <a asp-controller="Tickets" asp-action="Edit" asp-route-id="@Model.Id" class="btn waves-effect waves-light text-info custom-tooltip" data-title="Edit">
-                        <i class="mdi mdi-pencil"></i>
+                        <i class="mdi mdi-pencil" style="color: black;"></i>
                     </a>
                 </h4>
 
@@ -200,8 +194,8 @@
         </div>
 
         @* Ticket Activity *@
-        <div class="card">
-            <h5 class="card-title p-3 card-header mb-0">Ticket Activity</h5>
+        <div class="card card-hover">
+            <h5 class="card-title p-3 card-header bg-info text-white mb-0">Ticket Activity</h5>
             <div class="card-body scrollable" style="height: 598px">
                 <div class="steamline mt-0">
                     @foreach (TicketHistory history in Model.History.OrderBy(h => h.Created))

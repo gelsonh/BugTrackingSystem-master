@@ -69,7 +69,7 @@ namespace BugTrackingSystem.Controllers
         }
 
 
-        [Authorize(Roles = "Admin, ProjectManager")]
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> AssignPM(int? id)
         {
@@ -100,7 +100,7 @@ namespace BugTrackingSystem.Controllers
             return View(viewModel);
         }
 
-        [Authorize(Roles = "Admin, ProjectManager")]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AssignPM(AssignPMViewModel viewModel)
@@ -196,15 +196,12 @@ namespace BugTrackingSystem.Controllers
 
         public async Task<IActionResult> UnassignedProjects()
         {
-            // Obtén el companyId del usuario que inició sesión
             int? companyId = _userManager.GetUserAsync(User).Result?.CompanyId;
 
             List<Project> projects = await _projectService.GetUnassignedProjectsAsync(companyId);
 
-            // Obtén el número de proyectos no asignados
             int unassignedProjectCount = projects.Count;
 
-            // Puedes pasar este número a la vista a través de ViewBag o ViewData
             ViewBag.UnassignedProjectCount = unassignedProjectCount;
 
             return View(projects);
