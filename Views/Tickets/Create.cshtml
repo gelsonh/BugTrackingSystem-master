@@ -1,7 +1,7 @@
 ﻿@model BugTrackingSystem.Models.Ticket
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "New Ticket";
 }
 
 
@@ -34,9 +34,8 @@
                     </div>
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label asp-for="Project" class="control-label">Project :</label>
+                            <label asp-for="ProjectId" class="control-label">Project :</label>
                             <select asp-for="ProjectId" class="form-control" asp-items="ViewBag.ProjectId"></select>
-
                         </div>
                     </div>
                    
@@ -52,13 +51,13 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label asp-for="TicketType" class="control-label">Ticket Type :</label>
+                            <label asp-for="TicketTypeId" class="control-label">Ticket Type :</label>
                             <select asp-for="TicketTypeId" class="form-control" asp-items="ViewBag.TicketTypeId"></select>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label asp-for="TicketPriority" class="control-label">Ticket Priority :</label>
+                            <label asp-for="TicketPriorityId" class="control-label">Ticket Priority :</label>
                             <select asp-for="TicketPriorityId" class="form-control" asp-items="ViewBag.TicketPriorityId"></select>
                         </div>
                     </div>                 

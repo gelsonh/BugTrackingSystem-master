@@ -14,8 +14,8 @@
 
 <!-- needed css -->
 <link href="~/dist/css/style.min.css" rel="stylesheet" />
-<link rel="stylesheet" href="cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
-<link rel="stylesheet" href="~/dist/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css">
+@* <link rel="stylesheet" href="cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
+ *@<link rel="stylesheet" href="~/dist/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css">
 <link rel="stylesheet" href="~/dist/libs/morris.js/morris.css">
 
 <h1>Dashboard</h1>
@@ -265,9 +265,6 @@
             </div>
         </div>
 
-
-
-
     </div>
 </div>
 
@@ -434,20 +431,20 @@
 
 
 
-<!--  Plotly Charts  -->
-<!-- Load plotly.js into the DOM -->
+<!-- Bibliotecas principales -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src='https://cdn.plot.ly/plotly-2.4.2.min.js'></script>
+
+<!-- Plugins de jQuery -->
 <script src="~/dist/libs/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="~/dist/js/pages/datatable/datatable-basic.init.js"></script>
-@*<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>*@
+
+<!-- Scripts personalizados -->
 <script src="~/dist/libs/tinymce/tinymce.min.js"></script>
 
-<!--Morris JavaScript -->
-<script src="~/dist/libs/raphael/raphael.min.js"></script>
-<script src="~/dist/libs/morris.js/morris.min.js"></script>
-<script src="~/dist/js/pages/morris/morris-data.js"></script>
 
+<!--  Plotly Charts  -->
+<!-- Load plotly.js into the DOM -->
+<script src='https://cdn.plot.ly/plotly-2.4.2.min.js'></script>
 
 <script>
     $.ajax({

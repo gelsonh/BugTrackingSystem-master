@@ -30,14 +30,17 @@
           href="~/favicon/LogoFavicon.png" />
     <!-- Custom CSS -->
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
-    <link rel="stylesheet" href="~/dist/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css">
+
+
+    <link href="~/dist/css/style.min.css" rel="stylesheet" />
+@*     <link rel="stylesheet" href="cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
+ *@    <link rel="stylesheet" href="~/dist/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" href="~/dist/libs/prismjs/themes/prism-okaidia.min.css">
     <link rel="stylesheet" href="~/dist/libs/morris.js/morris.css">
     <link rel="stylesheet" href="~/dist/libs/quill/dist/quill.snow.css">
 
 
-    <link href="~/dist/css/style.min.css" rel="stylesheet" />
+  
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -97,7 +100,7 @@
                        href="javascript:void(0)">
                         <i class="ti-menu ti-close"></i>
                     </a>
-                    <a class="navbar-brand" href="index.html">
+                    <a class="navbar-brand" asp-action="Dashboard" asp-controller="Home">
                         <!-- Logo icon -->
                         <b class="logo-icon">
                             <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
@@ -380,62 +383,38 @@
     <!-- -------------------------------------------------------------- -->
 
     <div class="chat-windows"></div>
-    <script src="~/dist/libs/jquery/dist/jquery.min.js"></script>
-    <script src="~/assets/extra-libs/taskboard/js/jquery-ui.min.js"></script>
 
-    <!-- Bootstrap tether Core JavaScript -->
+    <!-- Bibliotecas principales -->
+    <script src="~/dist/libs/jquery/dist/jquery.min.js"></script>
     <script src="~/dist/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- apps -->
+    <!-- Plugins de jQuery -->
+    <script src="~/assets/extra-libs/taskboard/js/jquery-ui.min.js"></script>
+    <script src="~/dist/libs/perfect-scrollbar/dist/js/perfect-scrollbar.jquery.js"></script>
+    <script src="~/dist/libs/jquery-sparkline/jquery.sparkline.min.js"></script>
+    <script src="~/dist/libs/jquery-steps/build/jquery.steps.min.js"></script>
+    <script src="~/dist/libs/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/dist/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+
+    <!-- Scripts personalizados -->
     <script src="~/dist/js/app.min.js"></script>
     <script src="~/dist/js/app.init.js"></script>
     <script src="~/dist/js/app-style-switcher.js"></script>
-
-    <!-- slimscrollbar scrollbar JavaScript -->
-    <script src="~/dist/libs/perfect-scrollbar/dist/js/perfect-scrollbar.jquery.js"></script>
-    <script src="~/dist/libs/jquery-sparkline/jquery.sparkline.min.js"></script>
-
-    <!--Wave Effects -->
     <script src="~/dist/js/waves.js"></script>
-
-    <!--Menu sidebar -->
     <script src="~/dist/js/sidebarmenu.js"></script>
-
-    <!--Custom JavaScript -->
     <script src="~/dist/js/feather.min.js"></script>
     <script src="~/dist/js/custom.min.js"></script>
-    <script src="~/dist/js/custom.min.js"></script>
-    <script src="~/dist/libs/jquery-steps/build/jquery.steps.min.js"></script>
-    <script src="~/dist/libs/jquery-validation/dist/jquery.validate.min.js"></script>
-
-    <!-- Details Page JS -->
-    <script src="~/dist/libs/apexcharts/dist/apexcharts.min.js"></script>
-    <script src="~/dist/js/pages/dashboards/dashboard1.js"></script>
-    <script src="~/dist/libs/moment/min/moment.min.js"></script>
-    <script src="~/dist/libs/fullcalendar/index.global.min.js"></script>
-    <script src="~/dist/js/pages/calendar/cal-init.js"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.7.20/c3.min.js"></script>
+    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 
 
+    <!-- Otros scripts -->
+    <!-- ... -->
+    <!-- Scripts pesados -->
+    <!-- ... -->
 
-    <script src="~/dist/libs/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="~/dist/js/pages/datatable/datatable-basic.init.js"></script>
-    @*<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>*@
-    <script src="~/dist/libs/tinymce/tinymce.min.js"></script>
-    <!--c3 charts -->
-    <script src="~/dist/libs/c3/htdocs/js/d3-3.5.6.js"></script>
-    <script src="~/dist/libs/c3/htdocs/js/c3-0.4.9.min.js"></script>
-    @*    Dropdown *@
-    <script src="~/dist/libs/prismjs/prism.js"></script>
-    <script src="~/dist/libs/apexcharts/dist/apexcharts.min.js"></script>
-    <script src="~/dist/js/pages/dashboards/dashboard1.js"></script>
-    <script src="~/dist/libs/moment/min/moment.min.js"></script>
-    <script src="~/dist/libs/fullcalendar/index.global.min.js"></script>
-    <script src="~/dist/js/pages/calendar/cal-init.js"></script>
 
-    <!--Morris JavaScript -->
-    <script src="~/dist/libs/raphael/raphael.min.js"></script>
-    <script src="~/dist/libs/morris.js/morris.min.js"></script>
-    <script src="~/dist/js/pages/morris/morris-data.js"></script>
     <script>
         $(function () {
             tinymce.init({
@@ -483,7 +462,6 @@
 
 
     <script>
-
         $(document).ready(function () {
             var table = $('#myTable').DataTable({
                 "order": [[3, "desc"]],

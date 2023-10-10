@@ -1,7 +1,7 @@
 ﻿@model BugTrackingSystem.Models.Project
-
+@* @inject IBTFileService _BTFileService *@
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "New Project";
 }
 
 
@@ -28,13 +28,13 @@
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label asp-for="Name" class="control-label">Name :</label>
-                            <input asp-for="Name" class="form-control" placeholder="New Project" />
+                            <input asp-for="Name" class="form-control" placeholder="New Project" autocomplete="on" />
                             <span asp-validation-for="Name" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label asp-for="ProjectPriority" class="control-label">Project Priority : </label>
+                            <label asp-for="ProjectPriorityId" class="control-label">Project Priority : </label>
                             <select asp-for="ProjectPriorityId" class="form-control" asp-items="ViewBag.ProjectPriorityId"></select>
                         </div>
                     </div>
@@ -63,10 +63,8 @@
                     </div>
                     <div class="col-md-3">
                         <div class="mb-3">
-                            <label for="formFile">Project Image :</label>
-                            <input type="file"
-                                   class="form-control"
-                                   id="formFile" />
+                            <label asp-for="ImageFormFile" class="control-label">Project Image :</label>
+                            <input asp-for="ImageFormFile" type="file" class="form-control" />
                         </div>
                     </div>
                 </div>

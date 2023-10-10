@@ -28,16 +28,16 @@ https://templatemo.com/tm-538-digital-trend
 }
 
 :root {
-    --primary-color: #057a8d;
-    --secondary-color: #407BFF;
-    --white-color: #ffffff;
-    --dark-color: #171819;
-    --project-bg: #f0f8ff;
-    --menu-bg: #0c8195;
-    --title-color: #15141a;
-    --gray-color: #909090;
-    --link-color: #404040;
-    --p-color: #666262;
+    --primary-color: #3A4655; /* RGB: 58–70–85 */
+    --secondary-color: #2D323A; /* RGB: 45–50–58 */
+    --white-color: #ffffff; /* Blanco */
+    --dark-color: #1E232A; /* RGB: 30–35–42 */
+    --project-bg: #1E2939; /* RGB: 30–41–57 */
+    --menu-bg: #17181A; /* RGB: 23–24–26 */
+    --title-color: #eeeeee; /* Gris muy claro */
+    --gray-color: #222222; /* Gris muy oscuro */
+    --link-color: #555555; /* Gris oscuro medio */
+    --p-color: #777777; /* Gris medio claro */
     --base-font-family: 'Plain-Light', sans-serif;
     --title-font-family: 'Plain-Regular', sans-serif;
     --font-bold-family: 'Plain-Bold', sans-serif;
