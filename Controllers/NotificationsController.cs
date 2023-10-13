@@ -28,9 +28,18 @@ namespace BugTrackingSystem.Controllers
             var applicationDbContext = _context.Notifications.Include(n => n.NotificationType).Include(n => n.Project).Include(n => n.Recipient).Include(n => n.Sender).Include(n => n.Ticket).OrderByDescending(n => n.Created);
 
             return View(await applicationDbContext.ToListAsync());
-
-
         }
+
+
+
+
+
+
+
+
+
+
+
 
         // GET: Notifications/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -185,14 +194,14 @@ namespace BugTrackingSystem.Controllers
             {
                 _context.Notifications.Remove(notification);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool NotificationExists(int id)
         {
-          return (_context.Notifications?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Notifications?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

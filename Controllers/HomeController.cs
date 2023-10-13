@@ -5,6 +5,7 @@ using BugTrackingSystem.Models.Enums;
 using BugTrackingSystem.Models.ViewModels;
 using BugTrackingSystem.Services;
 using BugTrackingSystem.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -51,6 +52,7 @@ namespace BugTrackingSystem.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+        [Authorize(Roles = "Admin, DemoUser")]
         public async Task<IActionResult> Dashboard()
         {
             var model = new DashboardViewModel();

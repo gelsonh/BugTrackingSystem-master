@@ -2,23 +2,34 @@
 
 @inject IBTNotificationService _BTNotificationService
 @inject IBTRolesService _BTRolesService
+@inject UserManager<BTUser> UserManager
 @using System.Linq
+
+
 @{
     ViewData["Title"] = "Dashboard";
+}
 
-    @* Instantiate the btUser *@
-    @inject UserManager<BTUser> UserManager
+@section PageTitle {
+    @ViewData["Title"]
+}
 
+@section Breadcrumbs {
+    <nav aria-label="breadcrumb" class="mt-2">
+        <ol class="breadcrumb mb-0 p-0">
+            <li class="breadcrumb-item"><a asp-action="Dashboard" asp-controller="Home">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+        </ol>
+    </nav>
 }
 
 
 <!-- needed css -->
 <link href="~/dist/css/style.min.css" rel="stylesheet" />
-@* <link rel="stylesheet" href="cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
- *@<link rel="stylesheet" href="~/dist/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css">
+ <link rel="stylesheet" href="~/dist/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css">
 <link rel="stylesheet" href="~/dist/libs/morris.js/morris.css">
 
-<h1>Dashboard</h1>
+
 
 <a href="javascript:void(0);">
     @* User Info *@
@@ -421,11 +432,6 @@
         </div>
     </div>
 </div>
-
-
-
-
-
 
 
 

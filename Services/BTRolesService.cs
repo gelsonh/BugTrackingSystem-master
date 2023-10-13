@@ -4,6 +4,7 @@ using BugTrackingSystem.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.Diagnostics;
 
 namespace BugTrackingSystem.Services
 {
@@ -13,10 +14,11 @@ namespace BugTrackingSystem.Services
         private readonly UserManager<BTUser> _userManager;
 
 
-        public BTRolesService(ApplicationDbContext context, UserManager<BTUser> userManager)
+        public BTRolesService(ApplicationDbContext context, UserManager<BTUser> userManager )
         {
             _context = context;
             _userManager = userManager;
+       
 
 
         }
@@ -43,7 +45,7 @@ namespace BugTrackingSystem.Services
         {
             try
             {
-                List<IdentityRole> result = new();
+                List<IdentityRole> result;
                 result = await _context.Roles.ToListAsync();
                 return result;
             }
@@ -62,8 +64,8 @@ namespace BugTrackingSystem.Services
                 {
                     IEnumerable<string> result = await _userManager.GetRolesAsync(user);
                     return result;
-
                 }
+
 
                 return null;
             }
@@ -137,9 +139,9 @@ namespace BugTrackingSystem.Services
         {
             try
             {
-                if (user != null && roleNames != null)
+                if (user != null || roleNames != null)
                 {
-                    bool result = (await _userManager.RemoveFromRolesAsync(user, roleNames)).Succeeded;
+                    bool result = (await _userManager.RemoveFromRolesAsync(user!, roleNames!)).Succeeded;
                     return result;
                 }
 
@@ -154,22 +156,36 @@ namespace BugTrackingSystem.Services
 
         public async Task<string> GetCurrentRoleAsync(BTUser? user)
         {
-            if (user == null)
+            try
             {
-                // Maneja el caso en que user es nulo.
-                // Podrías lanzar una excepción, devolver un valor predeterminado, etc.
-            }
+                if (user == null)
+                {
+                    // Manejar el caso en que el usuario es nulo.
+                    // Puedes lanzar una excepción, devolver un valor predeterminado, o cualquier otra lógica.
+                    throw new ArgumentNullException(nameof(user), "El usuario es nulo.");
+                }
 
-            IList<string> roles = await _userManager.GetRolesAsync(user!);
-            if (roles.Count == 0)
+                IList<string> roles = await _userManager.GetRolesAsync(user);
+
+                if (roles.Count == 0)
+                {
+                    // Manejar el caso en que el usuario no tiene roles asignados.
+                    // Puedes lanzar una excepción, devolver un valor predeterminado, o cualquier otra lógica.
+                    throw new InvalidOperationException("El usuario no tiene roles asignados.");
+                }
+
+                return roles[0];
+            }
+            catch (Exception ex)
             {
-                // Maneja el caso en que el usuario no tiene roles.
-                // Podrías lanzar una excepción, devolver un valor predeterminado, etc.
+                // Manejar cualquier excepción generada, registrarla o lanzarla nuevamente si es necesario.
+                // Puedes elegir cómo manejar las excepciones, dependiendo de tus necesidades.
+                // Aquí, estoy registrando la excepción y lanzándola nuevamente.
+                Debug.WriteLine($"Error en GetCurrentRoleAsync: {ex}");
+                throw;
             }
-
-            string? currentRole = roles.FirstOrDefault();
-            return currentRole!;
         }
+
 
     }
 }

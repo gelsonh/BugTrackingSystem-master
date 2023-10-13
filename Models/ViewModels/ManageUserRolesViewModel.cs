@@ -9,7 +9,11 @@ namespace BugTrackingSystem.Models.ViewModels
         public MultiSelectList? Roles { get; set; }
 
         public IEnumerable<string>? SelectedRoles { get; set; }
-        public string? CurrentRole { get; set; } // New Propertie
+
+        public string? CurrentRole { get; set; } // Change the property to a single string
+
+
 
     }
 }
+

@@ -13,10 +13,22 @@
 
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Tickets Details";
 }
 
+@section PageTitle {
+    <a href="javascript:history.back()">
+        <i class="fas fa-arrow-left"></i>  @ViewData["Title"]
+}
 
+@section Breadcrumbs {
+    <nav aria-label="breadcrumb" class="mt-2">
+        <ol class="breadcrumb mb-0 p-0">
+            <li class="breadcrumb-item"><a asp-action="Dashboard" asp-controller="Home">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+        </ol>
+    </nav>
+}
 
 
 

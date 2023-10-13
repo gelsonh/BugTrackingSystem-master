@@ -57,8 +57,7 @@ namespace BugTrackingSystem.Services
         {
             try
             {
-                List<BTUser>? members = new();
-
+                List<BTUser> members = new List<BTUser>();
 
                 members = await _context.Users.Where(u => u.CompanyId == companyId).ToListAsync();
 
@@ -66,10 +65,10 @@ namespace BugTrackingSystem.Services
             }
             catch (Exception)
             {
-
                 throw;
             }
         }
+
 
         public async Task<List<Project>> GetProjectsAsync(int? companyId)
         {

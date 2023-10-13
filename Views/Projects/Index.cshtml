@@ -2,9 +2,21 @@
 
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Projects";
 }
 
+@section PageTitle {
+    @ViewData["Title"]
+}
+
+@section Breadcrumbs {
+    <nav aria-label="breadcrumb" class="mt-2">
+        <ol class="breadcrumb mb-0 p-0">
+            <li class="breadcrumb-item"><a asp-action="Dashboard" asp-controller="Home">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+        </ol>
+    </nav>
+}
 
 <p>
     <a asp-action="Create">Create New Project</a>

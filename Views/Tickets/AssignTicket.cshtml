@@ -6,6 +6,19 @@
     ViewData["Title"] = "Assign Ticket";
 }
 
+@section PageTitle {
+    @ViewData["Title"]
+}
+
+@section Breadcrumbs {
+    <nav aria-label="breadcrumb" class="mt-2">
+        <ol class="breadcrumb mb-0 p-0">
+            <li class="breadcrumb-item"><a asp-action="Dashboard" asp-controller="Home">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+        </ol>
+    </nav>
+}
+
 <div class="container">
     <h2>Assign Developer for</h2>
     <div class="row">

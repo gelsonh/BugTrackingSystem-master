@@ -1,150 +1,144 @@
 ﻿@model IEnumerable<ManageUserRolesViewModel>
+@inject IBTRolesService _rolesService
+
+
+@{
+    ViewData["Title"] = "Manage User Roles";
+}
+
+
+@section PageTitle {
+    @ViewData["Title"]
+}
+
+@section Breadcrumbs {
+    <nav aria-label="breadcrumb" class="mt-2">
+        <ol class="breadcrumb mb-0 p-0">
+            <li class="breadcrumb-item"><a asp-action="Dashboard" asp-controller="Home">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+        </ol>
+    </nav>
+}
 
 
 
+<style>
+    /* Estilo para la tabla */
+    .table-responsive table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .table-responsive table th {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .table-responsive table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e1e1e1;
+        }
+
+        .table-responsive table tr:hover {
+            background-color: #f0f0f0;
+        }
+
+    /* Estilo para el scrollbar */
+    .scrollable-select {
+        max-height: 150px; /* Altura máxima del select con scrollbar */
+        overflow-y: auto;
+    }
+
+    /* Estilo para el botón de guardado */
+    .save-button {
+        background-color: #007BFF;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        font-size: 0; /* Oculta el texto del botón */
+    }
+
+        .save-button:hover {
+            background-color: #0056b3;
+        }
+    
+</style>
 
 
 <div class="row">
     <div class="col-lg-12 d-flex align-items-stretch">
         <div class="card w-100 card-hover">
-            <div class="card-body">
-                <h5 class="card-title text-uppercase mb-0">Manage Users</h5>
-            </div>
+       
             <div class="table-responsive">
-                <table class="table no-wrap user-table mb-0">
+                <table class="table mb-0">
                     <thead>
                         <tr>
-                            <th scope="col"
-                                class="
-                            border-0
-                            text-uppercase
-                            font-weight-medium
-                            ps-4
-                          ">
-                                #
-                            </th>
-                            <th scope="col"
-                                class="border-0 text-uppercase font-weight-medium">
+                            <th scope="col" class="border-0 text-uppercase font-weight-medium ps-4">
                                 Name
                             </th>
-                            <th scope="col"
-                                class="border-0 text-uppercase font-weight-medium">
+                            <th scope="col" class="border-0 text-uppercase font-weight-medium d-none d-md-table-cell d-sm-table-cell">
                                 Email
                             </th>
-                            <th scope="col"
-                                class="border-0 text-uppercase font-weight-medium">
+                            <th scope="col" class="border-0 text-uppercase font-weight-medium d-none d-sm-table-cell">
                                 Role
                             </th>
-                            <th scope="col"
-                                class="border-0 text-uppercase font-weight-medium">
-                                Manage
+                            <th scope="col" class="border-0 text-uppercase font-weight-medium">
+                                Selected
                             </th>
+                            <th>Manage</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        @{
-                            var i = 0;
-                        }
-                        @foreach (var viewModel in Model)
-                        {
+                    @foreach (var viewModel in Model)
+                    {
+                        <tbody>
+                            <form asp-action="ManageUserRoles" method="post">
                             <tr>
-                                <td class="ps-4">1</td>
                                 <td>
-                                    <div class="d-flex align-items-start">
-                                        <img src="../../assets/images/users/1.jpg"
-                                             class="rounded-circle"
-                                             width="35" />
+                                    <div class="ps-4 d-flex align-items-start">
                                         <div class="ms-2">
                                             <h5 class="font-weight-medium mb-0">
-                                                @viewModel.BTUser!.FullName
+                                                    @viewModel.BTUser!.FullName
                                             </h5>
-
                                         </div>
                                     </div>
                                 </td>
-                                <td>
-                                    <span>  <span>@viewModel.BTUser!.Email</span><br /></span><br />
-
+                                <td class="d-none d-md-table-cell d-sm-table-cell">
+                                    <span>@viewModel.BTUser!.Email<br /></span><br />
+                                </td>
+                                <td class="d-none d-sm-table-cell">
+                                        @viewModel.CurrentRole
                                 </td>
                                 <td>
-                                    <form id="myForm@(i)" class="myForm" asp-action="ManageUserRoles" asp-controller="Companies" method="post">
-                                        <input type="hidden" asp-for="@viewModel.BTUser.Id" />
-                                        <div class="form-group">
-
-                                            <select class="form-select category-select" id="exampleFormControlSelect1" name="SelectedRoles">
-                                                <option selected disabled>@viewModel.CurrentRole</option>
-                                                @foreach (var role in viewModel.Roles?.ToList())
-                                                {
-                                                    <option>@role.Value</option>
-                                                }
-                                            </select>
-                                        </div>
-
-                                    </form>
-                                </td>
-                                <td>
-                                    <div class="button-group d-flex align-items-center">
-                                        <a href="#" onclick="$('#myForm@(i)').submit();" class="btn-submit@(i) btn-submit">
-                                            <i class=" mdi mdi-sd"></i>
-                                            <span class="tooltip">Save</span>
-                                        </a>
-
+                                    <input type="hidden" asp-for="@viewModel.BTUser.Id" />
+                                    <div class="form-group scrollable-select">
+                                        <!-- Display user roles in a select element -->
+                                        <select class="form-select category-select" id="exampleFormControlSelect1"
+                                                asp-for="@viewModel.SelectedRoles" asp-items="@viewModel.Roles" multiple>
+                                        </select>
                                     </div>
+                                </td>
+                                <td>
+                                    <!-- Botón de guardado con icono y tooltip -->
+                                    <button type="submit" class="save-button" data-toggle="tooltip" title="Save">
+                                        <i class="fas fa-save"></i> <!-- Icono de guardado -->
+                                    </button>
                                 </td>
                             </tr>
-                        }
-                    </tbody>
+                            </form>
+                        </tbody>
+                    }
                 </table>
             </div>
+
         </div>
     </div>
 </div>
-
-
-
-
-
-
-
-<style>
-    .btn-submit {
-        position: relative;
-        display: inline-block;
-    }
-
-        .btn-submit .tooltip {
-            visibility: hidden;
-            width: 120px;
-            background-color: #555;
-            color: #fff;
-            text-align: center;
-            border-radius: 6px;
-            padding: 5px 0;
-            position: absolute;
-            z-index: 1;
-            bottom: 125%;
-            left: 50%;
-            margin-left: -60px;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .btn-submit:hover .tooltip {
-            visibility: visible;
-            opacity: 1;
-        }
-</style>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-<script>
-    $(document).ready(function () {
-        for (let i = 0; i < @Model.Count(); i++) {
-            $(".btn-submit" + i).click(function () {
-                $("#myForm" + i).submit();
-            });
-        }
-    });
-</script>
 
 
 

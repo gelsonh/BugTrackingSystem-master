@@ -33,14 +33,13 @@
 
 
     <link href="~/dist/css/style.min.css" rel="stylesheet" />
-@*     <link rel="stylesheet" href="cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
- *@    <link rel="stylesheet" href="~/dist/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="~/dist/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" href="~/dist/libs/prismjs/themes/prism-okaidia.min.css">
     <link rel="stylesheet" href="~/dist/libs/morris.js/morris.css">
     <link rel="stylesheet" href="~/dist/libs/quill/dist/quill.snow.css">
 
 
-  
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -327,33 +326,17 @@
         <div class="page-wrapper">
 
             <div class="page-breadcrumb border-bottom">
-                <div class="row">
-                    <div class="
-                col-lg-3 col-md-4 col-xs-12
-                justify-content-start
-                d-flex
-                align-items-center
-              ">
-                        <h6 class="font-weight-medium text-uppercase mb-0">Dashboard</h6>
+                <div class="row mb-5">
+                    <div class="col-lg-3 col-md-4 col-xs-12 justify-content-start d-flex align-items-center">
+                        <h5 class="font-weight-medium text-uppercase mb-0">@RenderSection("PageTitle", required: false)</h5>
                     </div>
-                    <div class="
-                col-lg-9 col-md-8 col-xs-12
-                d-flex
-                justify-content-start justify-content-md-end
-                align-self-center
-              ">
-                        <nav aria-label="breadcrumb" class="mt-2">
-                            <ol class="breadcrumb mb-0 p-0">
-                                <li class="breadcrumb-item"><a asp-action="index" asp-controller="Home">Home</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">
-                                    Dashboard
-                                </li>
-                            </ol>
-                        </nav>
-
+                    <div class="col-lg-9 col-md-8 col-xs-12 d-flex justify-content-start justify-content-md-end align-self-center">
+                        @RenderSection("Breadcrumbs", required: false)
                     </div>
                 </div>
             </div>
+
+
             <!-- -------------------------------------------------------------- -->
             <!-- Container fluid  -->
             <!-- -------------------------------------------------------------- -->
@@ -404,6 +387,7 @@
     <script src="~/dist/js/sidebarmenu.js"></script>
     <script src="~/dist/js/feather.min.js"></script>
     <script src="~/dist/js/custom.min.js"></script>
+    <script src="../../dist/js/pages/notes/notes.js"></script>
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.7.20/c3.min.js"></script>
     <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>

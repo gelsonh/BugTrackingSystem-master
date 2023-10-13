@@ -1,91 +1,168 @@
 ﻿@model IEnumerable<BugTrackingSystem.Models.Notification>
 
+
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Notification";
 }
 
-<h1>Notification</h1>
+@section PageTitle {
+    @ViewData["Title"]
+}
+
+@section Breadcrumbs {
+    <nav aria-label="breadcrumb" class="mt-2">
+        <ol class="breadcrumb mb-0 p-0">
+            <li class="breadcrumb-item"><a asp-action="Dashboard" asp-controller="Home">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+        </ol>
+    </nav>
+}
 
 
 
-<style>
-    .tab-pane {
-        max-height: 800px; /* Ajusta este valor según tus necesidades */
-        overflow-y: auto; /* Habilita el scrollbar verticalmente cuando el contenido excede la altura máxima */
-    }
-        /* Estiliza el scrollbar */
-        .tab-pane::-webkit-scrollbar {
-            width: 5px; /* Ajusta el ancho del scrollbar */
-        }
 
-        .tab-pane::-webkit-scrollbar-track {
-            background: #f1f1f1; /* Color de la pista del scrollbar */
-        }
+<div class="container-fluid page-content note-has-grid">
+    <ul class="nav nav-pills p-3 bg-white mb-3 align-items-center">
+        <li class="nav-item">
+            <a href="javascript:void(0)"
+               class="
+                  nav-link
+                  rounded-pill
+                  note-link
+                  d-flex
+                  align-items-center
+                  justify-content-center
+                  active
+                  px-3 px-md-3
+                  me-0 me-md-2
+                "
+               id="all-category">
+                <i data-feather="list"
+                   class="feather-sm fill-white me-0 me-md-1"></i><span class="d-none d-md-block font-weight-medium">All Notifications</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="javascript:void(0)"
+               class="
+                  nav-link
+                  rounded-pill
+                  note-link
+                  d-flex
+                  align-items-center
+                  justify-content-center
+                  px-3 px-md-3
+                  me-0 me-md-2
+                "
+               id="note-business">
+                <i data-feather="briefcase"
+                   class="feather-sm fill-white me-0 me-md-1"></i><span class="d-none d-md-block font-weight-medium">Tickets Notifications</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="javascript:void(0)"
+               class="
+                  nav-link
+                  rounded-pill
+                  note-link
+                  d-flex
+                  align-items-center
+                  justify-content-center
+                  px-3 px-md-3
+                  me-0 me-md-2
+                "
+               id="note-social">
+                <i data-feather="share-2"
+                   class="feather-sm fill-white me-0 me-md-1"></i><span class="d-none d-md-block font-weight-medium">Projects Notifications</span>
+            </a>
+        </li>
 
-        .tab-pane::-webkit-scrollbar-thumb {
-            background: #888; /* Color del scrollbar */
-        }
+    </ul>
 
-            .tab-pane::-webkit-scrollbar-thumb:hover {
-                background: #555; /* Color del scrollbar al pasar el mouse */
+    <div class="tab-content">
+        <div id="note-full-container" class="note-has-grid row">
+            @foreach (var notification in Model)
+            {
+                <div class="col-md-4 single-note-item all-category">
+                    <div class="card card-body">
+                        <span class="side-stick"></span>
+                        <h5 class="note-title text-truncate w-75 mb-0" data-noteHeading="Book a Ticket for Movie">
+                            @notification.Title
+                            <i class="point fas fa-circle ms-1 fs-1"></i>
+                        </h5>
+                        <span>@notification.NotificationType.Name</span>
+                        <p class="note-date fs-2 text-muted">@notification.Created.ToString("MMM dd yyyy hh:mm:ss tt")</p>
+                        <div class="note-content">
+                            <p class="note-inner-content text-muted" data-noteContent="Blandit tempus porttitor aasfs. Integer posuere erat a ante venenatis.">
+                                @notification.Message
+                            </p>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <a href="javascript:void(0)" class="link text-danger ms-2">
+                                <i class="far fa-trash-alt remove-note"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             }
-
-</style>
-<!-- Nav tabs -->
-<ul class="nav nav-tabs mb-5" role="tablist">
-    <li class="nav-item">
-        <a class="nav-link active" data-bs-toggle="tab" href="#all-notifications" role="tab">
-            <span>All Notifications</span>
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" data-bs-toggle="tab" href="#ticket-notifications" role="tab">
-            <span>Tickets Notification</span>
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" data-bs-toggle="tab" href="#project-notifications" role="tab">
-            <span>Projects Notification</span>
-        </a>
-    </li>
-</ul>
-<!-- Tab panes -->
-<div class="tab-content">
-    <div class="tab-pane active" id="all-notifications" role="tabpanel">
-        @foreach (var notification in Model)
-        {
-            <div class="notification">
-                <h4>@notification.Title</h4>
-                <h5>@notification.NotificationType.Name</h5>
-                <p>@notification.Message</p>
-                <p>Created: @notification.Created.ToString("MMM dd yyyy hh:mm:ss tt")</p>
-            </div>
-            <div class="my-3" style="height: 1px; background-color: #333;"></div>
-        }
+        </div>
     </div>
-    <div class="tab-pane p-3" id="ticket-notifications" role="tabpanel">
-        @foreach (var notification in Model.Where(n => n.NotificationType.Name == "Ticket"))
-        {
-            <div class="notification">
-                <h4>@notification.Title</h4>
-                <h5>@notification.NotificationType.Name</h5>
-                <p>@notification.Message</p>
-                <p>Created: @notification.Created.ToString("MMM dd yyyy hh:mm:ss tt")</p>
-            </div>
-            <div class="my-3" style="height: 1px; background-color: #333;"></div>
-        }
+    <div class="tab-content">
+        <div id="note-full-container" class="note-has-grid row">
+            @foreach (var notification in Model.Where(n => n.NotificationType.Name == "Ticket"))
+            {
+                <div class="col-md-4 single-note-item note-business">
+                    <div class="card card-body">
+                        <span class="side-stick"></span>
+                        <h5 class="note-title text-truncate w-75 mb-0" data-noteHeading="Book a Ticket for Movie">
+                            @notification.Title
+                            <i class="point fas fa-circle ms-1 fs-1"></i>
+                        </h5>
+                        <span>@notification.NotificationType.Name</span>
+                        <p class="note-date fs-2 text-muted">@notification.Created.ToString("MMM dd yyyy hh:mm:ss tt")</p>
+                        <div class="note-content">
+                            <p class="note-inner-content text-muted" data-noteContent="Blandit tempus porttitor aasfs. Integer posuere erat a ante venenatis.">
+                                @notification.Message
+                            </p>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <a href="javascript:void(0)" class="link text-danger ms-2">
+                                <i class="far fa-trash-alt remove-note"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
     </div>
-    <div class="tab-pane p-3" id="project-notifications" role="tabpanel">
-        @foreach (var notification in Model.Where(n => n.NotificationType.Name == "Project"))
-        {
-            <div class="notification">
-                <h4>@notification.Title</h4>
-                <h5>@notification.NotificationType.Name</h5>
-                <p>@notification.Message</p>
-                <p>Created: @notification.Created.ToString("MMM dd yyyy hh:mm:ss tt")</p>
-            </div>
-            <div class="my-3" style="height: 1px; background-color: #333;"></div>
-        }
+    <div class="tab-content">
+        <div id="note-full-container" class="note-has-grid row">
+            @foreach (var notification in Model.Where(n => n.NotificationType.Name == "Project"))
+            {
+                <div class="col-md-4 single-note-item note-social">
+                    <div class="card card-body">
+                        <span class="side-stick"></span>
+                        <h5 class="note-title text-truncate w-75 mb-0" data-noteHeading="Book a Ticket for Movie">
+                            @notification.Title
+                            <i class="point fas fa-circle ms-1 fs-1"></i>
+                        </h5>
+                        <span>@notification.NotificationType.Name</span>
+                        <p class="note-date fs-2 text-muted">@notification.Created.ToString("MMM dd yyyy hh:mm:ss tt")</p>
+                        <div class="note-content">
+                            <p class="note-inner-content text-muted" data-noteContent="Blandit tempus porttitor aasfs. Integer posuere erat a ante venenatis.">
+                                @notification.Message
+                            </p>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <a href="javascript:void(0)" class="link text-danger ms-2">
+                                <i class="far fa-trash-alt remove-note"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
     </div>
 </div>
+
+
 

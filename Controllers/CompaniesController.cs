@@ -16,6 +16,8 @@ using Azure;
 using NuGet.Protocol.Plugins;
 using Org.BouncyCastle.Pqc.Crypto.Lms;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
+using System.Runtime.Intrinsics.X86;
 
 namespace BugTrackingSystem.Controllers
 {
@@ -43,43 +45,51 @@ namespace BugTrackingSystem.Controllers
         //                  Problem("Entity set 'ApplicationDbContext.Companies'  is null.");
         //}
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, DemoUser")]
         [HttpGet]
         public async Task<IActionResult> ManageUserRoles()
         {
-            // 1 - Add an instance of the ViewModel as a List (model)
+            // 1 - Create an empty list to hold the ViewModel instances
             List<ManageUserRolesViewModel> model = new List<ManageUserRolesViewModel>();
 
-            // 2 - Get CompanyId 
-            //
+            // 2 - Get the CompanyId (replace this with your method to obtain the company ID)
+            int? companyId = (await _userManager.GetUserAsync(User))?.CompanyId;
 
             // 3 - Get all company users
-            List<BTUser> members = await _companyService.GetMembersAsync(_companyId);
-
-            // 4 - Loop over the users to populate the ViewModel
-            //      - instantiate single ViewModel
-            //      - use _rolesService
-            //      - Create multiselect
-            //      - viewmodel to model
-            string? btUserId = _userManager.GetUserId(User);
-
-            foreach (BTUser member in members)
+            if (companyId.HasValue)
             {
-                if (string.Compare(btUserId, member.Id) != 0)
-                {
-                    ManageUserRolesViewModel viewModel = new();
+                List<BTUser> members = await _companyService.GetMembersAsync(companyId.Value);
 
+                // 4 - Loop over the users to populate the ViewModel
+                foreach (BTUser member in members)
+                {
+                    // Instantiate a single ViewModel
+                    ManageUserRolesViewModel viewModel = new ManageUserRolesViewModel();
+
+                    // Use _rolesService to get current roles for the user
                     IEnumerable<string>? currentRoles = await _rolesService.GetUserRolesAsync(member);
 
+                    // Assign properties to the ViewModel
                     viewModel.BTUser = member;
                     viewModel.Roles = new MultiSelectList(await _rolesService.GetRolesAsync(), "Name", "Name", currentRoles);
-                    // Set the CurrentRole property
-                    viewModel.CurrentRole = currentRoles?.FirstOrDefault();
 
+                    // Get the current role for the user (if you want to set the user's current role)
+                    string currentRole = await _rolesService.GetCurrentRoleAsync(member);
+
+                    // Set the CurrentRole property for this user
+                    viewModel.CurrentRole = currentRole;
+
+                    // Add the ViewModel to the list
                     model.Add(viewModel);
                 }
             }
-
+            else
+            {
+                // Handle the case where companyId is null (you can log, redirect, or display an error)
+                // For example, you can log an error and redirect the user to an error page.
+                // Logging.LogError("CompanyId is null for the current user.");
+                return RedirectToAction("ErrorPage"); // Replace with your error handling logic.
+            }
 
             // 5 - Return the model to the View
             return View(model);
@@ -87,27 +97,23 @@ namespace BugTrackingSystem.Controllers
 
 
 
-        [Authorize(Roles = "Admin")]
+
+        [Authorize(Roles = "Admin, DemoUser")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ManageUserRoles(ManageUserRolesViewModel viewModel)
         {
-
-
-            
             // 1- Get the company Id
-            //
+            int? companyId = (await _userManager.GetUserAsync(User))?.CompanyId;
 
             // 2 - Instantiate the BTUser
-            BTUser? btUser = (await _companyService.GetMembersAsync(_companyId)).FirstOrDefault(m => m.Id == viewModel.BTUser?.Id);
+            BTUser? btUser = (await _companyService.GetMembersAsync(companyId)).FirstOrDefault(m => m.Id == viewModel.BTUser?.Id);
 
             // 3 - Get Roles for the User
             IEnumerable<string>? currentRoles = await _rolesService.GetUserRolesAsync(btUser);
 
             // 4 - Get Selected Role(s) for the User
             IEnumerable<string>? selectedRoles = viewModel.SelectedRoles;
-
-           
 
             // 5 - Remove current role(s) and Add new role(s)
             if (selectedRoles != null && selectedRoles.Any())
@@ -120,11 +126,12 @@ namespace BugTrackingSystem.Controllers
                     }
                 }
             }
-            
 
             // 6 - Navigate
             return RedirectToAction(nameof(ManageUserRoles));
         }
+
+
 
 
 
