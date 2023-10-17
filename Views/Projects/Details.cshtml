@@ -1,4 +1,4 @@
-﻿@model Project
+﻿@model BugTrackingSystem.Models.Project
 
 @using Microsoft.AspNetCore.Identity;
 @using BugTrackingSystem.Models.Enums
@@ -31,7 +31,14 @@
 }
 
 
-
+<style>
+    .icon-button {
+        background: none;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+    }
+</style>
 <div class="row draggable-cards" id="draggable-area">
 
     @* Project Description *@
@@ -67,12 +74,18 @@
     <div class="col-md-4 col-sm-12">
         <div class="card card-hover">
             <div class="card-header bg-info">
-                <h4 class="mb-0 text-white">Info</h4>
+                <h4 class="mb-0 text-white">
+                    Info   <a asp-controller="Projects" asp-action="Edit" asp-route-id="@Model.Id" class="icon-button">
+                        <i class="mdi mdi-pencil" style="color: black;"></i>
+                    </a>
+
+                </h4>
+             
             </div>
             <div class="card-body">
                 <ul class="list-unstyled basic-list">
-                    <li class="pb-2"><strong>Start Date:</strong> <span>@Model.StartDate.ToString("dd/MM/yyyy")</span></li>
-                    <li class="pb-2"><strong>Deadline:</strong> <span>@Model.EndDate.ToString("dd/MM/yyyy")</span></li>
+                    <li class="pb-2"><strong>Start Date:</strong> <span>@Model.StartDate.ToString("MMM dd, yyyy")</span></li>
+                    <li class="pb-2"><strong>Deadline:</strong> <span>@Model.EndDate.ToString("MMM dd, yyyy")</span></li>
                     <li class="pb-2"><strong>Priority:</strong> <span>@Model.ProjectPriority?.Name</span></li>
                     @if (today < end && today >= start)
                     {
@@ -136,7 +149,7 @@
                                 {
                                     <p>The ticket <b>@history.PropertyName</b> was edited</p>
                                     <p>@($"Previous {history.PropertyName}: ") <span style="color:red">@history.OldValue</span></p>
-                                    <p>@($"Current {history.PropertyName} : ") <span style="color:green">@history.NewValue</span></p>
+                                    <p>@($"Current {history.PropertyName}: ") <span style="color:green">@history.NewValue</span></p>
                                 }
                             </div>
                         </div>
@@ -169,9 +182,11 @@
                 }
                 else
                 {
-                    <img src="@(_FileService.ConvertByteArrayToFile(projectManager.ImageFileData!,projectManager.ImageFileType!,DefaultImage.BTUserImage))"
+                    <img src="~/img/DefaultImage.png"
                          class="rounded-3 img-fluid"
+                         alt="Default User Image"
                          width="90" />
+
                     <div class="mt-n2">
 
                         <span class="badge bg-danger">Project Manager</span>

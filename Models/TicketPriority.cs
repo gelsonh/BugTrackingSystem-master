@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+
 namespace BugTrackingSystem.Models
 {
     public class TicketPriority

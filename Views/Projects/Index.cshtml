@@ -95,8 +95,6 @@
                                     <td> <a asp-action="AssignPM" asp-route-id="@project.Id">Assign PM</a></td>
                                     <td> <a asp-action="AssignProjectMembers" asp-route-id="@project.Id">Manage Team</a></td>
                                     <td></td>
-
-
                                     <td style="text-align: center;">
                                         <a asp-controller="Projects" asp-action="Details" asp-route-Id="@project.Id" class="btn waves-effect waves-light text-info custom-tooltip" data-title="Details">
                                             <i class="mdi mdi-details"></i>
@@ -125,11 +123,5 @@
 </div>
 
 
-@* <script>
-$(document).ready(function() {
-    var table = $('#myTable').DataTable();
 
-    $('input[type="search"]').attr('id', 'mySearchId');
-});
-</script> *@
 

@@ -32,6 +32,34 @@
 
 
 
+
+    <style>
+        .custom-tooltip {
+            position: relative;
+        }
+
+            .custom-tooltip::after {
+                content: attr(data-title);
+                position: absolute;
+                bottom: 100%;
+                left: 50%;
+                transform: translateX(-50%);
+                background-color: #333;
+                color: #fff;
+                padding: 5px 10px;
+                border-radius: 5px;
+                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+                white-space: nowrap;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.3s ease-in-out;
+            }
+
+            .custom-tooltip:hover::after {
+                opacity: 1;
+            }
+    </style>
+
 <div class="row">
     @*Ticket Title *@
 
@@ -182,8 +210,7 @@
                         </li>
                         <li>
                             <strong>Status:</strong>
-                            <span class="badge">@Model.TicketStatus?.Name</span>
-
+                            <span class="">@Model.TicketStatus?.Name</span>
                         </li>
                     </ul>
                 </div>
@@ -210,7 +237,7 @@
             <h5 class="card-title p-3 card-header bg-info text-white mb-0">Ticket Activity</h5>
             <div class="card-body scrollable" style="height: 598px">
                 <div class="steamline mt-0">
-                    @foreach (TicketHistory history in Model.History.OrderBy(h => h.Created))
+                    @foreach (TicketHistory history in Model.History.OrderByDescending(h => h.Created))
                     {
                         <div class="sl-item">
                             <div class="sl-left">
@@ -230,7 +257,7 @@
                             </div>
                             <div class="sl-right">
                                 <div class="d-flex align-items-center">
-                                    <h5 class="mb-0">@history.User!.FullName</h5>
+                                    <h5 class="mb-0">@history.User?.FullName</h5>
                                     <span class="sl-date ms-2">@history.Created.ToString("MMM dd, yyyy")</span>
                                 </div>
                                 <p class="mt-1">@history.Description</p>
@@ -246,7 +273,7 @@
                                 {
                                     <p>The ticket <b>@history.PropertyName</b> was edited</p>
                                     <p>@($"Previous {history.PropertyName}: ") <span style="color:red">@history.OldValue</span></p>
-                                    <p>@($"Current {history.PropertyName} : ") <span style="color:green">@history.NewValue</span></p>
+                                    <p>@($"Current {history.PropertyName}: ") <span style="color:green">@history.NewValue</span></p>
                                 }
                             </div>
                         </div>
@@ -260,32 +287,7 @@
 </div>
 
 
-<style>
-    .custom-tooltip {
-        position: relative;
-    }
 
-        .custom-tooltip::after {
-            content: attr(data-title);
-            position: absolute;
-            bottom: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #333;
-            color: #fff;
-            padding: 5px 10px;
-            border-radius: 5px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-            white-space: nowrap;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease-in-out;
-        }
-
-        .custom-tooltip:hover::after {
-            opacity: 1;
-        }
-</style>
 
 
 

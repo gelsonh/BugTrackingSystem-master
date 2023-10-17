@@ -90,7 +90,7 @@ namespace BugTrackingSystem.Services
             if (!string.IsNullOrWhiteSpace(file))
             {
                 fileImage = Path.GetExtension(file).Replace(".", "");
-                return $"/img/content-type/{fileImage}.png";
+                return $"/img/content-type/png/{fileImage}.png";
             }
             return fileImage;
         }

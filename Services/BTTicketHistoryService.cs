@@ -24,7 +24,7 @@ namespace BugTrackingSystem.Services
         public async Task AddHistoryAsync(Ticket? oldTicket, Ticket? newTicket, string? userId)
         {
             // NEW TICKET HAS BEEN ADDED
-            if (oldTicket != null && newTicket != null)
+            if (oldTicket == null && newTicket != null)
             {
                 TicketHistory history = new()
                 {
@@ -82,58 +82,78 @@ namespace BugTrackingSystem.Services
                     await _context.TicketHistories.AddAsync(history);
                 }
 
-                //Check Ticket Priority
+                // Check Ticket Priority
                 if (oldTicket?.TicketPriorityId != newTicket?.TicketPriorityId)
                 {
-                    TicketHistory? history = new()
+                    TicketPriority? oldTicketPriority = await _context.TicketPriorities.FindAsync(oldTicket?.TicketPriorityId);
+                    TicketPriority? newTicketPriority = await _context.TicketPriorities.FindAsync(newTicket?.TicketPriorityId);
+
+                    if (oldTicketPriority != null && newTicketPriority != null)
                     {
-                        TicketId = newTicket!.Id,
-                        PropertyName = "TicketPriority",
-                        OldValue = oldTicket?.TicketPriority?.Name,
-                        NewValue = newTicket?.TicketPriority?.Name,
-
-                        Created = DateTime.UtcNow,
-                        UserId = userId,
-                        Description = $"New ticket priority: {newTicket?.TicketPriority?.Name}"
-                    };
-                    await _context.TicketHistories.AddAsync(history);
-                }
-
-                //Check Ticket Status
-                if (oldTicket?.TicketStatusId != newTicket?.TicketStatusId)
-                {
-                    TicketHistory? history = new()
-                    {
-                        TicketId = newTicket!.Id,
-
-                        PropertyName = "TicketStatus",
-                        OldValue = oldTicket?.TicketStatus?.Name,
-                        NewValue = newTicket?.TicketStatus?.Name,
-                        Created = DateTime.UtcNow,
-                        UserId = userId,
-                        Description = $"New ticket Status: {newTicket?.TicketStatus?.Name}"
-                    };
-                    await _context.TicketHistories.AddAsync(history);
-                }
-
-                //Check Ticket Type
-                if (oldTicket?.TicketTypeId != newTicket?.TicketTypeId)
-                {
-                    if (oldTicket?.TicketType != null && newTicket?.TicketType != null)
-                    {
-                        TicketHistory? history = new()
+                        TicketHistory history = new()
                         {
                             TicketId = newTicket!.Id,
-                            PropertyName = "TicketTypeId",
-                            OldValue = oldTicket.TicketType.Name,
-                            NewValue = newTicket.TicketType.Name,
+                            PropertyName = "Ticket Priority",
+                            OldValue = oldTicketPriority.Name,
+                            NewValue = newTicketPriority.Name,
                             Created = DateTime.UtcNow,
                             UserId = userId,
-                            Description = $"New ticket Type: {newTicket.TicketType.Name}"
+                            Description = $"New ticket priority: {newTicketPriority.Name}"
                         };
                         await _context.TicketHistories.AddAsync(history);
                     }
                 }
+
+
+                // Check Ticket Status
+                if (oldTicket?.TicketStatusId != newTicket?.TicketStatusId)
+                {
+                    // Recuperar el objeto TicketStatus y asignarlo a oldTicket y newTicket
+                    TicketStatus? oldTicketStatus = await _context.TicketStatus.FindAsync(oldTicket?.TicketStatusId);
+                    TicketStatus? newTicketStatus = await _context.TicketStatus.FindAsync(newTicket?.TicketStatusId);
+
+                    if (oldTicketStatus != null && newTicketStatus != null)
+                    {
+                        TicketHistory history = new()
+                        {
+                            TicketId = newTicket!.Id,
+                            PropertyName = "Ticket Status",
+                            OldValue = oldTicketStatus.Name,
+                            NewValue = newTicketStatus.Name,
+                            Created = DateTime.UtcNow,
+                            UserId = userId,
+                            Description = $"New ticket Status: {newTicketStatus.Name}"
+                        };
+                        await _context.TicketHistories.AddAsync(history);
+                    }
+                }
+
+
+
+                //Check Ticket Type
+                if (oldTicket?.TicketTypeId != newTicket?.TicketTypeId)
+                {
+                    // Recuperar los objetos TicketType y asignarlos a oldTicket y newTicket
+                    TicketType? oldTicketType = _context.TicketTypes.Find(oldTicket?.TicketTypeId);
+                    TicketType? newTicketType = _context.TicketTypes.Find(newTicket?.TicketTypeId);
+
+                    if (oldTicketType != null && newTicketType != null)
+                    {
+                        TicketHistory? history = new()
+                        {
+                            TicketId = newTicket!.Id,
+                            PropertyName = "Ticket Type",
+                            OldValue = oldTicketType.Name,
+                            NewValue = newTicketType.Name,
+                            Created = DateTime.UtcNow,
+                            UserId = userId,
+                            Description = $"New ticket Type: {newTicketType.Name}"
+                        };
+                        await _context.TicketHistories.AddAsync(history);
+                    }
+                }
+
+
 
 
                 //Check Ticket Developer
@@ -251,6 +271,35 @@ namespace BugTrackingSystem.Services
             }
         }
 
+     
+
+
         #endregion    
     }
 }
+//public async Task AddDeveloperAssignedHistoryAsync(Ticket oldTicket, Ticket newTicket, string userId)
+//{
+//    if (oldTicket.DeveloperUserId != newTicket.DeveloperUserId)
+//    {
+//        TicketHistory history = new()
+//        {
+//            TicketId = newTicket.Id,
+//            PropertyName = "DeveloperUserId",
+//            OldValue = oldTicket.DeveloperUserId,
+//            NewValue = newTicket.DeveloperUserId,
+//            Created = DateTime.UtcNow,
+//            UserId = userId,
+//            Description = "Developer assigned to the ticket"
+//        };
+
+//        try
+//        {
+//            await _context.TicketHistories.AddAsync(history);
+//            await _context.SaveChangesAsync();
+//        }
+//        catch (Exception)
+//        {
+//            throw;
+//        }
+//    }
+//}
