@@ -29,7 +29,6 @@
 <!-- needed css -->
 <link href="~/dist/css/style.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="~/dist/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css">
-<link rel="stylesheet" href="~/dist/libs/morris.js/morris.css">
 
 
 
@@ -153,7 +152,7 @@
 
 
         @* List Members *@
-        <div class="col-md-6 col-lg-6">
+        <div class="col-lg-6">
             <div class="card card-hover">
                 <h5 class="card-title card-header p-3 mb-0">Members</h5>
                 <div class="p-3">
@@ -356,7 +355,7 @@
         </div>
 
         @* Tickets Table *@
-        <div class="col-md-8 col-lg-8 mt-4">
+        <div class="col-md-12 col-lg-12 mt-4">
             <div class="card card-hover">
                 <div class="card-body">
                     <h4 class=" d-flex">
@@ -433,22 +432,8 @@
             </div>
         </div>
 
-        @* Tickets Chart *@
-        <div class="col-lg-4">
-            <div class="card">
-                <div class="title-part-padding border-bottom">
-                    <h4 class="card-title mb-0">Donut Chart</h4>
-                </div>
-                <div class="card-body">
-                    <div id="morrisTicketPriority"></div> <!-- Cambiado a "morrisTicketPriority" -->
-                    <div id="legend"></div> <!-- Contenedor para la leyenda -->
-                </div>
-            </div>
-        </div>
-
-    </div>
-</div>
-
+       
+    
 
 
 
@@ -541,75 +526,9 @@
     });
 </script>
 
-@* Morris Donut Chart *@
- <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script> 
-
-<script>
-    @functions {
-        public BugTrackingSystem.Models.Enums.BTTicketPriorities MapToBTTicketPriority(BugTrackingSystem.Models.TicketPriority ticketPriority)
-        {
-            switch (ticketPriority?.Name)
-            {
-                case "Low":
-                    return BugTrackingSystem.Models.Enums.BTTicketPriorities.Low;
-                case "Medium":
-                    return BugTrackingSystem.Models.Enums.BTTicketPriorities.Medium;
-                case "High":
-                    return BugTrackingSystem.Models.Enums.BTTicketPriorities.High;
-                case "Urgent":
-                    return BugTrackingSystem.Models.Enums.BTTicketPriorities.Urgent;
-                default:
-                    return BugTrackingSystem.Models.Enums.BTTicketPriorities.Low; // Valor predeterminado
-            }
-        }
-    }
-
-        var morrisDonutData = [
-        {
-            label: "Low",
-            value: @Model.Tickets.Where(t => MapToBTTicketPriority(t.TicketPriority) == BugTrackingSystem.Models.Enums.BTTicketPriorities.Low).Count()
-            },
-        {
-            label: "Medium",
-            value: @Model.Tickets.Where(t => MapToBTTicketPriority(t.TicketPriority) == BugTrackingSystem.Models.Enums.BTTicketPriorities.Medium).Count()
-            },
-        {
-            label: "High",
-            value: @Model.Tickets.Where(t => MapToBTTicketPriority(t.TicketPriority) == BugTrackingSystem.Models.Enums.BTTicketPriorities.High).Count()
-            },
-        {
-            label: "Urgent",
-            value: @Model.Tickets.Where(t => MapToBTTicketPriority(t.TicketPriority) == BugTrackingSystem.Models.Enums.BTTicketPriorities.Urgent).Count()
-            }
-    ];
 
 
 
-    /*
-    Morris: Donut
-    */
-    $(document).ready(function () {
-        if ($('#morrisTicketPriority').get(0)) {
-            var donutChart = Morris.Donut({
-                // Configuración del gráfico
-                element: 'morrisTicketPriority',
-                data: morrisDonutData,
-                colors: ['#0088cc', '#734ba9', '#E36159', '#ff993b']
-            });
-
-            donutChart.options.data.forEach(function (label, i) {
-                var legendItem = $('<span></span>').text(label['label'] + ": " + label['value']).prepend('<span>&nbsp;</span>');
-                legendItem.find('span')
-                    .css('backgroundColor', donutChart.options.colors[i])
-                    .css('width', '20px')
-                    .css('display', 'inline-block')
-                    .css('margin', '10px');
-                $('#legend').append(legendItem)
-            });
-        };
-    });
-</script>
 
 
 
