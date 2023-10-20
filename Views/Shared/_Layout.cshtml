@@ -38,14 +38,15 @@
     <link rel="stylesheet" href="~/dist/libs/morris.js/morris.css">
     <link rel="stylesheet" href="~/dist/libs/quill/dist/quill.snow.css">
 
+    @*     <style>
 
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    .navbar-logo-image {
+    max-width: 100%;
+    height: auto;
+    }
+    </style> *@
+
 </head>
 
 <body>
@@ -101,30 +102,33 @@
                     </a>
                     <a class="navbar-brand" asp-action="Dashboard" asp-controller="Home">
                         <!-- Logo icon -->
-                        <b class="logo-icon">
-                            <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
+                        <b class="logo-icon navbar-logo-container">
                             <!-- Dark Logo icon -->
-                            <img src="../../assets/images/logos/logo-icon.png"
+                            <img src="~/favicon/LogoFavicon.png"
                                  alt="homepage"
-                                 class="dark-logo" />
+                                 class="dark-logo navbar-logo-image"
+                                 style="width: 40px; height: 40px; filter: invert(100%);" />
                             <!-- Light Logo icon -->
-                            <img src="../../assets/images/logos/logo-light-icon.png"
+                            <img src="~/favicon/LogoFavicon.png"
                                  alt="homepage"
-                                 class="light-logo" />
+                                 class="light-logo navbar-logo-image"
+                                 style="width: 40px; height: 40px; filter: invert(100%);" />
                         </b>
                         <!--End Logo icon -->
                         <!-- Logo text -->
-                        <span class="logo-text">
+                     @*    <span class="logo-text" style="position: relative;">
                             <!-- dark Logo text -->
-                            <img src="../../assets/images/logos/logo-text.png"
+                            <img src="~/assets/images/logos/LogoBTSText.png"
                                  alt="homepage"
-                                 class="dark-logo" />
+                                 class="dark-logo " />
                             <!-- Light Logo text -->
-                            <img src="../../assets/images/logos/logo-light-text.png"
+                            <img src="~/assets/images/logos/LogoBTSText.png"
                                  class="light-logo"
-                                 alt="homepage" />
-                        </span>
+                                 alt="homepage " />
+                        </span> *@
                     </a>
+
+
                     <!-- ============================================================== -->
                     <!-- End Logo -->
                     <!-- ============================================================== -->
@@ -395,7 +399,7 @@
 
     <!-- Otros scripts -->
     <!-- Scripts de Morris.js -->
-@*     <script src="~/dist/libs/raphael/raphael.min.js"></script>
+    @*     <script src="~/dist/libs/raphael/raphael.min.js"></script>
     <script src="~/dist/libs/morris.js/morris.min.js"></script>
     <script src="~/dist/js/pages/morris/morris-data.js"></script> *@
     <!-- ... -->
