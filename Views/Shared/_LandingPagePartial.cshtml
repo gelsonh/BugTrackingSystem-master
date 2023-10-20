@@ -1,15 +1,10 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html lang="en">
 <head>
 
-    <title>Digital Trend HTML Template</title>
-    <!--
+    <title>Bug tracking System</title>
 
-    DIGITAL TREND
-
-    https://templatemo.com/tm-538-digital-trend
-
-    -->
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta name="description" content="">
@@ -17,89 +12,242 @@
     <meta name="author" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    <!-- Favicon icon -->
-    <link rel="icon"
-          type="image/png"
-          sizes="16x16"
-          href="~/favicon/LogoFavicon.png" />
 
-
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon/LogoFavicon.png" />
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <link rel="stylesheet" href="css/aos.css">
-    <link rel="stylesheet" href="~/css/templatemo-digital-trend.css" />
+    <link rel="stylesheet" href="css/templatemo-digital-trend.css" />
     <link rel="stylesheet" href="css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 
-    <!-- MAIN CSS -->
-    <link rel="stylesheet" href="css/templatemo-digital-trend.css">
+    <style>
+        .center-button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin-top: 20px; /* Ajusta el margen superior según sea necesario */
+        }
 
+        /* Aplicar sombra a las imágenes sin hover */
+        .image-with-shadow {
+            box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+            transition: box-shadow 0.3s ease-in-out; /* Transición suave */
+        }
+
+            /* Aplicar sombra adicional al pasar el cursor */
+            .image-with-shadow:hover {
+                box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset, 0 0 10px rgba(0, 0, 0, 0.3);
+            }
+
+        /* Aplicar dimensiones más pequeñas a las imágenes con clase "img-sm" */
+        .img-sm {
+            max-width: 350px; /* Elige el ancho máximo que desees */
+            max-height: auto; /* Mantén la relación de aspecto original */
+        }
+    </style>
 </head>
 <body>
 
 
-
     <!-- HERO -->
-    <section class="hero hero-bg d-flex justify-content-center align-items-center">
+    <section class="hero  d-flex justify-content-center align-items-center  section-page">
         <div class="container">
             <div class="row">
-
                 <div class="col-lg-6 col-md-10 col-12 d-flex flex-column justify-content-center align-items-center">
                     <div class="hero-text">
-
-                        <h1 class="text-white" data-aos="fade-up">Bug Tracking System</h1>
-
-                        <a asp-area="Identity" asp-page="/Account/Login" class="btn waves-effect waves-light btn-rounded btn-info text-white mt-3" data-aos="fade-up" data-aos-delay="100">Login</a>
-
+                        <h1 class="text-center  mb-3" data-aos="fade-up" style="color: #333;">Welcome</h1>
+                        <p class="mb-0" data-aos="fade-up" style="color: #333;">
+                            In the vast universe of software development, bugs are inevitable. Like stars in the night sky, they can appear anytime and anywhere. This is where a Bug Tracker comes into play.
+                            <br><br>When a bug is discovered it is logged into the Bug Tracker. This log includes details such as a description of the bug, where and when it occurs, and any other relevant details. This log is referred to as a ‘ticket’.
+                        </p>
                     </div>
                 </div>
-
                 <div class="col-lg-6 col-12">
                     <div class="hero-image" data-aos="fade-up" data-aos-delay="300">
-
-                        <img src="images/Bug fixing-pana.png" class="img-fluid" alt="working girl">
+                        <img src="images/Data extraction-cuate.png" class="img-fluid" alt="working girl">
                     </div>
                 </div>
-
             </div>
+
+            <!-- SHOW BTN -->
+            <div id="show-about" style="text-align: center; cursor: pointer;">
+                <p>Click here to learn more</p>
+                <ion-icon size="large" name="arrow-down-outline"></ion-icon>
+            </div>
+
         </div>
     </section>
 
 
     <!-- ABOUT -->
-    <section class="about section-padding pb-0" id="about">
+    <section class="about section-padding pb-0  section-page" id="about">
         <div class="container">
-            <div class="row">
-
-                <div class="col-lg-7 mx-auto col-md-10 col-12">
+            <div class="row align-items-center">
+                <!-- Primera fila -->
+                <div class="col-lg-6 col-md-6 col-12 my-5">
                     <div class="about-info">
-
-                        <h2 class="mb-4" data-aos="fade-up">the best <strong>Bug Tracker</strong> in United Stated</h2>
-
-                        <p class="mb-0" data-aos="fade-up">
-                            In the vast universe of software development, bugs are inevitable. Like stars in the night sky, they can appear anytime and anywhere. This is where a Bug Tracker comes into play. <a href="blog.html">blog</a> pages, <a href="project-detail.html">project</a> page, and <a href="contact.html">contact</a> page.
-                            <br><br>When a bug is <strong>discovered</strong> it is logged into the Bug Tracker. This log includes details such as a description of the bug, where and when it occurs, and any other relevant details. This log is referred to as a ‘ticket’.
+                        <h2>Projects at a Glance</h2>
+                        <p class="about-info p">
+                            Get a quick glance of your company's projects with our project data-table.
+                            It allows you to easily identify which projects are on track and which ones may be falling behind.
+                            You can also conveniently see each project's Project Manager and the size of their team.
                         </p>
                     </div>
-
+                </div>
+                <div class="col-lg-6 col-md-6 col-12 my-5">
                     <div class="about-image" data-aos="fade-up" data-aos-delay="200">
+                        <img src="images/ProjectIndex.png" alt="Project Index Image" class="image-with-shadow" />
 
-                        <img src="images/Data extraction-cuate.png" class="img-fluid" alt="office">
                     </div>
                 </div>
 
+
+                <!-- Segunda fila (texto e imagen opuestos) -->
+                <div class="col-lg-6 col-md-6 col-12 order-lg-2 order-md-2 order-2 my-5">
+                    <div class="about-info">
+                        <h2>Quickly Navigate Tickets</h2>
+                        <p class="about-info p">
+                            Tickets can be conveniently searched and filtered by project, status, and assignee, with all essential information presented in a well-organized table format.
+                            This streamlined ticket management system ensures efficient access to project-related data, allowing users to quickly find the information they need, which,
+                            in turn, enhances productivity and project oversight.
+                            The clear table format simplifies tracking and monitoring of tickets, promoting effective project management.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-12 order-lg-1 order-md-1 order-1 order-md-first order-md-last my-5">
+                    <div class="about-image" data-aos="fade-up" data-aos-delay="200">
+                        <img src="images/TicketIndex.png" alt="Ticket Index Image" class="image-with-shadow" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="row align-items-center">
+                <!-- Tercera fila (texto e imagen opuestos) -->
+                <div class="col-lg-6 col-md-6 col-12">
+                    <div class="about-info">
+                        <h2>Organized Ticket Information</h2>
+                        <p class="about-info p">
+                            Tickets are a great way to consolidate all the necessary information about a task.
+                            They include key details that can be edited by authorized users. With a comment section, tickets simplify communication between submitters,
+                            developers, project managers, and administrators.
+                            Moreover, tickets support file attachments for resource management, making essential files easily accessible.
+                            They also provide a transparent history, offering valuable insights into ticket activity and progress tracking.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-12 order-lg-1 order-md-1 order-2 order-md-first order-md-last my-5">
+                    <div class="about-image" data-aos="fade-up" data-aos-delay="200">
+                        <img src="images/TicketDetails.png" alt="Ticket Details Image" class="image-with-shadow" />
+                    </div>
+                </div>
+
+                <!-- Cuarta fila (texto e imagen opuestos) -->
+                <div class="col-lg-6 col-md-6 col-12 order-lg-2 order-md-2 order-2 my-5">
+                    <div class="about-info">
+                        <h2>Rich Text Editing</h2>
+                        <p class="about-info p">
+                            Utilize our feature-rich text editor while creating new tickets to craft well-structured and easily readable ticket descriptions.
+                            This empowers your project members with the flexibility to compose tickets for tasks of all sizes,
+                            ensuring that the information remains comprehensible and well-organized, enhancing overall project efficiency.
+
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-12 order-lg-1 order-md-1 order-1 order-md-first order-md-last my-5">
+                    <div class="about-image" data-aos="fade-up" data-aos-delay="200">
+                        <img src="images/CreateTicket.png" alt="Ticket Create Image" class="image-with-shadow" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="row align-items-center">
+                <!-- Quinta fila (texto e imagen opuestos) -->
+                <div class="col-lg-6 col-md-6 col-12">
+                    <div class="about-info">
+                        <h2>User Notifications</h2>
+                        <p class="about-info p">
+                            Our notification system plays a pivotal role in keeping your team well-informed about essential project updates, ensuring they stay in the loop and never miss critical information.
+                            This proactive approach to communication enhances collaboration and helps your team stay on top of important developments, ultimately contributing to the success of your projects.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-12 order-lg-1 order-md-1 order-2 order-md-first order-md-last my-5">
+                    <div class="about-image" data-aos="fade-up" data-aos-delay="200">
+                        <img src="images/Notification.png" alt="Notification Image" class="image-with-shadow" />
+                    </div>
+                </div>
+            </div>
+            <hr>
+        </div>
+    </section>
+
+
+    <!-- LOGIN -->
+    <section class="login section section-page">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="text-center">
+                        <h2>Try it out today!</h2>
+                        <p>Are you ready to give it a try? Register your company today and start inviting your team members to collaborate on projects.</p>
+                        <p>If you're unsure whether our system is the right fit for your needs, head over to our login page and sign in with a demo account. This will allow you to test out our system and see how it works in action.</p>
+                        <div class="center-button">
+                            <div class="btn btn-secondary">
+                                <a asp-area="Identity" asp-page="/Account/Login" class="text-white"> Log In</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
 
 
-    <!-- SCRIPTS -->
+    <!-- FOOTER -->
+    <footer class="footer text-center">
+        All Rights Reserved by Bug Tracking System.
+    </footer>
+
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/aos.js"></script>
     <script src="js/owl.carousel.min.js"></script>
     <script src="js/smoothscroll.js"></script>
     <script src="js/custom.js"></script>
+    <script src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+
+
+    <script>
+        $(document).ready(function () {
+            var aboutSection = $("#about");
+            var loginSection = $(".login");
+            var showAbout = $("#show-about");
+
+            // Ocultar la sección "ABOUT" & "LOGIN" inicialmente
+            aboutSection.hide();
+            loginSection.hide();
+
+            // Agregar un controlador de clic al icono "Show About"
+            showAbout.on("click", function () {
+                // Usar animate() para una animación suave con una duración de 300 ms
+                aboutSection.slideToggle(300);
+                loginSection.slideToggle(300);
+            });
+        });
+    </script>
+
+
+
+
+
 
 </body>
 </html>
+
+
+
+

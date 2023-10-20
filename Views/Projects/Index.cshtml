@@ -18,10 +18,7 @@
     </nav>
 }
 
-<p>
-    <a asp-action="Create">Create New Project</a>
 
-</p>
 
 
 <style>
@@ -56,13 +53,19 @@
 <!-- order table -->
 <div class="row">
     <div class="col-12">
-        <div class="card">
+        <div class="card card-hover">
 
             <div class="card-body">
-                <h4 class=" mb-3 d-flex">
-                   All Projects:
-                    <span class="fw-light text-primary px-2">@(ViewBag.ProjectCount ?? 0)</span>
-                </h4>
+                <div class="d-flex justify-content-between mb-3">
+                    <h4 class="mb-0">
+                        All Projects:
+                        <span class="fw-light text-primary px-2">@(ViewBag.ProjectCount ?? 0)</span>
+                    </h4>
+                    <p class="mb-0">
+                        <a asp-action="Create">Create New Project</a>
+                    </p>
+                </div>
+
                 <div class="table-responsive">
                     <table id="myTable"
                            class="table table-striped table-bordered display"
