@@ -53,15 +53,14 @@
             <a asp-action="index" asp-controller="Projects">
                 <div class="card card-hover">
                     <div class="card-body">
-                        <h5 class="card-title">Active Projects</h5>
+                        <h5 class="card-title">Total Projects</h5>
                         <div class="d-flex align-items-center mb-2 mt-4">
                             <h2 class="mb-0 display-5">
-                                <i class="icon-people text-info"></i>
+                                <i class="icon-folder-alt text-danger"></i>
                             </h2>
                             <div class="ms-auto">
                                 <h2 class="mb-0 display-6">
-                                    <span class="fw-normal">@Model.Projects.Where(p => p.StartDate < DateTime.Now && p.EndDate > DateTime.Now).Count()</span>
-
+                                    <span class="fw-normal">@Model.Projects.Count</span>
                                 </h2>
                             </div>
                         </div>
@@ -69,6 +68,7 @@
                 </div>
             </a>
         </div>
+
         <div class="col-md-6 col-lg-3">
             <a asp-action="index" asp-controller="Tickets">
                 <div class="card card-hover">
@@ -89,24 +89,23 @@
             </a>
         </div>
         <div class="col-md-6 col-lg-3">
-            <a asp-action="UnassignedTickets" asp-controller="Tickets">
-                <div class="card card-hover">
-                    <div class="card-body">
-                        <h5 class="card-title">Unassigned Tickets</h5>
-                        <div class="d-flex align-items-center mb-2 mt-4">
-                            <h2 class="mb-0 display-5">
-                                <i class="icon-folder-alt text-danger"></i>
+            <div class="card card-hover">
+                <div class="card-body">
+                    <h5 class="card-title">Members</h5>
+                    <div class="d-flex align-items-center mb-2 mt-4">
+                        <h2 class="mb-0 display-5">
+                            <i class="icon-people text-info"></i>
+                        </h2>
+                        <div class="ms-auto">
+                            <h2 class="mb-0 display-6">
+                                <span class="fw-normal">@Model.Members.Count</span>
                             </h2>
-                            <div class="ms-auto">
-                                <h2 class="mb-0 display-6">
-                                    <span class="fw-normal">@Model.Tickets.Where(t => string.IsNullOrEmpty(t.DeveloperUserId)).Count()</span>
-                                </h2>
-                            </div>
                         </div>
                     </div>
                 </div>
-            </a>
+            </div>
         </div>
+
         <div class="col-md-6 col-lg-3">
             <div class="card card-hover">
                 <div class="card-body">

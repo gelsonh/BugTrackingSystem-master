@@ -1,4 +1,4 @@
-@font-face {
+/*@font-face {
     font-family: 'Plain-Regular';
     src: url('../fonts/Plain-Regular.woff2') format('woff2'), url('../fonts/Plain-Regular.woff') format('woff');
     font-weight: normal;
@@ -17,7 +17,7 @@
     src: url('../fonts/Plain-Bold.woff2') format('woff2'), url('../fonts/Plain-Bold.woff') format('woff');
     font-weight: bold;
     font-style: normal;
-}
+}*/
 
 :root {
     --primary-color: #3A4655; /* RGB: 58–70–85 */
@@ -714,6 +714,7 @@ a {
 
     h2 {
         font-size: 28px;
+        text-align: center;
     }
 
     h3 {
@@ -737,5 +738,15 @@ a {
 
     .footer-link li {
         margin-left: 0;
+
+    }
+
+    .about-info {
+        order: 2;
+        text-align: center;
+    }
+
+    .about-image {
+        order: 1;
     }
 }
