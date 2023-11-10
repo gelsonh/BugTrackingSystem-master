@@ -176,7 +176,7 @@ namespace BugTrackingSystem.Controllers
             return RedirectToAction("Details", new { id = ticketAttachment.TicketId, message = statusMessage });
         }
 
-        [Authorize(Roles = "Admin, ProjectManager")]
+        [Authorize(Roles = "Admin, ProjectManager, DemoAdmin")]
         [HttpGet]
         public async Task<IActionResult> AssignDeveloper(int? id)
         {
