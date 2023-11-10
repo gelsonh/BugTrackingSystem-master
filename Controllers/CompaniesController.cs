@@ -37,7 +37,7 @@ namespace BugTrackingSystem.Controllers
             _rolesService = rolesService;
         }
 
-        //// GET: Companies
+        // GET: Companies
         //public async Task<IActionResult> Index()
         //{
         //      return _context.Companies != null ? 

@@ -6,7 +6,6 @@ using BugTrackingSystem.Models;
 using Microsoft.AspNetCore.Identity;
 using BugTrackingSystem.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
-using System.Diagnostics;
 using BugTrackingSystem.Models.ViewModels;
 using BugTrackingSystem.Models.Enums;
 
@@ -64,6 +63,9 @@ namespace BugTrackingSystem.Controllers
 
             // Puedes pasar este número a la vista a través de ViewBag o ViewData
             ViewBag.ProjectCount = projectCount;
+
+            var today = DateTime.Now;  // Obtener la fecha actual
+            ViewBag.Today = today;
 
             return View(projects);
         }

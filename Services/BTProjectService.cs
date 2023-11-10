@@ -122,9 +122,6 @@ namespace BugTrackingSystem.Services
 
 
 
-
-
-
         public async Task<bool> AddProjectManagerAsync(string? userId, int? projectId)
         {
             try
@@ -256,8 +253,6 @@ namespace BugTrackingSystem.Services
                 throw;
             }
         }
-
-
 
         public async Task<BTUser> GetProjectManagerAsync(int? projectId)
         {

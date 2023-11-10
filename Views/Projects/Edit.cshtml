@@ -17,50 +17,61 @@
     </nav>
 }
 
-<h4>Project</h4>
-<hr />
+
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <input type="hidden" asp-for="Created" />
-            <input type="hidden" asp-for="CompanyId" />
-            <input type="hidden" asp-for="Archived" />
-            <input type="hidden" asp-for="Tickets" />
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header bg-info">
+                <h4 class="mb-0 text-white">Edit Project</h4>
+            </div>
+            <form asp-action="Edit" method="post" class="card-body">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="Created" />
+                <input type="hidden" asp-for="CompanyId" />
+                <input type="hidden" asp-for="Archived" />
+                <input type="hidden" asp-for="Tickets" />
 
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-        
-        
-            <div class="form-group">
-                <label asp-for="ProjectPriorityId" class="control-label">Project Priority</label>
-                <select asp-for="ProjectPriorityId" class="form-control" asp-items="ViewBag.ProjectPriorityId"></select>
-                <span asp-validation-for="ProjectPriorityId" class="text-danger"></span>
-            </div>
+                <div class="row pt-3">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Name" class="control-label">Project Name</label>
+                            <input asp-for="Name" class="form-control" placeholder="Enter project name" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group has-danger">
+                            <label asp-for="ProjectPriorityId" class="control-label">Project Priority</label>
+                            <select asp-for="ProjectPriorityId" class="form-control custom-select" asp-items="ViewBag.ProjectPriorityId">
+                                <option value="">Select project priority</option>
+                            </select>
+                            <small asp-validation-for="ProjectPriorityId" class="form-control-feedback text-danger"></small>
+                        </div>
+                    </div>
+                </div>
 
-        @*     <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Archived" /> @Html.DisplayNameFor(model => model.Archived)
-                </label>
-            </div> *@
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+                <div class="form-group mt-3">
+                    <label asp-for="Description" class="control-label">Description</label>
+                    <textarea asp-for="Description" class="form-control" rows="3" placeholder="Enter project description"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <div class="form-actions">
+                    <div class="card-body border-top">
+                        <button type="submit" class="btn btn-success rounded-pill px-4">
+                            <div class="d-flex align-items-center">
+                                <i data-feather="save" class="feather-sm me-1 fill-icon"></i>
+                                Save
+                            </div>
+                        </button>
+                        <a asp-action="Index" class="btn btn-danger rounded-pill px-4 ms-2 text-white">Cancel</a>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 

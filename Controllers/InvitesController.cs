@@ -162,7 +162,7 @@ namespace BugTrackingSystem.Controllers
                     // Add Invite service method for "AddNewInviteAsync"
                     await _inviteService.AddNewInviteAsync(invite);
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Dashboard", "Home");
 
                     // TODO: Possibly use SWAL message
 
@@ -176,7 +176,7 @@ namespace BugTrackingSystem.Controllers
             }
 
             ViewData["ProjectId"] = new SelectList(await _projectService.GetAllProjectsByCompanyIdAsync(companyId), "Id", "Name");
-            return View(invite);
+            return View();
         }
 
 

@@ -66,9 +66,9 @@ namespace BugTrackingSystem.Controllers
             model.Tickets = await _ticketService.GetAllTicketsByCompanyIdAsync(companyId);
             model.Members = await _companyService.GetMembersAsync(companyId);
 
-            // Obtén las últimas 4 notificaciones
+          
             var applicationDbContext = _context.Notifications.Include(n => n.NotificationType).Include(n => n.Project).Include(n => n.Recipient).Include(n => n.Sender).Include(n => n.Ticket).OrderByDescending(n => n.Created);
-            model.Notifications = await applicationDbContext.Take(7).ToListAsync();
+            model.Notifications = await applicationDbContext.Take(6).ToListAsync();
 
 
             return View(model);
@@ -112,10 +112,5 @@ namespace BugTrackingSystem.Controllers
 
             return Json(plotlyData);
         }
-
-   
-
-
-
     }
 }

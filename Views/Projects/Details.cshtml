@@ -6,7 +6,6 @@
 
 @inject IBTProjectService _ProjectService
 @inject IBTFileService _FileService
-@inject IBTProjectService _ProjectService
 @inject IBTTicketHistoryService _TicketHistoryService
 @inject IBTNotificationService _NotificationService
 @inject IBTTicketService _TicketService
@@ -38,6 +37,8 @@
         padding: 0;
         cursor: pointer;
     }
+
+   
 </style>
 <div class="row draggable-cards" id="draggable-area">
 
@@ -285,7 +286,6 @@
 </div>
 
 
-
 <style>
     .custom-tooltip {
         position: relative;
@@ -312,6 +312,7 @@
             opacity: 1;
         }
 </style>
+
 
 <script>
     $(document).ready(function () {

@@ -22,124 +22,77 @@
 
 
 
-<style>
-    /* Estilo para la tabla */
-    .table-responsive table {
-        width: 100%;
-        border-collapse: collapse;
-    }
+<div class="container-fluid page-content me-2">
 
-        .table-responsive table th {
-            background-color: #007BFF;
-            color: white;
-            padding: 10px;
-            text-align: left;
-        }
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">User Roles</h4>
+            <h6 class="card-subtitle lh-base">
+                Manage user roles
+            </h6>
+        </div>
+        <div class="table-responsive">
+            <table class="table mb-0 ms-4 v-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th class="border-bottom border-top">User</th>
+                        <th class="border-bottom border-top ">Email</th>
+                        <th class="border-bottom border-top">Role</th>
+                        <th class="border-bottom border-top">Selected</th>
+                        <th class="border-bottom border-top"></th>
 
-        .table-responsive table td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid #e1e1e1;
-        }
-
-        .table-responsive table tr:hover {
-            background-color: #f0f0f0;
-        }
-
-    /* Estilo para el scrollbar */
-    .scrollable-select {
-        max-height: 150px; /* Altura máxima del select con scrollbar */
-        overflow-y: auto;
-    }
-
-    /* Estilo para el botón de guardado */
-    .save-button {
-        background-color: #007BFF;
-        color: white;
-        padding: 10px 15px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-        font-size: 0; /* Oculta el texto del botón */
-    }
-
-        .save-button:hover {
-            background-color: #0056b3;
-        }
-    
-</style>
-
-
-<div class="row">
-    <div class="col-lg-12 d-flex align-items-stretch">
-        <div class="card w-100 card-hover">
-       
-            <div class="table-responsive">
-                <table class="table mb-0">
-                    <thead>
-                        <tr>
-                            <th scope="col" class="border-0 text-uppercase font-weight-medium ps-4">
-                                Name
-                            </th>
-                            <th scope="col" class="border-0 text-uppercase font-weight-medium d-none d-md-table-cell d-sm-table-cell">
-                                Email
-                            </th>
-                            <th scope="col" class="border-0 text-uppercase font-weight-medium d-none d-sm-table-cell">
-                                Role
-                            </th>
-                            <th scope="col" class="border-0 text-uppercase font-weight-medium">
-                                Selected
-                            </th>
-                            <th>Manage</th>
-                        </tr>
-                    </thead>
+                    </tr>
+                </thead>
+                <tbody>
                     @foreach (var viewModel in Model)
                     {
-                        <tbody>
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <a href="javascript:void(0)"
+                                       class="btn btn-light-primary me-n2
+                                        card-hover text-primary btn-circle fs-5
+                                        d-flex align-items-center justify-content-center">                            
+                                        <i data-feather="users" class="feather-sm"></i>
+                                    </a>
+                                    <span class="ms-3 fw-normal">@viewModel.BTUser!.FullName</span>
+                                </div>
+                            </td>
+                            <td class="d-none d-md-table-cell d-sm-table-cell">
+                                <span>@viewModel.BTUser!.Email</span><br />
+                            </td>
+                            <td class="d-none d-sm-table-cell">
+                                @viewModel.CurrentRole
+                            </td>
                             <form asp-action="ManageUserRoles" method="post">
-                            <tr>
-                                <td>
-                                    <div class="ps-4 d-flex align-items-start">
-                                        <div class="ms-2">
-                                            <h5 class="font-weight-medium mb-0">
-                                                    @viewModel.BTUser!.FullName
-                                            </h5>
-                                        </div>
+                            <td>
+
+                                <input type="hidden" asp-for="@viewModel.BTUser.Id" />
+                                <div class="form-group scrollable-select">
+                                    <!-- Display user roles in a select element -->
+                                    <select class="form-select category-select" id="exampleFormControlSelect1"
+                                            asp-for="@viewModel.SelectedRoles" asp-items="@viewModel.Roles" multiple>
+                                    </select>
+                                </div>
+                            </td>
+                            <td>
+                                <button type="submit" class="btn btn-success rounded-pill ms-2">
+                                    <div class="d-flex align-items-center">
+                                        <i data-feather="save" class="feather-sm me-1 fill-icon"></i>
+                                        Save
                                     </div>
-                                </td>
-                                <td class="d-none d-md-table-cell d-sm-table-cell">
-                                    <span>@viewModel.BTUser!.Email<br /></span><br />
-                                </td>
-                                <td class="d-none d-sm-table-cell">
-                                        @viewModel.CurrentRole
-                                </td>
-                                <td>
-                                    <input type="hidden" asp-for="@viewModel.BTUser.Id" />
-                                    <div class="form-group scrollable-select">
-                                        <!-- Display user roles in a select element -->
-                                        <select class="form-select category-select" id="exampleFormControlSelect1"
-                                                asp-for="@viewModel.SelectedRoles" asp-items="@viewModel.Roles" multiple>
-                                        </select>
-                                    </div>
-                                </td>
-                                <td>
-                                    <!-- Botón de guardado con icono y tooltip -->
-                                    <button type="submit" class="save-button" data-toggle="tooltip" title="Save">
-                                        <i class="fas fa-save"></i> <!-- Icono de guardado -->
-                                    </button>
-                                </td>
-                            </tr>
+                                </button>
+                            </td>
                             </form>
-                        </tbody>
+                        </tr>
                     }
-                </table>
-            </div>
-
+                </tbody>
+            </table>
         </div>
-    </div>
-</div>
 
+    </div>
+
+</div>
 
 
 

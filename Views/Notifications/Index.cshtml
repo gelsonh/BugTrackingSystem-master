@@ -54,8 +54,8 @@
                   me-0 me-md-2
                 "
                id="note-business">
-                <i data-feather="briefcase"
-                   class="feather-sm fill-white me-0 me-md-1"></i><span class="d-none d-md-block font-weight-medium">Tickets Notifications</span>
+                <i class="fas fa-ticket-alt fill-white me-0 me-md-1"></i>
+                <span class="d-none d-md-block font-weight-medium">Tickets Notifications</span>
             </a>
         </li>
         <li class="nav-item">
@@ -71,8 +71,8 @@
                   me-0 me-md-2
                 "
                id="note-social">
-                <i data-feather="share-2"
-                   class="feather-sm fill-white me-0 me-md-1"></i><span class="d-none d-md-block font-weight-medium">Projects Notifications</span>
+                <i class="fas fa-folder fill-white me-0 me-md-1"></i>
+                <span class="d-none d-md-block font-weight-medium">Projects Notifications</span>
             </a>
         </li>
 
@@ -83,7 +83,7 @@
             @foreach (var notification in Model)
             {
                 <div class="col-md-4 single-note-item all-category">
-                    <div class="card card-body">
+                    <div class="card card-body card-hover">
                         <span class="side-stick"></span>
                         <h5 class="note-title text-truncate w-75 mb-0" data-noteHeading="Book a Ticket for Movie">
                             @notification.Title
@@ -108,10 +108,10 @@
     </div>
     <div class="tab-content">
         <div id="note-full-container" class="note-has-grid row">
-            @foreach (var notification in Model.Where(n => n.NotificationType.Name == "Ticket"))
+            @foreach (var notification in Model.Where(n => n.NotificationType.Name == "Ticket").Take(12))
             {
                 <div class="col-md-4 single-note-item note-business">
-                    <div class="card card-body">
+                    <div class="card card-body card-hover">
                         <span class="side-stick"></span>
                         <h5 class="note-title text-truncate w-75 mb-0" data-noteHeading="Book a Ticket for Movie">
                             @notification.Title
@@ -139,7 +139,7 @@
             @foreach (var notification in Model.Where(n => n.NotificationType.Name == "Project"))
             {
                 <div class="col-md-4 single-note-item note-social">
-                    <div class="card card-body">
+                    <div class="card card-body card-hover">
                         <span class="side-stick"></span>
                         <h5 class="note-title text-truncate w-75 mb-0" data-noteHeading="Book a Ticket for Movie">
                             @notification.Title
