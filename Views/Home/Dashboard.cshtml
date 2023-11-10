@@ -3,6 +3,7 @@
 @inject IBTNotificationService _BTNotificationService
 @inject IBTRolesService _BTRolesService
 @inject IBTTicketService _BTTicketService
+@inject IBTProjectService _BTProjectService
 @inject UserManager<BTUser> UserManager
 @using BugTrackingSystem.Models.Enums
 
@@ -31,17 +32,6 @@
 <link rel="stylesheet" href="~/dist/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css">
 
 
-
-<a href="javascript:void(0);">
-    @* User Info *@
-
-</a>
-@* Get The btUser FullName *@
-<strong></strong>
-
-
-
-
 @*  Dashboard *@
 <div class="row">
     <div class="col-md-6 col-lg-3">
@@ -55,7 +45,10 @@
                         </h2>
                         <div class="ms-auto">
                             <h2 class="mb-0 display-6">
-                                <span class="fw-normal">@Model.Projects?.Count</span>
+                                <span class="fw-normal">
+                                    @(Model.Projects?.Count() ?? 0)
+                                </span>
+
                             </h2>
                         </div>
                     </div>
@@ -75,7 +68,10 @@
                         </h2>
                         <div class="ms-auto">
                             <h2 class="mb-0 display-6">
-                                <span class="fw-normal">@Model.Tickets?.Count()</span>
+                                <span class="fw-normal">
+                                    @(Model.Tickets?.Count() ?? 0)
+                                </span>
+
                             </h2>
                         </div>
                     </div>
@@ -93,7 +89,10 @@
                     </h2>
                     <div class="ms-auto">
                         <h2 class="mb-0 display-6">
-                            <span class="fw-normal">@Model.Members?.Count</span>
+                            <span class="fw-normal">
+                                @(Model.Members?.Count() ?? 0)
+                            </span>
+
                         </h2>
                     </div>
                 </div>
@@ -112,11 +111,7 @@
                     <div class="ms-auto">
                         <h2 class="mb-0 display-6">
                             <span class="fw-normal">
-                                @(
-                                    Model.Projects?.Count()
-                                    + Model.Tickets?.Count()
-                                    + Model.Members?.Count()
-                                    )
+                                @(Model.Projects?.Count() + Model.Tickets?.Count() + Model.Members?.Count() ?? 0)
                             </span>
                         </h2>
                     </div>
@@ -124,6 +119,7 @@
             </div>
         </div>
     </div>
+
 </div>
 
 
@@ -139,10 +135,16 @@
             </div>
         </div>
     </div>
-</div>
+</div> 
+
+
+
+
+
+
+
 
 <div class="row">
-
 
     @* List Members *@
     <div class="col-lg-6">
@@ -181,8 +183,6 @@
             </div>
         </div>
     </div>
-
-
 
     @* Notification *@
     <div class="col-lg-6">
@@ -284,7 +284,7 @@
                     Project List
                 </h4>
                 <div class="table-responsive">
-                    <table id="myTable2"
+                    <table id="projectsTable"
                            class="table table-striped table-bordered display"
                            style="width: 100%">
                         <thead>
@@ -302,6 +302,8 @@
                         <tbody>
                             @foreach (var project in Model.Projects!)
                             {
+                                BTUser? projectManager = await _BTProjectService.GetProjectManagerAsync(project.Id);
+
                                 <tr>
 
                                     <td>
@@ -312,8 +314,33 @@
 
                                     <td>@project.EndDate.ToString("d")</td>
                                     <td>@(project.ProjectPriority != null ? project.ProjectPriority.Name : "No Priority Assigned")</td>
-                                    <td> <a asp-action="AssignPM" asp-route-id="@project.Id">Assign PM</a></td>
-                                    <td> <a asp-action="AssignProjectMembers" asp-route-id="@project.Id">Manage Team</a></td>
+                                    <td>
+                                        @if (projectManager != null)
+                                        {
+
+                                            <span>@projectManager.FullName</span>
+                                        }
+                                        else
+                                        {
+                                            <a asp-action="AssignPM" asp-route-id="@project.Id">Assign PM</a>
+                                        }
+                                    </td>
+
+                                    <td>
+                                        @if (project.Members != null && project.Members.Any())
+                                        {
+                                            <div class="text-center small">
+                                                @foreach (var member in project.Members)
+                                                {
+                                                    <div>@member.FullName</div>
+                                                }
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <a asp-action="AssignProjectMembers" asp-route-id="@project.Id">Manage Team</a>
+                                        }
+                                    </td>
                                     <td></td>
 
 
@@ -355,7 +382,7 @@
                     </h4>
                 </div>
                 <div class="table-responsive">
-                    <table id="myTable1"
+                    <table id="ticketsTable"
                            class="table table-striped table-bordered display"
                            style="width: 100%">
                         <thead>
@@ -423,9 +450,6 @@
 
 
 
-
-
-
 <!-- Bibliotecas principales -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -441,6 +465,7 @@
 <!--  Plotly Charts  -->
 <!-- Load plotly.js into the DOM -->
 <script src='https://cdn.plot.ly/plotly-2.4.2.min.js'></script>
+
 
 <script>
     $.ajax({
@@ -463,68 +488,53 @@
             alert(result.d);
         }
     });
-</script>
+</script> 
+
+
+
 
 <script>
-
     $(document).ready(function () {
-        var table = $('#myTable2').DataTable({
+        initializeDataTable('#projectsTable');
+        initializeDataTable('#ticketsTable');
+    });
+
+    function initializeDataTable(tableId) {
+        var table = $(tableId).DataTable({
             "order": [[3, "desc"]],
             "drawCallback": function (settings) {
-                $('.badge').each(function () {
-                    var status = $(this).text();
-                    if (status == 'New') {
-                        $(this).addClass('bg-light-danger text-danger font-weight-medium');
-                    } else if (status == 'Development') {
-                        $(this).addClass('bg-light-success text-success font-weight-medium');
-                    } else if (status == 'Testing') {
-                        $(this).addClass('bg-light-warning text-warning font-weight-medium');
-                    } else if (status == 'Resolved') {
-                        $(this).addClass('bg-light-info text-info font-weight-medium');
-                    } else if (status == 'Not Status') {
-                        $(this).addClass('text-info font-weight-medium');
-                    }
-                });
+                updateBadgeClasses();
             }
         });
-    });
-</script>
-<script>
 
-    $(document).ready(function () {
-        var table = $('#myTable1').DataTable({
-            "order": [[3, "desc"]],
-            "drawCallback": function (settings) {
-                $('.badge').each(function () {
-                    var status = $(this).text();
-                    if (status == 'New') {
-                        $(this).addClass('bg-light-danger text-danger font-weight-medium');
-                    } else if (status == 'Development') {
-                        $(this).addClass('bg-light-success text-success font-weight-medium');
-                    } else if (status == 'Testing') {
-                        $(this).addClass('bg-light-warning text-warning font-weight-medium');
-                    } else if (status == 'Resolved') {
-                        $(this).addClass('bg-light-info text-info font-weight-medium');
-                    } else if (status == 'Not Status') {
-                        $(this).addClass('text-info font-weight-medium');
-                    }
-                });
+        function updateBadgeClasses() {
+            $('.badge').each(function () {
+                var status = $(this).text();
+                updateBadgeClassBasedOnStatus($(this), status);
+            });
+        }
+
+        function updateBadgeClassBasedOnStatus(badge, status) {
+            switch (status) {
+                case 'New':
+                    badge.addClass('bg-light-danger text-danger font-weight-medium');
+                    break;
+                case 'Development':
+                    badge.addClass('bg-light-success text-success font-weight-medium');
+                    break;
+                case 'Testing':
+                    badge.addClass('bg-light-warning text-warning font-weight-medium');
+                    break;
+                case 'Resolved':
+                    badge.addClass('bg-light-info text-info font-weight-medium');
+                    break;
+                case 'Not Status':
+                    badge.addClass('text-info font-weight-medium');
+                    break;
             }
-        });
-    });
+        }
+    }
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

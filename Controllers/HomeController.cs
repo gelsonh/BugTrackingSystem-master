@@ -62,19 +62,17 @@ namespace BugTrackingSystem.Controllers
             var companyId = await _companyService.GetCompanyIdByUserIdAsync(currentUser!.Id);
 
             model.Company = await _companyService.GetCompanyInfoAsync(companyId);
-            model.Projects = await _projectService.GetAllProjectsByCompanyIdAsync(companyId);
+            model.Projects = await _projectService.GetAllProjectsByCompanyIdAsync(companyId);                                                   
             model.Tickets = await _ticketService.GetAllTicketsByCompanyIdAsync(companyId);
             model.Members = await _companyService.GetMembersAsync(companyId);
 
-          
+        
             var applicationDbContext = _context.Notifications.Include(n => n.NotificationType).Include(n => n.Project).Include(n => n.Recipient).Include(n => n.Sender).Include(n => n.Ticket).OrderByDescending(n => n.Created);
             model.Notifications = await applicationDbContext.Take(6).ToListAsync();
 
 
             return View(model);
         }
-
-
 
         [HttpPost]
         public async Task<JsonResult> PlotlyBarChart()

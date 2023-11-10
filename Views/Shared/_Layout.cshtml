@@ -37,8 +37,6 @@
     <link rel="stylesheet" href="~/dist/libs/morris.js/morris.css">
     <link rel="stylesheet" href="~/dist/libs/quill/dist/quill.snow.css">
 
-
-
 </head>
 
 <body>
@@ -152,13 +150,9 @@
                                 <i class="mdi mdi-menu fs-5"></i>
                             </a>
                         </li>
-
-
                     </ul>
 
-
                     <partial name="_LoginPartial" />
-
 
                 </div>
             </nav>
@@ -187,38 +181,9 @@
                                     <span class="hide-menu">Home</span>
                                 </a>
 
-                            </li>
-
-                            @* Company *@
-
-                            <li class="sidebar-item">
-                                <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
-                                    <i class="mdi mdi-city"></i>
-                                    <span class="hide-menu">Company</span>
-                                </a>
-                                <ul aria-expanded="false" class="collapse first-level">
-                                    <li class="sidebar-item">
-                                        <a asp-action="Create" asp-controller="Invites" class="sidebar-link">
-                                            <i class="mdi mdi-toggle-switch"></i>
-                                            <span class="hide-menu"> Company Invite </span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-
-
-                            @* Manage Roles *@
-
-                            <li class="sidebar-item">
-                                <a class="sidebar-link  waves-effect waves-dark" asp-area="" asp-controller="Companies" asp-action="ManageUserRoles" aria-expanded="false">
-                                    <i class="mdi mdi-pencil-box"></i>
-                                    <span class="hide-menu">Manage Roles</span>
-                                </a>
-                            </li>
-
+                            </li>                        
 
                             @* Projects *@
-
                             <li class="sidebar-item">
                                 <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
                                     <i class="mdi mdi-folder-multiple"></i>
@@ -254,9 +219,7 @@
                                 </ul>
                             </li>
 
-
                             @* Tickets *@
-
                             <li class="sidebar-item">
                                 <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
                                     <i class="mdi mdi-ticket"></i>
@@ -291,9 +254,31 @@
                                 </ul>
                             </li>
 
+                            @* Company *@
+                            <li class="sidebar-item">
+                                <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
+                                    <i class="mdi mdi-city"></i>
+                                    <span class="hide-menu">Company</span>
+                                </a>
+                                <ul aria-expanded="false" class="collapse first-level">
+                                    <li class="sidebar-item">
+                                        <a asp-action="Create" asp-controller="Invites" class="sidebar-link">
+                                            <i class="mdi mdi-toggle-switch"></i>
+                                            <span class="hide-menu"> Company Invite </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            @* Manage Roles *@
+                            <li class="sidebar-item">
+                                <a class="sidebar-link  waves-effect waves-dark" asp-area="" asp-controller="Companies" asp-action="ManageUserRoles" aria-expanded="false">
+                                    <i class="mdi mdi-pencil-box"></i>
+                                    <span class="hide-menu">Manage Roles</span>
+                                </a>
+                            </li>
 
                             @* Notifications *@
-
                             <li class="sidebar-item">
                                 <a class="sidebar-link waves-effect waves-dark" asp-area="" asp-controller="Notifications" asp-action="index" aria-expanded="false">
                                     <i class="mdi mdi-notification-clear-all"></i>
@@ -302,9 +287,7 @@
 
                             </li>
 
-
                             <li class="devider"></li>
-
 
                         }
                     </ul>
@@ -388,6 +371,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.7.20/c3.min.js"></script>
     <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <script src="~/dist/libs/prismjs/prism.js"></script>
+
+   
+
 
 
     <!-- Otros scripts -->
