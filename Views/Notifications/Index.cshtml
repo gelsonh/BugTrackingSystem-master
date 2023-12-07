@@ -6,26 +6,28 @@
 }
 
 @section PageTitle {
-    @ViewData["Title"]
+    <a href="javascript:history.back()">
+        <i class="fas fa-arrow-left"></i>
+        @ViewData["Title"]
 }
 
 @section Breadcrumbs {
-    <nav aria-label="breadcrumb" class="mt-2">
-        <ol class="breadcrumb mb-0 p-0">
-            <li class="breadcrumb-item"><a asp-action="Dashboard" asp-controller="Home">Home</a></li>
-            <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
-        </ol>
-    </nav>
+        <nav aria-label="breadcrumb" class="mt-2">
+            <ol class="breadcrumb mb-0 p-0">
+                <li class="breadcrumb-item"><a asp-action="Dashboard" asp-controller="Home">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+            </ol>
+        </nav>
 }
 
 
 
 
-<div class="container-fluid page-content note-has-grid">
-    <ul class="nav nav-pills p-3 bg-white mb-3 align-items-center">
-        <li class="nav-item">
-            <a href="javascript:void(0)"
-               class="
+    <div class="container-fluid page-content note-has-grid">
+        <ul class="nav nav-pills p-3 bg-white mb-3 align-items-center">
+            <li class="nav-item">
+                <a href="javascript:void(0)"
+                   class="
                   nav-link
                   rounded-pill
                   note-link
@@ -36,14 +38,14 @@
                   px-3 px-md-3
                   me-0 me-md-2
                 "
-               id="all-category">
-                <i data-feather="list"
-                   class="feather-sm fill-white me-0 me-md-1"></i><span class="d-none d-md-block font-weight-medium">All Notifications</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="javascript:void(0)"
-               class="
+                   id="all-category">
+                    <i data-feather="list"
+                       class="feather-sm fill-white me-0 me-md-1"></i><span class="d-none d-md-block font-weight-medium">All Notifications</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="javascript:void(0)"
+                   class="
                   nav-link
                   rounded-pill
                   note-link
@@ -53,14 +55,14 @@
                   px-3 px-md-3
                   me-0 me-md-2
                 "
-               id="note-business">
-                <i class="fas fa-ticket-alt fill-white me-0 me-md-1"></i>
-                <span class="d-none d-md-block font-weight-medium">Tickets Notifications</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="javascript:void(0)"
-               class="
+                   id="note-business">
+                    <i class="fas fa-ticket-alt fill-white me-0 me-md-1"></i>
+                    <span class="d-none d-md-block font-weight-medium">Tickets Notifications</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="javascript:void(0)"
+                   class="
                   nav-link
                   rounded-pill
                   note-link
@@ -70,99 +72,99 @@
                   px-3 px-md-3
                   me-0 me-md-2
                 "
-               id="note-social">
-                <i class="fas fa-folder fill-white me-0 me-md-1"></i>
-                <span class="d-none d-md-block font-weight-medium">Projects Notifications</span>
-            </a>
-        </li>
+                   id="note-social">
+                    <i class="fas fa-folder fill-white me-0 me-md-1"></i>
+                    <span class="d-none d-md-block font-weight-medium">Projects Notifications</span>
+                </a>
+            </li>
 
-    </ul>
+        </ul>
 
-    <div class="tab-content">
-        <div id="note-full-container" class="note-has-grid row">
+        <div class="tab-content">
+            <div id="note-full-container" class="note-has-grid row">
             @foreach (var notification in Model)
             {
-                <div class="col-md-4 single-note-item all-category">
-                    <div class="card card-body card-hover">
-                        <span class="side-stick"></span>
-                        <h5 class="note-title text-truncate w-75 mb-0" data-noteHeading="Book a Ticket for Movie">
+                    <div class="col-md-4 single-note-item all-category">
+                        <div class="card card-body card-hover">
+                            <span class="side-stick"></span>
+                            <h5 class="note-title text-truncate w-75 mb-0" data-noteHeading="Book a Ticket for Movie">
                             @notification.Title
-                            <i class="point fas fa-circle ms-1 fs-1"></i>
-                        </h5>
-                        <span>@notification.NotificationType.Name</span>
-                        <p class="note-date fs-2 text-muted">@notification.Created.ToString("MMM dd yyyy hh:mm:ss tt")</p>
-                        <div class="note-content">
-                            <p class="note-inner-content text-muted" data-noteContent="Blandit tempus porttitor aasfs. Integer posuere erat a ante venenatis.">
+                                <i class="point fas fa-circle ms-1 fs-1"></i>
+                            </h5>
+                            <span>@notification.NotificationType.Name</span>
+                            <p class="note-date fs-2 text-muted">@notification.Created.ToString("MMM dd yyyy hh:mm:ss tt")</p>
+                            <div class="note-content">
+                                <p class="note-inner-content text-muted" data-noteContent="Blandit tempus porttitor aasfs. Integer posuere erat a ante venenatis.">
                                 @notification.Message
-                            </p>
-                        </div>
-                     @*    <div class="d-flex align-items-center">
-                            <a href="javascript:void(0)" class="link text-danger ms-2">
-                                <i class="far fa-trash-alt remove-note"></i>
-                            </a>
+                                </p>
+                            </div>
+                        @*    <div class="d-flex align-items-center">
+                        <a href="javascript:void(0)" class="link text-danger ms-2">
+                        <i class="far fa-trash-alt remove-note"></i>
+                        </a>
                         </div> *@
+                        </div>
                     </div>
-                </div>
             }
+            </div>
         </div>
-    </div>
-    <div class="tab-content">
-        <div id="note-full-container" class="note-has-grid row">
+        <div class="tab-content">
+            <div id="note-full-container" class="note-has-grid row">
             @foreach (var notification in Model.Where(n => n.NotificationType.Name == "Ticket").Take(12))
             {
-                <div class="col-md-4 single-note-item note-business">
-                    <div class="card card-body card-hover">
-                        <span class="side-stick"></span>
-                        <h5 class="note-title text-truncate w-75 mb-0" data-noteHeading="Book a Ticket for Movie">
+                    <div class="col-md-4 single-note-item note-business">
+                        <div class="card card-body card-hover">
+                            <span class="side-stick"></span>
+                            <h5 class="note-title text-truncate w-75 mb-0" data-noteHeading="Book a Ticket for Movie">
                             @notification.Title
-                            <i class="point fas fa-circle ms-1 fs-1"></i>
-                        </h5>
-                        <span>@notification.NotificationType.Name</span>
-                        <p class="note-date fs-2 text-muted">@notification.Created.ToString("MMM dd yyyy hh:mm:ss tt")</p>
-                        <div class="note-content">
-                            <p class="note-inner-content text-muted" data-noteContent="Blandit tempus porttitor aasfs. Integer posuere erat a ante venenatis.">
+                                <i class="point fas fa-circle ms-1 fs-1"></i>
+                            </h5>
+                            <span>@notification.NotificationType.Name</span>
+                            <p class="note-date fs-2 text-muted">@notification.Created.ToString("MMM dd yyyy hh:mm:ss tt")</p>
+                            <div class="note-content">
+                                <p class="note-inner-content text-muted" data-noteContent="Blandit tempus porttitor aasfs. Integer posuere erat a ante venenatis.">
                                 @notification.Message
-                            </p>
-                        </div>
-                      @*   <div class="d-flex align-items-center">
-                            <a href="javascript:void(0)" class="link text-danger ms-2">
-                                <i class="far fa-trash-alt remove-note"></i>
-                            </a>
+                                </p>
+                            </div>
+                        @*   <div class="d-flex align-items-center">
+                        <a href="javascript:void(0)" class="link text-danger ms-2">
+                        <i class="far fa-trash-alt remove-note"></i>
+                        </a>
                         </div> *@
+                        </div>
                     </div>
-                </div>
             }
+            </div>
         </div>
-    </div>
-    <div class="tab-content">
-        <div id="note-full-container" class="note-has-grid row">
+        <div class="tab-content">
+            <div id="note-full-container" class="note-has-grid row">
             @foreach (var notification in Model.Where(n => n.NotificationType.Name == "Project"))
             {
-                <div class="col-md-4 single-note-item note-social">
-                    <div class="card card-body card-hover">
-                        <span class="side-stick"></span>
-                        <h5 class="note-title text-truncate w-75 mb-0" data-noteHeading="Book a Ticket for Movie">
+                    <div class="col-md-4 single-note-item note-social">
+                        <div class="card card-body card-hover">
+                            <span class="side-stick"></span>
+                            <h5 class="note-title text-truncate w-75 mb-0" data-noteHeading="Book a Ticket for Movie">
                             @notification.Title
-                            <i class="point fas fa-circle ms-1 fs-1"></i>
-                        </h5>
-                        <span>@notification.NotificationType.Name</span>
-                        <p class="note-date fs-2 text-muted">@notification.Created.ToString("MMM dd yyyy hh:mm:ss tt")</p>
-                        <div class="note-content">
-                            <p class="note-inner-content text-muted" data-noteContent="Blandit tempus porttitor aasfs. Integer posuere erat a ante venenatis.">
+                                <i class="point fas fa-circle ms-1 fs-1"></i>
+                            </h5>
+                            <span>@notification.NotificationType.Name</span>
+                            <p class="note-date fs-2 text-muted">@notification.Created.ToString("MMM dd yyyy hh:mm:ss tt")</p>
+                            <div class="note-content">
+                                <p class="note-inner-content text-muted" data-noteContent="Blandit tempus porttitor aasfs. Integer posuere erat a ante venenatis.">
                                 @notification.Message
-                            </p>
-                        </div>
-                       @*  <div class="d-flex align-items-center">
-                            <a href="javascript:void(0)" class="link text-danger ms-2">
-                                <i class="far fa-trash-alt remove-note"></i>
-                            </a>
+                                </p>
+                            </div>
+                        @*  <div class="d-flex align-items-center">
+                        <a href="javascript:void(0)" class="link text-danger ms-2">
+                        <i class="far fa-trash-alt remove-note"></i>
+                        </a>
                         </div> *@
+                        </div>
                     </div>
-                </div>
             }
+            </div>
         </div>
     </div>
-</div>
 
 
 

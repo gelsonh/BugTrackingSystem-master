@@ -8,91 +8,93 @@
 
 
 @section PageTitle {
-    @ViewData["Title"]
+    <a href="javascript:history.back()">
+        <i class="fas fa-arrow-left"></i>
+        @ViewData["Title"]
 }
 
 @section Breadcrumbs {
-    <nav aria-label="breadcrumb" class="mt-2">
-        <ol class="breadcrumb mb-0 p-0">
-            <li class="breadcrumb-item"><a asp-action="Dashboard" asp-controller="Home">Home</a></li>
-            <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
-        </ol>
-    </nav>
+        <nav aria-label="breadcrumb" class="mt-2">
+            <ol class="breadcrumb mb-0 p-0">
+                <li class="breadcrumb-item"><a asp-action="Dashboard" asp-controller="Home">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+            </ol>
+        </nav>
 }
 
 
 
-<div class="container-fluid page-content me-2">
+    <div class="container-fluid page-content me-2">
 
-    <div class="card">
-        <div class="card-body">
-            <h4 class="card-title">User Roles</h4>
-            <h6 class="card-subtitle lh-base">
-                Manage user roles
-            </h6>
-        </div>
-        <div class="table-responsive">
-            <table class="table mb-0 ms-4 v-middle">
-                <thead class="table-light">
-                    <tr>
-                        <th class="border-bottom border-top">User</th>
-                        <th class="border-bottom border-top ">Email</th>
-                        <th class="border-bottom border-top">Role</th>
-                        <th class="border-bottom border-top">Selected</th>
-                        <th class="border-bottom border-top"></th>
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">User Roles</h4>
+                <h6 class="card-subtitle lh-base">
+                    Manage user roles
+                </h6>
+            </div>
+            <div class="table-responsive">
+                <table class="table mb-0 ms-4 v-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="border-bottom border-top">User</th>
+                            <th class="border-bottom border-top ">Email</th>
+                            <th class="border-bottom border-top">Role</th>
+                            <th class="border-bottom border-top">Selected</th>
+                            <th class="border-bottom border-top"></th>
 
-                    </tr>
-                </thead>
-                <tbody>
+                        </tr>
+                    </thead>
+                    <tbody>
                     @foreach (var viewModel in Model)
                     {
-                        <tr>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <a href="javascript:void(0)"
-                                       class="btn btn-light-primary me-n2
-                                        card-hover text-primary btn-circle fs-5
-                                        d-flex align-items-center justify-content-center">                            
-                                        <i data-feather="users" class="feather-sm"></i>
-                                    </a>
-                                    <span class="ms-3 fw-normal">@viewModel.BTUser!.FullName</span>
-                                </div>
-                            </td>
-                            <td class="d-none d-md-table-cell d-sm-table-cell">
-                                <span>@viewModel.BTUser!.Email</span><br />
-                            </td>
-                            <td class="d-none d-sm-table-cell">
-                                @viewModel.CurrentRole
-                            </td>
-                            <form asp-action="ManageUserRoles" method="post">
-                            <td>
-
-                                <input type="hidden" asp-for="@viewModel.BTUser.Id" />
-                                <div class="form-group scrollable-select">
-                                    <!-- Display user roles in a select element -->
-                                    <select class="form-select category-select" id="exampleFormControlSelect1"
-                                            asp-for="@viewModel.SelectedRoles" asp-items="@viewModel.Roles" multiple>
-                                    </select>
-                                </div>
-                            </td>
-                            <td>
-                                <button type="submit" class="btn btn-success rounded-pill ms-2">
+                            <tr>
+                                <td>
                                     <div class="d-flex align-items-center">
-                                        <i data-feather="save" class="feather-sm me-1 fill-icon"></i>
-                                        Save
+                                        <a href="javascript:void(0)"
+                                           class="btn btn-light-primary me-n2
+                                        card-hover text-primary btn-circle fs-5
+                                        d-flex align-items-center justify-content-center">
+                                            <i data-feather="users" class="feather-sm"></i>
+                                        </a>
+                                        <span class="ms-3 fw-normal">@viewModel.BTUser!.FullName</span>
                                     </div>
-                                </button>
-                            </td>
-                            </form>
-                        </tr>
+                                </td>
+                                <td class="d-none d-md-table-cell d-sm-table-cell">
+                                    <span>@viewModel.BTUser!.Email</span><br />
+                                </td>
+                                <td class="d-none d-sm-table-cell">
+                                @viewModel.CurrentRole
+                                </td>
+                                <form asp-action="ManageUserRoles" method="post">
+                                <td>
+
+                                    <input type="hidden" asp-for="@viewModel.BTUser.Id" />
+                                    <div class="form-group scrollable-select">
+                                        <!-- Display user roles in a select element -->
+                                        <select class="form-select category-select" id="exampleFormControlSelect1"
+                                                asp-for="@viewModel.SelectedRoles" asp-items="@viewModel.Roles" multiple>
+                                        </select>
+                                    </div>
+                                </td>
+                                <td>
+                                    <button type="submit" class="btn btn-success rounded-pill ms-2">
+                                        <div class="d-flex align-items-center">
+                                            <i data-feather="save" class="feather-sm me-1 fill-icon"></i>
+                                            Save
+                                        </div>
+                                    </button>
+                                </td>
+                                </form>
+                            </tr>
                     }
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
+
         </div>
 
     </div>
-
-</div>
 
 
 

@@ -5,8 +5,11 @@
 }
 
 @section PageTitle {
+    <a href="javascript:history.back()">
+        <i class="fas fa-arrow-left"></i>
     @ViewData["Title"]
 }
+
 
 @section Breadcrumbs {
     <nav aria-label="breadcrumb" class="mt-2">
@@ -17,9 +20,6 @@
     </nav>
 }
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 
 <div class="col-12">

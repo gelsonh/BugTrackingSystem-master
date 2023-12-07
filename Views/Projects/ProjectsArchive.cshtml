@@ -5,110 +5,112 @@
 }
 
 @section PageTitle {
-    @ViewData["Title"]
+    <a href="javascript:history.back()">
+        <i class="fas fa-arrow-left"></i>
+        @ViewData["Title"]
 }
 
 @section Breadcrumbs {
-    <nav aria-label="breadcrumb" class="mt-2">
-        <ol class="breadcrumb mb-0 p-0">
-            <li class="breadcrumb-item"><a asp-action="Dashboard" asp-controller="Home">Home</a></li>
-            <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
-        </ol>
-    </nav>
+        <nav aria-label="breadcrumb" class="mt-2">
+            <ol class="breadcrumb mb-0 p-0">
+                <li class="breadcrumb-item"><a asp-action="Dashboard" asp-controller="Home">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+            </ol>
+        </nav>
 }
 
-<!-- order table -->
-<div class="row">
-    <div class="col-12">
-        <div class="card">
+    <!-- order table -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
 
-            <div class="card-body">
-                <h4 class=" mb-3">
-                    Projects Archive:
-                    <span class="fw-light text-primary px-2">@(ViewBag.ArchivedProjectCount ?? 0)</span>
-                </h4>
-                <div class="table-responsive">
-                    <table id="myTable"
-                           class="table table-striped table-bordered display"
-                           style="width: 100%">
-                        <thead>
-                            <tr>
-                                <th>PROJECT</th>
-                                <th>END DATE</th>
-                                <th>PRIORITY</th>
-                                <th>PROJECT MANAGER</th>
-                                <th>TEAM</th>
-                                <th>STATUS</th>
-                                <th></th>
-
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var project in Model)
-                            {
+                <div class="card-body">
+                    <h4 class=" mb-3">
+                        Projects Archive:
+                        <span class="fw-light text-primary px-2">@(ViewBag.ArchivedProjectCount ?? 0)</span>
+                    </h4>
+                    <div class="table-responsive">
+                        <table id="myTable"
+                               class="table table-striped table-bordered display"
+                               style="width: 100%">
+                            <thead>
                                 <tr>
-
-                                    <td>
-                                        @project.Name
-                                        <br>
-                                        <small>Start Date: @project.StartDate.ToString("MMM dd, yyyy")</small>
-                                    </td>
-
-                                    <td>@project.EndDate.ToString("d")</td>
-                                    <td>@project.ProjectPriority!.Name</td>
-                                    <td> <a asp-action="AssignPM" asp-route-id="@project.Id">Assign PM</a></td>
-                                    <td> <a asp-action="AssignProjectMembers" asp-route-id="@project.Id">Manage Team</a></td>
-                                    <td></td>
-
-
-                                    <td style="text-align: center;">
-                                        <form method="post" asp-action="RestoreProject" asp-controller="Projects">
-                                            @foreach (var projects in Model)
-                                            {
-                                                <input type="hidden" name="id" value="@projects.Id" />
-                                            }
-
-                                            <button type="submit" class="btn waves-effect waves-light text-danger custom-tooltip" data-title="Restore">
-                                                <i class="mdi mdi-auto-fix"></i>
-                                            </button>
-                                        </form>
-                                    </td>
+                                    <th>PROJECT</th>
+                                    <th>END DATE</th>
+                                    <th>PRIORITY</th>
+                                    <th>PROJECT MANAGER</th>
+                                    <th>TEAM</th>
+                                    <th>STATUS</th>
+                                    <th></th>
 
                                 </tr>
+                            </thead>
+                            <tbody>
+                            @foreach (var project in Model)
+                            {
+                                    <tr>
+
+                                        <td>
+                                        @project.Name
+                                            <br>
+                                            <small>Start Date: @project.StartDate.ToString("MMM dd, yyyy")</small>
+                                        </td>
+
+                                        <td>@project.EndDate.ToString("d")</td>
+                                        <td>@project.ProjectPriority!.Name</td>
+                                        <td> <a asp-action="AssignPM" asp-route-id="@project.Id">Assign PM</a></td>
+                                        <td> <a asp-action="AssignProjectMembers" asp-route-id="@project.Id">Manage Team</a></td>
+                                        <td></td>
+
+
+                                        <td style="text-align: center;">
+                                            <form method="post" asp-action="RestoreProject" asp-controller="Projects">
+                                            @foreach (var projects in Model)
+                                            {
+                                                    <input type="hidden" name="id" value="@projects.Id" />
+                                            }
+
+                                                <button type="submit" class="btn waves-effect waves-light text-danger custom-tooltip" data-title="Restore">
+                                                    <i class="mdi mdi-auto-fix"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+
+                                    </tr>
                             }
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<style>
+    <style>
 
 
 
-    .custom-tooltip {
-        position: relative;
-    }
-
-        .custom-tooltip::after {
-            content: attr(data-title);
-            position: absolute;
-            bottom: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #333;
-            color: #fff;
-            padding: 5px 10px;
-            border-radius: 5px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-            white-space: nowrap;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease-in-out;
+        .custom-tooltip {
+            position: relative;
         }
 
-        .custom-tooltip:hover::after {
-            opacity: 1;
-        }
-</style>
+            .custom-tooltip::after {
+                content: attr(data-title);
+                position: absolute;
+                bottom: 100%;
+                left: 50%;
+                transform: translateX(-50%);
+                background-color: #333;
+                color: #fff;
+                padding: 5px 10px;
+                border-radius: 5px;
+                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+                white-space: nowrap;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.3s ease-in-out;
+            }
+
+            .custom-tooltip:hover::after {
+                opacity: 1;
+            }
+    </style>
