@@ -205,7 +205,7 @@
                     </div>
                     @if (User.IsInRole(nameof(BTRoles.Admin)) || (btUser?.Id == projectManager.Id))
                     {
-                        <a class="btn btn-xs alert-primary" style="font:small" asp-action="AssignProjectMembers" asp-controller="Projects" asp-route-id="@Model.Id">Manage Team</a>
+                        <a class="btn btn-xs alert-primary" style="font:small" asp-action="AssignPM" asp-controller="Projects" asp-route-id="@Model.Id">Unassigned</a>
                     }
 
                 }

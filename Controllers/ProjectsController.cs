@@ -37,7 +37,7 @@ namespace BugTrackingSystem.Controllers
         }
 
         // GET: Projects
-        [Authorize] 
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             BTUser? user = await _userManager.GetUserAsync(User);
@@ -47,12 +47,12 @@ namespace BugTrackingSystem.Controllers
 
             if (roles.Contains("Admin") || roles.Contains("ProjectManager"))
             {
-                
+
                 projects = await _projectService.GetAllProjectsByCompanyIdAsync(_companyId);
             }
             else
             {
-   
+
                 projects = await _projectService.GetUserProjectsAsync(user!.Id);
             }
 
@@ -102,35 +102,81 @@ namespace BugTrackingSystem.Controllers
             return View(viewModel);
         }
 
+
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AssignPM(AssignPMViewModel viewModel)
         {
-            if (!string.IsNullOrEmpty(viewModel.PMId))
+            if (string.IsNullOrEmpty(viewModel.PMId))
             {
-
+                // Aquí es donde manejas la opción "Unassigned"
+                // Desasigna el PM actual del proyecto y luego redirige a ProjectDetails
+                await _projectService.RemoveProjectManagerAsync(viewModel.ProjectId);
+                return RedirectToAction(nameof(Details), new { id = viewModel.ProjectId });
+            }
+            else
+            {
                 if (await _projectService.AddProjectManagerAsync(viewModel.PMId, viewModel.ProjectId))
                 {
                     return RedirectToAction(nameof(Details), new { id = viewModel.ProjectId });
-
                 }
                 else
                 {
                     ModelState.AddModelError("PMId", "Error assigning PM.");
                 }
-                ModelState.AddModelError("PMId", "No Project Manager chosen. Please select a PM.");
-
             }
 
             IEnumerable<BTUser> projectManagers = await _rolesService.GetUsersInRoleAsync(nameof(BTRoles.ProjectManager), _companyId);
             BTUser? currentPM = await _projectService.GetProjectManagerAsync(viewModel.ProjectId);
             viewModel.PMList = new SelectList(projectManagers, "Id", "FullName", currentPM?.Id);
 
-
-
             return View(viewModel);
         }
+
+
+
+        // Controlador GET
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public async Task<IActionResult> RemoveProjectManager(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var project = await _context.Projects
+                .Include(p => p.Members)
+                .FirstOrDefaultAsync(p => p.Id == id);
+
+            if (project == null)
+            {
+                return NotFound();
+            }
+
+            return View(project);
+        }
+
+        // Controlador POST
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RemoveProjectManager(int id)
+        {
+            try
+            {
+                await _projectService.RemoveProjectManagerAsync(id);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception)
+            {
+                return View();
+            }
+        }
+
+
+
 
         [Authorize(Roles = "Admin, ProjectManager")]
         [HttpGet]
@@ -215,7 +261,7 @@ namespace BugTrackingSystem.Controllers
         public async Task<IActionResult> Details(int id)
         {
             Project? project = await _context.Projects
-               
+
                 .Include(p => p.ProjectPriority)  // Include the related ProjectPriority entity
                 .Include(p => p.Tickets)
                     .ThenInclude(t => t.TicketStatus)  // Include the related TicketStatus entity for each Ticket
@@ -245,11 +291,11 @@ namespace BugTrackingSystem.Controllers
 
             ViewData["ProjectPriorityId"] = new SelectList(_context.ProjectPriorities, "Id", "Name");
 
-        
+
 
             //// Si el método fue exitoso, puedes obtener la lista de product managers de esta manera
             //ViewData["PMId"] = new SelectList(_context.Users.Where(u => u.Roles.Any(r => r.RoleId == "ProjectManager")), "Id", "Name");
-            
+
 
             return View();
         }
@@ -348,7 +394,7 @@ namespace BugTrackingSystem.Controllers
 
                 Project? newProject = await _projectService.GetProjectAsNoTrackingAsync(project.Id, _companyId);
 
-               
+
 
                 await _notificationService.NewProjectNotificationAsync(project.Id, userId);
 
@@ -367,7 +413,7 @@ namespace BugTrackingSystem.Controllers
             List<Project> archivedProjects = await _context.Projects
                 .Include(p => p.Tickets)
                 .Include(p => p.Company)
-                .Include(p => p.ProjectPriority)        
+                .Include(p => p.ProjectPriority)
                 .Where(p => p.Archived)
                 .ToListAsync();
 
@@ -447,7 +493,7 @@ namespace BugTrackingSystem.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-      
+
 
         private bool ProjectExists(int id)
         {
