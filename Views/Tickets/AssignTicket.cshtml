@@ -20,14 +20,14 @@
 }
 
 <div class="container">
-    <h2>Assign Developer for</h2>
+   @*  <h2 class="pb-2">Assign Developer for:</h2> *@
     <div class="row">
         <div class="col-md-6">
 
-            <h3> @Model.Ticket!.Title</h3>
+           @*  <h3 >@Model.Ticket!.Title</h3> *@
 
-            <a style="font-size:small" asp-action="Details" asp-controller="Projects" asp-route-id="@Model.Ticket.ProjectId">@Model.Ticket.Project!.Name</a>
-            <div class="card">
+@*             <a style="font-size:small" asp-action="Details" asp-controller="Projects" asp-route-id="@Model.Ticket.ProjectId">@Model.Ticket.Project!.Name</a>
+ *@            <div class="card">
                 <div class="card-header">
                     <label class="control-label">Assign Developer</label>
                 </div>
@@ -51,7 +51,7 @@
             </div>
         </div>
     </div>
-    <div>
+   @*  <div>
         <a asp-action="UnassignedTickets" asp-controller="Tickets">Unassigned Tickets</a>
-    </div>
+    </div> *@
 </div>
