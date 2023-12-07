@@ -458,5 +458,34 @@
 
 
 
+    <script>
+        $(document).ready(function () {
+            // Inicializamos la tabla con DataTables
+            var table = $('#myTable').DataTable({
+                "order": [[3, "desc"]],
+                // Añadimos un callback para el evento 'draw'
+                "drawCallback": function (settings) {
+                    // Para cada elemento con la clase 'badge'
+                    $('.badge').each(function () {
+                        // Obtenemos el texto del elemento (el estado)
+                        var status = $(this).text();
+                        // Dependiendo del estado, añadimos diferentes clases al elemento
+                        if (status == 'New') {
+                            $(this).addClass('bg-light-danger text-danger font-weight-medium');
+                        } else if (status == 'Development') {
+                            $(this).addClass('bg-light-success text-success font-weight-medium');
+                        } else if (status == 'Testing') {
+                            $(this).addClass('bg-light-warning text-warning font-weight-medium');
+                        } else if (status == 'Resolved') {
+                            $(this).addClass('bg-light-info text-info font-weight-medium');
+                        } else if (status == 'Not Status') {
+                            $(this).addClass('text-info font-weight-medium');
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+
 </body>
 </html>
