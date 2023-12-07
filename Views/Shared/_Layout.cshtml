@@ -457,11 +457,11 @@
     </script>
 
 
-
-    <script>
+@*     Table Project Details
+ *@    <script>
         $(document).ready(function () {
             // Inicializamos la tabla con DataTables
-            var table = $('#myTable').DataTable({
+            var table = $('#myTableDetails').DataTable({
                 "order": [[3, "desc"]],
                 // Añadimos un callback para el evento 'draw'
                 "drawCallback": function (settings) {
