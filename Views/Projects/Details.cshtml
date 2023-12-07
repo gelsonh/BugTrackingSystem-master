@@ -16,6 +16,7 @@
     BTUser? btUser = await _UserManager.GetUserAsync(User);
     BTUser? projectManager = await _ProjectService.GetProjectManagerAsync(Model.Id)!;
 }
+
 @section PageTitle {
     @ViewData["Title"]
 }
