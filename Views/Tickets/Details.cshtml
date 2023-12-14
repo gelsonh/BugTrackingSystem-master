@@ -91,11 +91,9 @@
                         {
                             var colorClass = colors[ticketComment.Id % colors.Length];
                             <li class="mt-4">
-                                <div class="chat-img d-inline-block align-top">
-                                    <img src="../../assets/images/users/2.jpg"
-                                         alt="user"
-                                         class="rounded-circle" />
-                                </div>
+                                    <button type="button" class="btn btn-success btn-circle btn-circle text-white">
+                                        <i class="ti-user"></i>
+                                    </button>
                                 <div class="chat-content ps-3 d-inline-block">
                                     <h5 class="text-muted fs-3 fw-normal">@ticketComment.User?.FullName</h5>
                                     <div class="@colorClass message fs-3 text-white d-inline-block mb-2 fw-normal shadow">
