@@ -302,9 +302,12 @@
                                             <i class="mdi mdi-details"></i>
                                         </a>
 
-                                        <a asp-controller="Tickets" asp-action="TicketArchive" class="btn waves-effect waves-light text-danger custom-tooltip" data-title="Archive">
-                                            <i class="mdi mdi-archive"></i>
-                                        </a>
+                                        <form asp-controller="Tickets" asp-action="ArchiveTicket" method="post" style="display: inline-block;">
+                                            <input type="hidden" name="id" value="@ticket.Id" />
+                                            <button type="submit" class="btn waves-effect waves-light text-danger custom-tooltip" data-title="Archive">
+                                                <i class="mdi mdi-archive"></i>
+                                            </button>
+                                        </form>
                                     </td>
 
                                 </tr>
