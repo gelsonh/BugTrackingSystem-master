@@ -47,6 +47,9 @@ var app = builder.Build();
 var scope = app.Services.CreateScope();
 await DataUtility.ManageDataAsync(scope.ServiceProvider);
 
+
+builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
