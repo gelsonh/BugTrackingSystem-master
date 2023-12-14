@@ -147,7 +147,7 @@
                     {
                         <div class="sl-item">
                             <div class="sl-left">
-                                @if (history.User!.ImageFileData != null)
+                                @if (history.User != null && history.User.ImageFileData != null)
                                 {
                                     <button type="button" class="btn btn-success btn-circle btn-circle text-white">
                                         <img class="rounded-circle" style="width:100%;height:100%;" src="@(_FileService.ConvertByteArrayToFile(history.User.ImageFileData!, history.User.ImageFileType!, DefaultImage.BTUserImage))">
@@ -163,7 +163,10 @@
                             </div>
                             <div class="sl-right">
                                 <div class="d-flex align-items-center">
-                                    <h5 class="mb-0">@history.User!.FullName</h5>
+                                    <h5 class="mb-0">@if (history.User != null)
+                                        {
+                                            @history.User.FullName
+                                        }</h5>
                                     <span class="sl-date ms-2">@history.Created.ToString("MMM dd, yyyy")</span>
                                 </div>
                                 <p class="mt-1">@history.Description</p>
