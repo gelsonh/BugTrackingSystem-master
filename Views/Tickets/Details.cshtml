@@ -22,12 +22,12 @@
 }
 
 @section Breadcrumbs {
-    <nav aria-label="breadcrumb" class="mt-2">
-        <ol class="breadcrumb mb-0 p-0">
-            <li class="breadcrumb-item"><a asp-action="Dashboard" asp-controller="Home">Home</a></li>
-            <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
-        </ol>
-    </nav>
+        <nav aria-label="breadcrumb" class="mt-2">
+            <ol class="breadcrumb mb-0 p-0">
+                <li class="breadcrumb-item"><a asp-action="Dashboard" asp-controller="Home">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+            </ol>
+        </nav>
 }
 
 
@@ -60,64 +60,64 @@
             }
     </style>
 
-<div class="row">
+    <div class="row">
 
     @*Ticket Title *@
-    <div class="col-md-8 col-sm-12">
-        <div class="card card-hover">
-            <div class="card-header bg-info">
-                <h4 class="mb-0 text-white">Ticket Details</h4>
-            </div>
-            <div class="card-body">
-                <h3 class="card-title">@Model.Title</h3>
-                <p class="card-text">
+        <div class="col-md-8 col-sm-12">
+            <div class="card card-hover">
+                <div class="card-header bg-info">
+                    <h4 class="mb-0 text-white">Ticket Details</h4>
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title">@Model.Title</h3>
+                    <p class="card-text">
                     @Model.Description
-                </p>
+                    </p>
 
+                </div>
             </div>
-        </div>
 
         @* Ticket Comments *@
-        <div class="card card-hover">
-            <h5 class="card-title p-3 card-header bg-info text-white mb-0">Ticket Comments</h5>
-            <div class="card-body">
-                <div class="chat-box scrollable" style="height: 434px">
-                    <!--chat Row -->
-                    <ul class="chat-list m-0 p-0">
+            <div class="card card-hover">
+                <h5 class="card-title p-3 card-header bg-info text-white mb-0">Ticket Comments</h5>
+                <div class="card-body">
+                    <div class="chat-box scrollable" style="height: 434px">
+                        <!--chat Row -->
+                        <ul class="chat-list m-0 p-0">
                         @{
                             var colors = new string[] { "bg-primary", "bg-success", "bg-danger", "bg-warning", "bg-info" };
                         }
                         @foreach (TicketComment ticketComment in Model.Comments)
                         {
                             var colorClass = colors[ticketComment.Id % colors.Length];
-                            <li class="mt-4">
+                                <li class="mt-4">
                                     <button type="button" class="btn btn-success btn-circle btn-circle text-white">
                                         <i class="ti-user"></i>
                                     </button>
-                                <div class="chat-content ps-3 d-inline-block">
-                                    <h5 class="text-muted fs-3 fw-normal">@ticketComment.User?.FullName</h5>
-                                    <div class="@colorClass message fs-3 text-white d-inline-block mb-2 fw-normal shadow">
+                                    <div class="chat-content ps-3 d-inline-block">
+                                        <h5 class="text-muted fs-3 fw-normal">@ticketComment.User?.FullName</h5>
+                                        <div class="@colorClass message fs-3 text-white d-inline-block mb-2 fw-normal shadow">
                                         @ticketComment.Comment
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="chat-time d-inline-block text-end fs-2 font-weight-medium">
+                                    <div class="chat-time d-inline-block text-end fs-2 font-weight-medium">
                                     @ticketComment.Created.ToString("MMM dd, yyy hh:mm tt")
-                                </div>
-                            </li>
+                                    </div>
+                                </li>
                         }
-                    </ul>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card-body border-top">
+                    <form asp-action="Create" asp-controller="TicketComments" method="post" class="d-flex justify-content-end">
+                        <input type="hidden" asp-for="@Model.Id" name="TicketId" />
+                        <input type="text" id="mymce" name="Comment" placeholder="Type and enter" class="form-control border-0" />
+                        <button type="submit" class="btn-circle btn-lg btn-success btn text-white ml-2">
+                            <i data-feather="send" class="feather-sm"></i>
+                        </button>
+                    </form>
                 </div>
             </div>
-            <div class="card-body border-top">
-                <form asp-action="Create" asp-controller="TicketComments" method="post" class="d-flex justify-content-end">
-                    <input type="hidden" asp-for="@Model.Id" name="TicketId" />
-                    <input type="text" id="mymce" name="Comment" placeholder="Type and enter" class="form-control border-0" />
-                    <button type="submit" class="btn-circle btn-lg btn-success btn text-white ml-2">
-                        <i data-feather="send" class="feather-sm"></i>
-                    </button>
-                </form>
-            </div>
-        </div>
 
 
 
@@ -125,164 +125,164 @@
 
         @* Attachments *@
 
-        <div class="card card-hover">
-            <div class="card-header bg-info">
-                <h4 class="mb-0 text-white">Attachments</h4>
-            </div>
-            <div class="card-body">
-                <div>
-                    <form asp-action="AddTicketAttachment" asp-controller="Tickets" enctype="multipart/form-data" method="post">
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        <input type="hidden" asp-for="@Model.Id" name="TicketId">
-                        <div class="media-body ml-3">
-                            <label>
-                                Description
-                                <input name="Description" type="text" class="form-control" />
-                            </label><br />
-                            <label class="btn btn-outline-primary btn-sm">
-                                <input name="FormFile" type="file" class="form-control-file" />
-                            </label>
-                            <button type="submit" class="btn btn-outline-secondary btn-sm md-btn-flat">Submit</button>
-                        </div>
-                    </form>
+            <div class="card card-hover">
+                <div class="card-header bg-info">
+                    <h4 class="mb-0 text-white">Attachments</h4>
                 </div>
+                <div class="card-body">
+                    <div>
+                        <form asp-action="AddTicketAttachment" asp-controller="Tickets" enctype="multipart/form-data" method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input type="hidden" asp-for="@Model.Id" name="TicketId">
+                            <div class="media-body ml-3">
+                                <label>
+                                    Description
+                                    <input name="Description" type="text" class="form-control" />
+                                </label><br />
+                                <label class="btn btn-outline-primary btn-sm">
+                                    <input name="FormFile" type="file" class="form-control-file" />
+                                </label>
+                                <button type="submit" class="btn btn-outline-secondary btn-sm md-btn-flat">Submit</button>
+                            </div>
+                        </form>
+                    </div>
                 @* Ticket attachments part 2 here *@
-                <hr />
-                <h6>Attachments</h6>
-                <div class="container">
-                    <div class="row">
+                    <hr />
+                    <h6>Attachments</h6>
+                    <div class="container">
+                        <div class="row">
                         @foreach (TicketAttachment item in Model.Attachments)
                         {
-                            <div class="col col-sm-2">
-                                <a asp-action="ShowFile" asp-controller="Tickets" asp-route-Id="@item.Id">
-                                    <div class="icon">
-                                        <img src="@BTFileService.GetFileIcon(item.FileName)" style="height:50px;width:50px" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="@item.FileName" />
+                                <div class="col col-sm-2">
+                                    <a asp-action="ShowFile" asp-controller="Tickets" asp-route-Id="@item.Id">
+                                        <div class="icon">
+                                            <img src="@BTFileService.GetFileIcon(item.FileName)" style="height:50px;width:50px" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="@item.FileName" />
+                                        </div>
+                                    </a>
+                                    <div style="font-size:x-small">
+                                        <div class="file-name">
+                                            <strong>@item.Description</strong>
+                                        </div>
+                                        <small>Size:@BTFileService.FormatFileSize(item.FileData.Length) </small>
                                     </div>
-                                </a>
-                                <div style="font-size:x-small">
-                                    <div class="file-name">
-                                        <strong>@item.Description</strong>
+                                </div>
+                        }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+    @* TicketInfo *@
+        <div class="col-lg-4">
+            <div class="card card-hover">
+                <div class="card-body bg-info">
+                    <h4 class="card-title text-white mb-0">
+                        Ticket Info
+                        <a asp-controller="Tickets" asp-action="Edit" asp-route-id="@Model.Id" class="btn waves-effect waves-light text-info custom-tooltip" data-title="Edit">
+                            <i class="mdi mdi-pencil" style="color: black;"></i>
+                        </a>
+                    </h4>
+
+                </div>
+                <div class="card-body bg-light">
+                    <div class="row">
+
+                        <ul class="list-unstyled basic-list">
+                        @*Ticket date*@
+                            <li><strong>Date Entered:</strong> <span class="">@Model.Created.ToString("MMM dd, yyyy") </</span></li>
+                        @*Project end date*@
+                            <li><strong>Deadline:</strong> <span class="">@Model.Project?.EndDate.ToString("MMM dd, yyyy")</</span></li>
+                        @*Ticket type*@
+                            <li>
+                                <strong>Type:</strong>
+                                <span class="">@Model.TicketType?.Name</span>
+
+                            </li>
+                            <li>
+                                <strong>Priority:</strong>
+                                <span class="">@Model.TicketPriority?.Name</span>
+
+                            </li>
+                            <li>
+                                <strong>Status:</strong>
+                                <span class="">@Model.TicketStatus?.Name</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+
+                <div class="card-body">
+                    <h5 class="pt-3">Ticket Creator</h5>
+                    <span>
+                        <span>@Model.SubmitterUser?.FullName</span>
+                    </span>
+
+                    <h5 class="mt-4">Developer</h5>
+                @Model.DeveloperUser?.FullName
+                    <br />
+                    <button type="button" class="mt-3 btn waves-effect waves-light btn-success" onclick="location.href='@Url.Action("AssignTicket", new { id = Model.Id })'">
+                        Assign Developer
+                    </button>
+                </div>
+            </div>
+
+        @* Ticket Activity *@
+            <div class="card card-hover">
+                <h5 class="card-title p-3 card-header bg-info text-white mb-0">Ticket Activity</h5>
+                <div class="card-body scrollable" style="height: 598px">
+                    <div class="steamline mt-0">
+                    @foreach (TicketHistory history in Model.History.OrderByDescending(h => h.Created))
+                    {
+                            <div class="sl-item">
+                                <div class="sl-left">
+                                @if (history.User != null && history.User.ImageFileData != null)
+                                {
+                                        <button type="button" class="btn btn-success btn-circle btn-circle text-white">
+                                            <img class="rounded-circle" style="width:100%;height:100%;" src="@(BTFileService.ConvertByteArrayToFile(history.User.ImageFileData, history.User.ImageFileType, DefaultImage.BTUserImage))">
+                                        </button>
+                                }
+                                else
+                                {
+                                        <button type="button" class="btn btn-success btn-circle btn-circle text-white">
+                                            <i class="ti-user"></i>
+                                        </button>
+                                }
+
+                                </div>
+                                <div class="sl-right">
+                                    <div class="d-flex align-items-center">
+                                        <h5 class="mb-0">@history.User?.FullName</h5>
+                                        <span class="sl-date ms-2">@history.Created.ToString("MMM dd, yyyy")</span>
                                     </div>
-                                    <small>Size:@BTFileService.FormatFileSize(item.FileData.Length) </small>
+                                    <p class="mt-1">@history.Description</p>
+                                @if (history.Description != null && history.Description.Contains("New Ticket Created"))
+                                {
+                                        <p>A ticket was added</p>
+                                }
+                                else if (history.PropertyName!.Equals("TicketComment") || history.PropertyName.Equals("TicketAttachment"))
+                                {
+                                        <p>A <b>@history.PropertyName</b> was added.</p>
+                                }
+                                else
+                                {
+                                        <p>The ticket <b>@history.PropertyName</b> was edited</p>
+                                        <p>@($"Previous {history.PropertyName}: ") <span style="color:red">@history.OldValue</span></p>
+                                        <p>@($"Current {history.PropertyName}: ") <span style="color:green">@history.NewValue</span></p>
+                                }
                                 </div>
                             </div>
-                        }
+                    }
+
                     </div>
                 </div>
             </div>
         </div>
 
-
     </div>
-
-    @* TicketInfo *@
-    <div class="col-lg-4">
-        <div class="card card-hover">
-            <div class="card-body bg-info">
-                <h4 class="card-title text-white mb-0">
-                    Ticket Info
-                    <a asp-controller="Tickets" asp-action="Edit" asp-route-id="@Model.Id" class="btn waves-effect waves-light text-info custom-tooltip" data-title="Edit">
-                        <i class="mdi mdi-pencil" style="color: black;"></i>
-                    </a>
-                </h4>
-
-            </div>
-            <div class="card-body bg-light">
-                <div class="row">
-
-                    <ul class="list-unstyled basic-list">
-                        @*Ticket date*@
-                        <li><strong>Date Entered:</strong> <span class="">@Model.Created.ToString("MMM dd, yyyy") </</span></li>
-                        @*Project end date*@
-                        <li><strong>Deadline:</strong> <span class="">@Model.Project?.EndDate.ToString("MMM dd, yyyy")</</span></li>
-                        @*Ticket type*@
-                        <li>
-                            <strong>Type:</strong>
-                            <span class="">@Model.TicketType?.Name</span>
-
-                        </li>
-                        <li>
-                            <strong>Priority:</strong>
-                            <span class="">@Model.TicketPriority?.Name</span>
-
-                        </li>
-                        <li>
-                            <strong>Status:</strong>
-                            <span class="">@Model.TicketStatus?.Name</span>
-                        </li>
-                    </ul>
-                </div>
-
-            </div>
-
-            <div class="card-body">
-                <h5 class="pt-3">Ticket Creator</h5>
-                <span>
-                    <span>@Model.SubmitterUser?.FullName</span>
-                </span>
-
-                <h5 class="mt-4">Developer</h5>
-                @Model.DeveloperUser?.FullName
-                <br />
-                <button type="button" class="mt-3 btn waves-effect waves-light btn-success" onclick="location.href='@Url.Action("AssignTicket", new { id = Model.Id })'">
-                    Assign Developer
-                </button>
-            </div>
-        </div>
-
-        @* Ticket Activity *@
-        <div class="card card-hover">
-            <h5 class="card-title p-3 card-header bg-info text-white mb-0">Ticket Activity</h5>
-            <div class="card-body scrollable" style="height: 598px">
-                <div class="steamline mt-0">
-                    @foreach (TicketHistory history in Model.History.OrderByDescending(h => h.Created))
-                    {
-                        <div class="sl-item">
-                            <div class="sl-left">
-                                @if (history.User != null && history.User.ImageFileData != null)
-                                {
-                                    <button type="button" class="btn btn-success btn-circle btn-circle text-white">
-                                        <img class="rounded-circle" style="width:100%;height:100%;" src="@(BTFileService.ConvertByteArrayToFile(history.User.ImageFileData, history.User.ImageFileType, DefaultImage.BTUserImage))">
-                                    </button>
-                                }
-                                else
-                                {
-                                    <button type="button" class="btn btn-success btn-circle btn-circle text-white">
-                                        <i class="ti-user"></i>
-                                    </button>
-                                }
-
-                            </div>
-                            <div class="sl-right">
-                                <div class="d-flex align-items-center">
-                                    <h5 class="mb-0">@history.User?.FullName</h5>
-                                    <span class="sl-date ms-2">@history.Created.ToString("MMM dd, yyyy")</span>
-                                </div>
-                                <p class="mt-1">@history.Description</p>
-                                @if (history.Description != null && history.Description.Contains("New Ticket Created"))
-                                {
-                                    <p>A ticket was added</p>
-                                }
-                                else if (history.PropertyName!.Equals("TicketComment") || history.PropertyName.Equals("TicketAttachment"))
-                                {
-                                    <p>A <b>@history.PropertyName</b> was added.</p>
-                                }
-                                else
-                                {
-                                    <p>The ticket <b>@history.PropertyName</b> was edited</p>
-                                    <p>@($"Previous {history.PropertyName}: ") <span style="color:red">@history.OldValue</span></p>
-                                    <p>@($"Current {history.PropertyName}: ") <span style="color:green">@history.NewValue</span></p>
-                                }
-                            </div>
-                        </div>
-                    }
-
-                </div>
-            </div>
-        </div>
-    </div>
-
-</div>
 
 
 
