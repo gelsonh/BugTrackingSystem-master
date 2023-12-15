@@ -65,7 +65,6 @@
             opacity: 1;
         }
 
-   
 </style>
 
 
@@ -110,7 +109,7 @@
                     </a>
 
                 </h4>
-             
+
             </div>
             <div class="card-body">
                 <ul class="list-unstyled basic-list">
@@ -163,10 +162,12 @@
                             </div>
                             <div class="sl-right">
                                 <div class="d-flex align-items-center">
-                                    <h5 class="mb-0">@if (history.User != null)
+                                    <h5 class="mb-0">
+                                        @if (history.User != null)
                                         {
                                             @history.User.FullName
-                                        }</h5>
+                                        }
+                                    </h5>
                                     <span class="sl-date ms-2">@history.Created.ToString("MMM dd, yyyy")</span>
                                 </div>
                                 <p class="mt-1">@history.Description</p>
@@ -269,15 +270,9 @@
     <div class="col-12">
         <div class="card card-hover">
             <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h4 class="mb-0">
-                        Tickets List
-                    </h4>
-                    <form asp-controller="Tickets" asp-action="Create" method="post">
-                        <button class="btn btn-primary" type="submit">New Ticket</button>
-                    </form>
-                </div>
-
+                <h4 class="mb-3">
+                    Tickets List
+                </h4>
                 <div class="table-responsive">
                     <table id="myTableDetails"
                            class="table table-striped table-bordered display"

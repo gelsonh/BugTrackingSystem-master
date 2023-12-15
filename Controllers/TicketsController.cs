@@ -318,7 +318,7 @@ namespace BugTrackingSystem.Controllers
         }
 
 
-
+        [HttpGet]
         public async Task<IActionResult> Create()
         {
             string? userId = _userManager.GetUserId(User);
@@ -327,6 +327,7 @@ namespace BugTrackingSystem.Controllers
             int? companyId = int.Parse(User.Claims.First(c => c.Type == "CompanyId").Value);
 
             List<Project> projects = await _projectService.GetAllProjectsByCompanyIdAsync(companyId);
+            ViewBag.ProjectId = new SelectList(projects, "Id", "Name");
 
             ViewData["ProjectId"] = new SelectList(projects, "Id", "Name");
             ViewData["TicketTypeId"] = new SelectList(_context.TicketTypes.ToList(), "Id", "Name");
