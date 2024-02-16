@@ -47,4 +47,17 @@
     <Folder Include="wwwroot\lib\jquery\dist\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\landingpage\dist\js\custom.js" />
+    <None Include="wwwroot\landingpage\dist\js\custom.min.js" />
+    <None Include="wwwroot\landingpage\dist\scss\core\core.scss" />
+    <None Include="wwwroot\landingpage\dist\scss\core\loader\_spinner.scss" />
+    <None Include="wwwroot\landingpage\dist\scss\core\scafholdings\_scafholding.scss" />
+    <None Include="wwwroot\landingpage\dist\scss\mixins\padding-margin.scss" />
+    <None Include="wwwroot\landingpage\dist\scss\style.scss" />
+    <None Include="wwwroot\landingpage\dist\scss\_custom.scss" />
+    <None Include="wwwroot\landingpage\dist\scss\_responsive.scss" />
+    <None Include="wwwroot\landingpage\dist\scss\_variable.scss" />
+  </ItemGroup>
+
 </Project>

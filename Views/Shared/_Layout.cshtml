@@ -13,16 +13,27 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <!-- Tell the browser to be responsive to screen width -->
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="keywords"
-          content="wrappixel, admin dashboard, html css dashboard, web dashboard, bootstrap 5 admin, bootstrap 5, css3 dashboard, bootstrap 5 dashboard, material pro admin bootstrap 5 dashboard, frontend, responsive bootstrap 5 admin template, material design, material dashboard bootstrap 5 dashboard template" />
-    <meta name="description"
-          content="Admin Pro is powerful and clean admin dashboard template" />
-    <meta name="robots" content="noindex,nofollow" />
-    <title>Bug Tracking System</title>
-    <link rel="canonical"
-          href="https://www.wrappixel.com/templates/adminpro/" />
+   <!-- Make the browser responsive to screen width -->
+   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<!-- Keywords for SEO -->
+<meta name="keywords"
+      content="bug tracking system, issue tracking system, admin dashboard, HTML CSS dashboard, web dashboard, bootstrap 5 admin, bootstrap 5, bootstrap 5 dashboard, CSS3 dashboard, material pro admin bootstrap 5 dashboard, frontend, responsive bootstrap 5 admin template, material design, material dashboard bootstrap 5 dashboard template" />
+
+<!-- Description for SEO -->
+<meta name="description"
+      content="Bug Tracking System is a powerful issue tracking." />
+
+<!-- Instruct search engines not to index this page -->
+<meta name="robots" content="noindex,nofollow" />
+
+<!-- Page Title -->
+<title>Bug Tracking System</title>
+
+<!-- Canonical link -->
+<link rel="canonical"
+      href="https://bugtrackingsystem.up.railway.app/" />
+
     <!-- Favicon icon -->
     <link rel="icon"
           type="image/png"
@@ -106,9 +117,9 @@
                         </b>
                         <!--End Logo icon -->
                         <!-- Logo text -->
-                         <span class="logo-text pt-2" style="position: relative;">                        
+                        <span class="logo-text pt-2" style="position: relative;">
                             Bug Tracking System
-                        </span> 
+                        </span>
                     </a>
 
 
@@ -174,7 +185,7 @@
                                     <span class="hide-menu">Home</span>
                                 </a>
 
-                            </li>                        
+                            </li>
 
                             @* Projects *@
                             <li class="sidebar-item">
@@ -298,7 +309,7 @@
         <div class="page-wrapper">
 
             <div class="page-breadcrumb border-bottom">
-                <div class="row mb-5">
+                <div class="row mb-3">
                     <div class="col-lg-3 col-md-4 col-xs-12 justify-content-start d-flex align-items-center">
                         <h5 class="font-weight-medium text-uppercase mb-0">@RenderSection("PageTitle", required: false)</h5>
                     </div>
@@ -312,7 +323,7 @@
             <!-- -------------------------------------------------------------- -->
             <!-- Container fluid  -->
             <!-- -------------------------------------------------------------- -->
-            <div class="page-content container-fluid mt-5">
+            <div class="page-content container-fluid">
 
                 @RenderBody()
             </div>
@@ -365,7 +376,7 @@
     <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <script src="~/dist/libs/prismjs/prism.js"></script>
 
-   
+
 
 
 
@@ -423,8 +434,6 @@
         });
     </script>
 
-
-
     <script>
         $(document).ready(function () {
             var table = $('#myTable').DataTable({
@@ -450,8 +459,8 @@
     </script>
 
 
-@*     Table Project Details
- *@    <script>
+    @*Table Project Details*@
+    <script>
         $(document).ready(function () {
             // Inicializamos la tabla con DataTables
             var table = $('#myTableDetails').DataTable({

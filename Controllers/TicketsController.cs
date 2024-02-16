@@ -277,7 +277,6 @@ namespace BugTrackingSystem.Controllers
         }
 
 
-
         public async Task<IActionResult> ShowFile(int id)
         {
             TicketAttachment? ticketAttachment = await _ticketService.GetTicketAttachmentByIdAsync(id);
@@ -289,31 +288,30 @@ namespace BugTrackingSystem.Controllers
             return File(fileData!, $"application/{ext}");
         }
 
-        // GET: Tickets/Details/5
+        [HttpGet]
         public async Task<IActionResult> Details(int? Id)
         {
-            if (Id == null && _context.Tickets == null)
+            // Check if the provided ticket ID is null
+            if (Id == null)
             {
+                // If null, return a "Not Found" response
                 return NotFound();
             }
 
-            Ticket? ticket = await _context.Tickets
-                .Include(t => t.DeveloperUser)
-                .Include(t => t.Project)
-                .Include(t => t.SubmitterUser)
-                .Include(t => t.TicketPriority)
-                .Include(t => t.TicketStatus)
-                .Include(t => t.TicketType)
-                .Include(t => t.History)
-                .Include(t => t.Comments)
-                    .ThenInclude(c => c.User)  // Load the User associated with each Comment
-                .Include(t => t.Attachments)
-                .FirstOrDefaultAsync(m => m.Id == Id);
+            // Obtain the company ID associated with the current user
+            int? companyId = _userManager.GetUserAsync(User).Result?.CompanyId;
+
+            // Retrieve the ticket details asynchronously using the TicketService
+            Ticket? ticket = await _ticketService.GetTicketByIdAsync(Id, companyId);
+
+            // Check if the retrieved ticket is null
             if (ticket == null)
             {
+                // If null, return a "Not Found" response
                 return NotFound();
             }
 
+            // If a valid ticket is retrieved, return the details view
             return View(ticket);
         }
 
@@ -336,8 +334,6 @@ namespace BugTrackingSystem.Controllers
 
             return View();
         }
-
-
 
 
         [HttpPost]
@@ -384,7 +380,7 @@ namespace BugTrackingSystem.Controllers
         }
 
 
-        // GET: Tickets/Edit/5
+        
         [HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {

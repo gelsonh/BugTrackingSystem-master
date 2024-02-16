@@ -9,112 +9,110 @@
     <a href="javascript:history.back()">
         <i class="fas fa-arrow-left"></i>
     </a>  @ViewData["Title"]
-    }
-
-@section Breadcrumbs {
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb mb-0 p-0">
-                <li class="breadcrumb-item"><a asp-action="Dashboard" asp-controller="Home">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
-            </ol>
-        </nav>
 }
 
+@section Breadcrumbs {
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0 p-0">
+            <li class="breadcrumb-item"><a asp-action="Dashboard" asp-controller="Home">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+        </ol>
+    </nav>
+}
 
+<style>
+    .custom-tooltip {
+        position: relative;
+    }
 
+        .custom-tooltip::after {
+            content: attr(data-title);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease-in-out;
+        }
 
+        .custom-tooltip:hover::after {
+            opacity: 1;
+        }
+</style>
 
 @* Table *@
-    <div class="row">
-        <div class="col-12">
-            <div class="card card-hover">
+<div class="row">
+    <div class="col-12">
+        <div class="card card-hover">
 
-                <div class="card-body">
-                    <h4 class="mb-3 d-flex">
-                        Tickets Archive:
-                        <span class="fw-light text-primary px-2">@(ViewBag.ArchivedTicketCount ?? 0)</span>
-                    </h4>
+            <div class="card-body">
+                <h4 class="mb-3 d-flex">
+                    Tickets Archive:
+                    <span class="fw-light text-primary px-2">@(ViewBag.ArchivedTicketCount ?? 0)</span>
+                </h4>
 
 
-                    <div class="table-responsive">
-                        <table id="myTable"
-                               class="table table-striped table-bordered display"
-                               style="width: 100%">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>PROJECT</th>
-                                    <th>TITLE</th>
-                                    <th>SUBMITTER</th>
-                                    <th>DEVELOPER</th>
-                                    <th>STATUS</th>
-                                    <th></th>
+                <div class="table-responsive">
+                    <table id="myTable"
+                           class="table table-striped table-bordered display"
+                           style="width: 100%">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>PROJECT</th>
+                                <th>TITLE</th>
+                                <th>SUBMITTER</th>
+                                <th>DEVELOPER</th>
+                                <th>STATUS</th>
+                                <th></th>
 
-                                </tr>
-                            </thead>
-                            <tbody>
+                            </tr>
+                        </thead>
+                        <tbody>
                             @foreach (var ticket in Model)
                             {
-                                    <tr>
-                                        <td>@ticket.Id</td>
-                                        <td>@ticket.Project!.Name</td>
-                                        <td>@ticket.Title</td>
-                                        <td>@ticket.SubmitterUser!.FullName</td>
-                                        <td>@(ticket.DeveloperUser != null ? ticket.DeveloperUser.FullName : "No Developer")</td>
-                                        <td>
-                                            <span class="badge">@ticket.TicketStatus!.Name</span>
-                                        </td>
+                                <tr>
+                                    <td>@ticket.Id</td>
+                                    <td>@ticket.Project!.Name</td>
+                                    <td>@ticket.Title</td>
+                                    <td>@ticket.SubmitterUser!.FullName</td>
+                                    <td>@(ticket.DeveloperUser != null ? ticket.DeveloperUser.FullName : "No Developer")</td>
+                                    <td>
+                                        <span class="badge">@ticket.TicketStatus!.Name</span>
+                                    </td>
 
-                                        <td style="text-align: center;">
-                                            <form asp-controller="Tickets" asp-action="RestoreTicket" method="post">
+                                    <td style="text-align: center;">
+                                        <form asp-controller="Tickets" asp-action="RestoreTicket" method="post">
                                             @foreach (var tickets in Model)
                                             {
-                                                    <input type="hidden" name="id" value="@ticket.Id" />
+                                                <input type="hidden" name="id" value="@ticket.Id" />
                                             }
 
-                                                <button type="submit" class="btn waves-effect waves-light text-danger custom-tooltip" data-title="Restore">
-                                                    <i class="mdi mdi-auto-fix"></i>
-                                                </button>
-                                            </form>
+                                            <button type="submit" class="btn waves-effect waves-light text-danger custom-tooltip" data-title="Restore">
+                                                <i class="mdi mdi-auto-fix"></i>
+                                            </button>
+                                        </form>
 
 
-                                        </td>
+                                    </td>
 
 
 
-                                    </tr>
+                                </tr>
                             }
-                            </tbody>
-                        </table>
-                    </div>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <style>
-        .custom-tooltip {
-            position: relative;
-        }
 
-            .custom-tooltip::after {
-                content: attr(data-title);
-                position: absolute;
-                bottom: 100%;
-                left: 50%;
-                transform: translateX(-50%);
-                background-color: #333;
-                color: #fff;
-                padding: 5px 10px;
-                border-radius: 5px;
-                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-                white-space: nowrap;
-                opacity: 0;
-                pointer-events: none;
-                transition: opacity 0.3s ease-in-out;
-            }
-
-            .custom-tooltip:hover::after {
-                opacity: 1;
-            }
-    </style>

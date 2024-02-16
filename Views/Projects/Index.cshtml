@@ -15,167 +15,167 @@
 }
 
 @section Breadcrumbs {
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb mb-0 p-0">
-                <li class="breadcrumb-item"><a asp-action="Dashboard" asp-controller="Home">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
-            </ol>
-        </nav>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0 p-0">
+            <li class="breadcrumb-item"><a asp-action="Dashboard" asp-controller="Home">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+        </ol>
+    </nav>
 }
 
 
 
 
-    <style>
+<style>
 
-        .custom-tooltip {
-            position: relative;
+    .custom-tooltip {
+        position: relative;
+    }
+
+        .custom-tooltip::after {
+            content: attr(data-title);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease-in-out;
         }
 
-            .custom-tooltip::after {
-                content: attr(data-title);
-                position: absolute;
-                bottom: 100%;
-                left: 50%;
-                transform: translateX(-50%);
-                background-color: #333;
-                color: #fff;
-                padding: 5px 10px;
-                border-radius: 5px;
-                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-                white-space: nowrap;
-                opacity: 0;
-                pointer-events: none;
-                transition: opacity 0.3s ease-in-out;
-            }
-
-            .custom-tooltip:hover::after {
-                opacity: 1;
-            }
-
-        .status-active, .status-inactive {
-            list-style-type: none; /* Oculta los puntos de la lista */
+        .custom-tooltip:hover::after {
+            opacity: 1;
         }
 
-        .status-active {
-            color: green; /* Cambia el color para "Active" si lo deseas */
-        }
+    .status-active, .status-inactive {
+        list-style-type: none; /* Oculta los puntos de la lista */
+    }
 
-        .status-inactive {
-            color: red; /* Cambia el color para "Inactive" si lo deseas */
-        }
-    </style>
+    .status-active {
+        color: green; /* Cambia el color para "Active" si lo deseas */
+    }
 
-    <!-- order table -->
-    <div class="row">
-        <div class="col-12">
-            <div class="card card-hover">
+    .status-inactive {
+        color: red; /* Cambia el color para "Inactive" si lo deseas */
+    }
+</style>
 
-                <div class="card-body">
-                    <div class="d-flex justify-content-between mb-3">
-                        <h4 class="mb-0">
-                            All Projects:
-                            <span class="fw-light text-primary px-2">@(ViewBag.ProjectCount ?? 0)</span>
-                        </h4>
-                        <p class="mb-0">
-                            <a asp-action="Create">Create New Project</a>
-                        </p>
-                    </div>
+<!-- order table -->
+<div class="row">
+    <div class="col-12">
+        <div class="card card-hover">
 
-                    <div class="table-responsive">
-                        <table id="myTable"
-                               class="table table-striped table-bordered display"
-                               style="width: 100%">
-                            <thead>
-                                <tr>
-                                    <th>PROJECT</th>
-                                    <th>END DATE</th>
-                                    <th>PRIORITY</th>
-                                    <th>PROJECT MANAGER</th>
-                                    <th>TEAM</th>
-                                    <th>STATUS</th>
-                                    <th></th>
+            <div class="card-body">
+                <div class="d-flex justify-content-between mb-3">
+                    <h4 class="mb-0">
+                        All Projects:
+                        <span class="fw-light text-primary px-2">@(ViewBag.ProjectCount ?? 0)</span>
+                    </h4>
+                    <p class="mb-0">
+                        <a asp-action="Create">Create New Project</a>
+                    </p>
+                </div>
 
-                                </tr>
-                            </thead>
-                            <tbody>
+                <div class="table-responsive">
+                    <table id="myTable"
+                           class="table table-striped table-bordered display"
+                           style="width: 100%">
+                        <thead>
+                            <tr>
+                                <th>PROJECT</th>
+                                <th>END DATE</th>
+                                <th>PRIORITY</th>
+                                <th>PROJECT MANAGER</th>
+                                <th>TEAM</th>
+                                <th>STATUS</th>
+                                <th></th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
                             @foreach (var project in Model)
                             {
                                 BTUser? projectManager = await _ProjectService.GetProjectManagerAsync(project.Id)!;
 
-                                    <tr>
+                                <tr>
 
-                                        <td>
+                                    <td>
                                         @project.Name
-                                            <br>
-                                            <small>Start Date: @project.StartDate.ToString("d")</small>
-                                        </td>
-                                        <td>@project.EndDate.ToString("d")</td>
-                                        <td>@(project.ProjectPriority != null ? project.ProjectPriority.Name : "No Priority Assigned")</td>
-                                        <td>
+                                        <br>
+                                        <small>Start Date: @project.StartDate.ToString("d")</small>
+                                    </td>
+                                    <td>@project.EndDate.ToString("d")</td>
+                                    <td>@(project.ProjectPriority != null ? project.ProjectPriority.Name : "No Priority Assigned")</td>
+                                    <td>
                                         @if (projectManager != null)
                                         {
 
-                                                <span>@projectManager.FullName</span>
+                                            <span>@projectManager.FullName</span>
                                         }
                                         else
                                         {
-                                                <a asp-action="AssignPM" asp-route-id="@project.Id">Assign PM</a>
+                                            <a asp-action="AssignPM" asp-route-id="@project.Id">Assign PM</a>
                                         }
-                                        </td>
-                                        <td>
+                                    </td>
+                                    <td>
                                         @if (project.Members != null && project.Members.Any())
                                         {
-                                                <div class="text-center small">
+                                            <div class="text-center small">
                                                 @foreach (var member in project.Members)
                                                 {
-                                                        <div>@member.FullName</div>
+                                                    <div>@member.FullName</div>
                                                 }
-                                                </div>
+                                            </div>
                                         }
                                         else
                                         {
-                                                <a asp-action="AssignProjectMembers" asp-route-id="@project.Id">Manage Team</a>
+                                            <a asp-action="AssignProjectMembers" asp-route-id="@project.Id">Manage Team</a>
                                         }
-                                        </td>
+                                    </td>
 
-                                        <td>
+                                    <td>
                                         @if (DateTime.Now < project.EndDate && DateTime.Now >= project.StartDate)
                                         {
-                                                <li class="status-active"><span>Active</span></li>
+                                            <li class="status-active"><span>Active</span></li>
                                         }
                                         else
                                         {
-                                                <li class="status-inactive"><span>InActive</span></li>
+                                            <li class="status-inactive"><span>InActive</span></li>
                                         }
-                                        </td>
+                                    </td>
 
-                                        <td style="text-align: center;">
-                                            <a asp-controller="Projects" asp-action="Details" asp-route-Id="@project.Id" class="btn waves-effect waves-light text-info custom-tooltip" data-title="Details">
-                                                <i class="mdi mdi-details"></i>
-                                            </a>
-                                            <a asp-controller="Projects" asp-action="Edit" asp-route-id="@project.Id" class="btn waves-effect waves-light text-info custom-tooltip" data-title="Edit">
-                                                <i class="mdi mdi-pencil"></i>
-                                            </a>
+                                    <td style="text-align: center;">
+                                        <a asp-controller="Projects" asp-action="Details" asp-route-Id="@project.Id" class="btn waves-effect waves-light text-info custom-tooltip" data-title="Details">
+                                            <i class="mdi mdi-details"></i>
+                                        </a>
+                                        <a asp-controller="Projects" asp-action="Edit" asp-route-id="@project.Id" class="btn waves-effect waves-light text-info custom-tooltip" data-title="Edit">
+                                            <i class="mdi mdi-pencil"></i>
+                                        </a>
 
 
-                                            <form asp-controller="Projects" asp-action="ArchiveProject" method="post" style="display: inline-block;">
-                                                <input type="hidden" name="id" value="@project.Id" />
-                                                <button type="submit" class="btn waves-effect waves-light text-danger custom-tooltip" data-title="Archive">
-                                                    <i class="mdi mdi-archive"></i>
-                                                </button>
-                                            </form>
-                                        </td>
+                                        <form asp-controller="Projects" asp-action="ArchiveProject" method="post" style="display: inline-block;">
+                                            <input type="hidden" name="id" value="@project.Id" />
+                                            <button type="submit" class="btn waves-effect waves-light text-danger custom-tooltip" data-title="Archive">
+                                                <i class="mdi mdi-archive"></i>
+                                            </button>
+                                        </form>
+                                    </td>
 
-                                    </tr>
+                                </tr>
                             }
-                            </tbody>
-                        </table>
-                    </div>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 
 @functions {
@@ -195,6 +195,6 @@
                 return "badge badge-secondary";
         }
     }
-    }
+}
 
 

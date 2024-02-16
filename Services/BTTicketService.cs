@@ -29,8 +29,6 @@ namespace BugTrackingSystem.Services
             }
         }
 
-
-
         public async Task AddTicketAttachmentAsync(TicketAttachment? ticketAttachment)
         {
             try
@@ -62,7 +60,6 @@ namespace BugTrackingSystem.Services
             }
         }
 
-
         public async Task ArchiveTicketAsync(Ticket? ticket)
         {
             if (ticket != null)
@@ -72,7 +69,6 @@ namespace BugTrackingSystem.Services
                 await _context.SaveChangesAsync();
             }
         }
-
 
         public async Task AssignTicketAsync(int? ticketId, string? userId)
         {
@@ -182,17 +178,20 @@ namespace BugTrackingSystem.Services
                 if (ticketId != null && companyId != null)
                 {
                     ticket = await _context.Tickets
-                    .Where(t => t.Project!.CompanyId == companyId && t.Archived == false)
-                    .Include(t => t.DeveloperUser)
-                    .Include(t => t.Project)
-                             .ThenInclude(p => p!.Company)
-                    .Include(t => t.History)
-                    .Include(t => t.Comments)
-                    .Include(t => t.Attachments)
-                    .Include(t => t.SubmitterUser)
-                    .FirstOrDefaultAsync(t => t.Id == ticketId);
-
-
+                         .Where(t => t.Project!.CompanyId == companyId && t.Archived == false)
+                .Include(t => t.DeveloperUser)
+                .Include(t => t.Project)
+                    .ThenInclude(p => p!.Company)
+                .Include(t => t.TicketPriority)
+                .Include(t => t.TicketStatus)
+                .Include(t => t.TicketType)
+                .Include(t => t.History)
+                .Include(t => t.Comments)
+                    .ThenInclude(c => c.User)
+                .Include(t => t.Attachments)
+                .Include(t => t.SubmitterUser)
+                .FirstOrDefaultAsync(t => t.Id == ticketId);
+                   
                 }
                 return ticket;
 
@@ -202,7 +201,6 @@ namespace BugTrackingSystem.Services
                 throw;
             }
         }
-
 
         public async Task<BTUser?> GetTicketDeveloperAsync(int? ticketId, int? companyId)
         {
@@ -238,13 +236,10 @@ namespace BugTrackingSystem.Services
             }
         }
 
-
-
         public async Task<IEnumerable<TicketPriority>> GetTicketPrioritiesAsync()
         {
             return await _context.TicketPriorities.ToListAsync();
         }
-
 
         public async Task<List<Ticket>> GetTicketsByUserIdAsync(string? userId, int? companyId)
         {
@@ -266,11 +261,11 @@ namespace BugTrackingSystem.Services
             }
         }
 
-
         public async Task<IEnumerable<TicketStatus>> GetTicketStatusAsync()
         {
             return await _context.TicketStatus.ToListAsync();
         }
+
         public async Task<IEnumerable<TicketType>> GetTicketTypesAsync()
         {
             return await _context.TicketTypes.ToListAsync();
@@ -292,9 +287,6 @@ namespace BugTrackingSystem.Services
             return unassignedTickets;
         }
 
-
-
-
         public async Task RestoreTicketAsync(Ticket? ticket)
         {
             if (ticket != null)
@@ -310,8 +302,6 @@ namespace BugTrackingSystem.Services
                 }
             }
         }
-
-
 
         public async Task UpdateTicketAsync(Ticket? ticket)
         {

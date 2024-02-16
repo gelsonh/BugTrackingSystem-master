@@ -61,10 +61,10 @@
         }
 </style>
 
-<div class="row">
-
-    @*Ticket Title *@
+<div class="row"> 
     <div class="col-md-8 col-sm-12">
+
+        @*Ticket Title *@
         <div class="card card-hover">
             <div class="card-header bg-info">
                 <h4 class="mb-0 text-white">Ticket Details</h4>
@@ -102,7 +102,7 @@
                                     </div>
                                 </div>
                                 <div class="chat-time d-inline-block text-end fs-2 font-weight-medium">
-                                    @ticketComment.Created.ToString("MMM dd, yyy hh:mm tt")
+                                    @ticketComment.Created.ToString("MMM dd, yyy")
                                 </div>
                             </li>
                         }
@@ -120,12 +120,7 @@
             </div>
         </div>
 
-
-
-
-
         @* Attachments *@
-
         <div class="card card-hover">
             <div class="card-header bg-info">
                 <h4 class="mb-0 text-white">Attachments</h4>
@@ -173,11 +168,11 @@
             </div>
         </div>
 
-
     </div>
 
-    @* TicketInfo *@
     <div class="col-lg-4">
+
+        @* TicketInfo *@
         <div class="card card-hover">
             <div class="card-body bg-info">
                 <h4 class="card-title text-white mb-0">
