@@ -1,126 +1,126 @@
 ﻿@model IEnumerable<BugTrackingSystem.Models.Ticket>
 
-@{
+    @{
     ViewData["Title"] = "Tickets";
-}
-
-@section PageTitle {
-    <a href="javascript:history.back()">
-        <i class="fas fa-arrow-left"></i>
-    </a>  @ViewData["Title"]
-}
-
-@section Breadcrumbs {
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb mb-0 p-0">
-            <li class="breadcrumb-item"><a asp-action="Dashboard" asp-controller="Home">Home</a></li>
-            <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
-        </ol>
-    </nav>
-}
-
-<style>
-    .custom-tooltip {
-        position: relative;
     }
 
-        .custom-tooltip::after {
-            content: attr(data-title);
-            position: absolute;
-            bottom: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #333;
-            color: #fff;
-            padding: 5px 10px;
-            border-radius: 5px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-            white-space: nowrap;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease-in-out;
+    @section PageTitle {
+        <a href="javascript:history.back()">
+            <i class="fas fa-arrow-left"></i>
+        </a>  @ViewData["Title"]
+    }
+
+    @section Breadcrumbs {
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0 p-0">
+                <li class="breadcrumb-item"><a asp-action="Dashboard" asp-controller="Home">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+            </ol>
+        </nav>
+    }
+
+    <style>
+        .custom-tooltip {
+            position: relative;
         }
 
-        .custom-tooltip:hover::after {
-            opacity: 1;
-        }
-</style>
+            .custom-tooltip::after {
+                content: attr(data-title);
+                position: absolute;
+                bottom: 100%;
+                left: 50%;
+                transform: translateX(-50%);
+                background-color: #333;
+                color: #fff;
+                padding: 5px 10px;
+                border-radius: 5px;
+                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+                white-space: nowrap;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.3s ease-in-out;
+            }
 
-<div class="row">
-    <!-- Column -->
-    <div class="col-md-6 col-lg-3 col-xlg-3">
-        <div class="card card-hover">
-            <div class="p-2 rounded bg-light-primary text-center">
-                <h1 class="fw-light text-primary">@ViewBag.NewCount</h1>
-                <h6 class="text-primary">New</h6>
+            .custom-tooltip:hover::after {
+                opacity: 1;
+            }
+    </style>
+
+    <div class="row">
+        <!-- Column -->
+        <div class="col-md-6 col-lg-3 col-xlg-3">
+            <div class="card card-hover">
+                <div class="p-2 rounded bg-light-primary text-center">
+                    <h1 class="fw-light text-primary">@ViewBag.NewCount</h1>
+                    <h6 class="text-primary">New</h6>
+                </div>
+            </div>
+        </div>
+
+        <!-- Column -->
+        <div class="col-md-6 col-lg-3 col-xlg-3">
+            <div class="card card-hover">
+                <div class="p-2 rounded bg-light-warning text-center">
+                    <h1 class="fw-light text-warning">@ViewBag.DevelopmentCount</h1>
+                    <h6 class="text-warning">Development</h6>
+                </div>
+            </div>
+        </div>
+
+        <!-- Column -->
+        <div class="col-md-6 col-lg-3 col-xlg-3">
+            <div class="card card-hover">
+                <div class="p-2 rounded bg-light-success text-center">
+                    <h1 class="fw-light text-success">@ViewBag.TestingCount</h1>
+                    <h6 class="text-success">Testing</h6>
+                </div>
+            </div>
+        </div>
+
+        <!-- Column -->
+        <div class="col-md-6 col-lg-3 col-xlg-3">
+            <div class="card card-hover">
+                <div class="p-2 rounded bg-light-danger text-center">
+                    <h1 class="fw-light text-danger">@ViewBag.ResolvedCount</h1>
+                    <h6 class="text-danger">Resolved</h6>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Column -->
-    <div class="col-md-6 col-lg-3 col-xlg-3">
-        <div class="card card-hover">
-            <div class="p-2 rounded bg-light-warning text-center">
-                <h1 class="fw-light text-warning">@ViewBag.DevelopmentCount</h1>
-                <h6 class="text-warning">Development</h6>
-            </div>
-        </div>
-    </div>
 
-    <!-- Column -->
-    <div class="col-md-6 col-lg-3 col-xlg-3">
-        <div class="card card-hover">
-            <div class="p-2 rounded bg-light-success text-center">
-                <h1 class="fw-light text-success">@ViewBag.TestingCount</h1>
-                <h6 class="text-success">Testing</h6>
-            </div>
-        </div>
-    </div>
+    @* Table *@
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
 
-    <!-- Column -->
-    <div class="col-md-6 col-lg-3 col-xlg-3">
-        <div class="card card-hover">
-            <div class="p-2 rounded bg-light-danger text-center">
-                <h1 class="fw-light text-danger">@ViewBag.ResolvedCount</h1>
-                <h6 class="text-danger">Resolved</h6>
-            </div>
-        </div>
-    </div>
-</div>
+                <div class="card-body">
+                    <h4 class="mb-3 d-flex">
+                        <div>
+                            Total Tickets:
+                            <span class="fw-light text-primary px-2">@(ViewBag.TicketCount ?? 0)</span>
+                        </div>
+                        <a class="ms-auto" asp-controller="Tickets" asp-action="Create">Create Ticket</a> <i class="mdi mdi-details"></i>
+                    </h4>
 
+                    <div class="table-responsive">
+                        <table id="myTable"
+                               class="table table-striped table-bordered display"
+                               style="width: 100%">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>PROJECT</th>
+                                    <th>TITLE</th>
+                                    <th>SUBMITTER</th>
+                                    <th>DEVELOPER</th>
+                                    <th style="text-align: center;">STATUS</th>
+                                    <th>Manage</th>
 
-@* Table *@
-<div class="row">
-    <div class="col-12">
-        <div class="card">
-
-            <div class="card-body">
-                <h4 class="mb-3 d-flex">
-                    <div>
-                        Total Tickets:
-                        <span class="fw-light text-primary px-2">@(ViewBag.TicketCount ?? 0)</span>
-                    </div>
-                    <a class="ms-auto" asp-controller="Tickets" asp-action="Create">Create Ticket</a> <i class="mdi mdi-details"></i>
-                </h4>
-
-                <div class="table-responsive">
-                    <table id="myTable"
-                           class="table table-striped table-bordered display"
-                           style="width: 100%">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>PROJECT</th>
-                                <th>TITLE</th>
-                                <th>SUBMITTER</th>
-                                <th>DEVELOPER</th>
-                                <th style="text-align: center;">STATUS</th>
-                                <th>Manage</th>
-
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var ticket in Model)
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var ticket in Model)
                             {
                                 <tr>
                                     <td>@ticket.Id</td>
@@ -130,12 +130,12 @@
                                     <td>
                                         @if (ticket.DeveloperUser != null)
                                         {
-                                            @ticket.DeveloperUser.FullName
+                                        @ticket.DeveloperUser.FullName
                                         }
                                         else
                                         {
-                                            <span class="">Unassigned</span>
-                                            @* <a asp-action="AssignTicket" asp-route-id="@ticket.Id">Assign Developer</a> *@
+                                        <span class="">Unassigned</span>
+                                        @* <a asp-action="AssignTicket" asp-route-id="@ticket.Id">Assign Developer</a> *@
                                         }
                                     </td>
 
@@ -159,13 +159,13 @@
                                     </td>
                                 </tr>
                             }
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
 
 

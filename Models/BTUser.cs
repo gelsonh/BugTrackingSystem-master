@@ -26,7 +26,7 @@ namespace BugTrackingSystem.Models
 
         public string? ImageFileType { get; set; }
 
-        
+
         public int CompanyId { get; set; }
 
         // Navigation properties

@@ -191,7 +191,7 @@ namespace BugTrackingSystem.Services
                 .Include(t => t.Attachments)
                 .Include(t => t.SubmitterUser)
                 .FirstOrDefaultAsync(t => t.Id == ticketId);
-                   
+
                 }
                 return ticket;
 

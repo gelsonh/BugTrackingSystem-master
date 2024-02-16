@@ -14,11 +14,11 @@ namespace BugTrackingSystem.Services
         private readonly UserManager<BTUser> _userManager;
 
 
-        public BTRolesService(ApplicationDbContext context, UserManager<BTUser> userManager )
+        public BTRolesService(ApplicationDbContext context, UserManager<BTUser> userManager)
         {
             _context = context;
             _userManager = userManager;
-       
+
 
 
         }

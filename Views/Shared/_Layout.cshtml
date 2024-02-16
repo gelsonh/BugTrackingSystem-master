@@ -1,38 +1,35 @@
 ﻿@using BugTrackingSystem.Areas.Identity.Pages.Account;
 @using Microsoft.AspNetCore.Identity;
-@inject UserManager<BTUser> UserManager
-@inject IBTNotificationService NotificationService
+@inject IBTNotificationService NotificationService;
 
-@* @{
-    BTUser? appUser = await UserManager.GetUserAsync(User);
-} *@
 
 
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-   <!-- Make the browser responsive to screen width -->
-   <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Make the browser responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<!-- Keywords for SEO -->
-<meta name="keywords"
-      content="bug tracking system, issue tracking system" />
+    <!-- Keywords for SEO -->
+    <meta name="keywords"
+          content="bug tracking system, issue tracking system" />
 
-<!-- Description for SEO -->
-<meta name="description"
-      content="Bug Tracking System is a powerful issue tracking bugs." />
+    <!-- Description for SEO -->
+    <meta name="description"
+          content="Bug Tracking System is a powerful issue tracking bugs." />
 
-<!-- Instruct search engines not to index this page -->
-<meta name="robots" content="noindex,nofollow" />
+    <!-- Instruct search engines not to index this page -->
+    <meta name="robots" content="noindex,nofollow" />
 
-<!-- Page Title -->
-<title>Bug Tracking System</title>
+    <!-- Page Title -->
+    <title>Bug Tracking System</title>
 
-<!-- Canonical link -->
-<link rel="canonical"
-      href="https://bugtrackingsystem.up.railway.app/" />
+    <!-- Canonical link -->
+    <link rel="canonical"
+          href="https://bugtrackingsystem.up.railway.app/" />
 
     <!-- Favicon icon -->
     <link rel="icon"
@@ -176,122 +173,122 @@
                     <ul id="sidebarnav">
                         @if (User.Identity!.IsAuthenticated)
                         {
-                            @*Home*@
-                            <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark" asp-area="" asp-controller="Home" asp-action="Dashboard" aria-expanded="false">
+                        @*Home*@
+                        <li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark" asp-area="" asp-controller="Home" asp-action="Dashboard" aria-expanded="false">
 
-                                    <i class="mdi mdi-home-variant"></i>
+                                <i class="mdi mdi-home-variant"></i>
 
-                                    <span class="hide-menu">Home</span>
-                                </a>
+                                <span class="hide-menu">Home</span>
+                            </a>
 
-                            </li>
+                        </li>
 
-                            @* Projects *@
-                            <li class="sidebar-item">
-                                <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
-                                    <i class="mdi mdi-folder-multiple"></i>
-                                    <span class="hide-menu"> Projects </span>
-                                </a>
+                        @* Projects *@
+                        <li class="sidebar-item">
+                            <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
+                                <i class="mdi mdi-folder-multiple"></i>
+                                <span class="hide-menu"> Projects </span>
+                            </a>
 
-                                <ul aria-expanded="false" class="collapse first-level">
+                            <ul aria-expanded="false" class="collapse first-level">
 
-                                    <li class="sidebar-item">
-                                        <a asp-area="" asp-controller="Projects" asp-action="Create" class="sidebar-link">
-                                            <i class="mdi mdi-plus-circle-outline"></i>
-                                            <span class="hide-menu"> New Project</span>
-                                        </a>
-                                    </li>
-                                    <li class="sidebar-item">
-                                        <a asp-area="" asp-controller="Projects" asp-action="index" class="sidebar-link">
-                                            <i class="mdi mdi-toggle-switch"></i>
-                                            <span class="hide-menu"> All Projects</span>
-                                        </a>
-                                    </li>
-                                    <li class="sidebar-item">
-                                        <a asp-area="" asp-controller="Projects" asp-action="UnassignedProjects" class="sidebar-link">
-                                            <i class="mdi mdi-tablet"></i>
-                                            <span class="hide-menu"> Unassigned Projects</span>
-                                        </a>
-                                    </li>
-                                    <li class="sidebar-item">
-                                        <a asp-area="" asp-controller="Projects" asp-action="ProjectsArchive" class="sidebar-link">
-                                            <i class="mdi mdi-sort-variant"></i>
-                                            <span class="hide-menu"> Archived Projects</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
+                                <li class="sidebar-item">
+                                    <a asp-area="" asp-controller="Projects" asp-action="Create" class="sidebar-link">
+                                        <i class="mdi mdi-plus-circle-outline"></i>
+                                        <span class="hide-menu"> New Project</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a asp-area="" asp-controller="Projects" asp-action="index" class="sidebar-link">
+                                        <i class="mdi mdi-toggle-switch"></i>
+                                        <span class="hide-menu"> All Projects</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a asp-area="" asp-controller="Projects" asp-action="UnassignedProjects" class="sidebar-link">
+                                        <i class="mdi mdi-tablet"></i>
+                                        <span class="hide-menu"> Unassigned Projects</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a asp-area="" asp-controller="Projects" asp-action="ProjectsArchive" class="sidebar-link">
+                                        <i class="mdi mdi-sort-variant"></i>
+                                        <span class="hide-menu"> Archived Projects</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
 
-                            @* Tickets *@
-                            <li class="sidebar-item">
-                                <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
-                                    <i class="mdi mdi-ticket"></i>
-                                    <span class="hide-menu"> Ticket </span>
-                                </a>
-                                <ul aria-expanded="false" class="collapse first-level">
+                        @* Tickets *@
+                        <li class="sidebar-item">
+                            <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
+                                <i class="mdi mdi-ticket"></i>
+                                <span class="hide-menu"> Ticket </span>
+                            </a>
+                            <ul aria-expanded="false" class="collapse first-level">
 
-                                    <li class="sidebar-item">
-                                        <a asp-controller="Tickets" asp-action="Create" class="sidebar-link">
-                                            <i class="mdi mdi-plus-circle-outline"></i>
-                                            <span class="hide-menu"> New Ticket</span>
-                                        </a>
-                                    </li>
-                                    <li class="sidebar-item">
-                                        <a asp-area="" asp-controller="Tickets" asp-action="index" class="sidebar-link">
-                                            <i class="mdi mdi-toggle-switch"></i>
-                                            <span class="hide-menu"> All Tickets</span>
-                                        </a>
-                                    </li>
-                                    <li class="sidebar-item">
-                                        <a asp-action="UnassignedTickets" asp-controller="Tickets" class="sidebar-link">
-                                            <i class="mdi mdi-tablet"></i>
-                                            <span class="hide-menu">  Unassigned Tickets</span>
-                                        </a>
-                                    </li>
-                                    <li class="sidebar-item">
-                                        <a asp-area="" asp-controller="Tickets" asp-action="TicketsArchive" class="sidebar-link">
-                                            <i class="mdi mdi-sort-variant"></i>
-                                            <span class="hide-menu"> Archived Tickets</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
+                                <li class="sidebar-item">
+                                    <a asp-controller="Tickets" asp-action="Create" class="sidebar-link">
+                                        <i class="mdi mdi-plus-circle-outline"></i>
+                                        <span class="hide-menu"> New Ticket</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a asp-area="" asp-controller="Tickets" asp-action="index" class="sidebar-link">
+                                        <i class="mdi mdi-toggle-switch"></i>
+                                        <span class="hide-menu"> All Tickets</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a asp-action="UnassignedTickets" asp-controller="Tickets" class="sidebar-link">
+                                        <i class="mdi mdi-tablet"></i>
+                                        <span class="hide-menu">  Unassigned Tickets</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a asp-area="" asp-controller="Tickets" asp-action="TicketsArchive" class="sidebar-link">
+                                        <i class="mdi mdi-sort-variant"></i>
+                                        <span class="hide-menu"> Archived Tickets</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
 
-                            @* Company *@
-                            <li class="sidebar-item">
-                                <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
-                                    <i class="mdi mdi-city"></i>
-                                    <span class="hide-menu">Company</span>
-                                </a>
-                                <ul aria-expanded="false" class="collapse first-level">
-                                    <li class="sidebar-item">
-                                        <a asp-action="Create" asp-controller="Invites" class="sidebar-link">
-                                            <i class="mdi mdi-toggle-switch"></i>
-                                            <span class="hide-menu"> Company Invite </span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
+                        @* Company *@
+                        <li class="sidebar-item">
+                            <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
+                                <i class="mdi mdi-city"></i>
+                                <span class="hide-menu">Company</span>
+                            </a>
+                            <ul aria-expanded="false" class="collapse first-level">
+                                <li class="sidebar-item">
+                                    <a asp-action="Create" asp-controller="Invites" class="sidebar-link">
+                                        <i class="mdi mdi-toggle-switch"></i>
+                                        <span class="hide-menu"> Company Invite </span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
 
-                            @* Manage Roles *@
-                            <li class="sidebar-item">
-                                <a class="sidebar-link  waves-effect waves-dark" asp-area="" asp-controller="Companies" asp-action="ManageUserRoles" aria-expanded="false">
-                                    <i class="mdi mdi-pencil-box"></i>
-                                    <span class="hide-menu">Manage Roles</span>
-                                </a>
-                            </li>
+                        @* Manage Roles *@
+                        <li class="sidebar-item">
+                            <a class="sidebar-link  waves-effect waves-dark" asp-area="" asp-controller="Companies" asp-action="ManageUserRoles" aria-expanded="false">
+                                <i class="mdi mdi-pencil-box"></i>
+                                <span class="hide-menu">Manage Roles</span>
+                            </a>
+                        </li>
 
-                            @* Notifications *@
-                            <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark" asp-area="" asp-controller="Notifications" asp-action="index" aria-expanded="false">
-                                    <i class="mdi mdi-notification-clear-all"></i>
-                                    <span class="hide-menu">Notifications</span>
-                                </a>
+                        @* Notifications *@
+                        <li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark" asp-area="" asp-controller="Notifications" asp-action="index" aria-expanded="false">
+                                <i class="mdi mdi-notification-clear-all"></i>
+                                <span class="hide-menu">Notifications</span>
+                            </a>
 
-                            </li>
+                        </li>
 
-                            <li class="devider"></li>
+                        <li class="devider"></li>
 
                         }
                     </ul>
@@ -375,20 +372,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.7.20/c3.min.js"></script>
     <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <script src="~/dist/libs/prismjs/prism.js"></script>
-
-
-
-
-
-    <!-- Otros scripts -->
-    <!-- Scripts de Morris.js -->
-    @*     <script src="~/dist/libs/raphael/raphael.min.js"></script>
-    <script src="~/dist/libs/morris.js/morris.min.js"></script>
-    <script src="~/dist/js/pages/morris/morris-data.js"></script> *@
-    <!-- ... -->
-    <!-- Scripts pesados -->
-    <!-- ... -->
-
 
     <script>
         $(function () {
@@ -488,6 +471,5 @@
             });
         });
     </script>
-
 </body>
 </html>
