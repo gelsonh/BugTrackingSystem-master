@@ -39,6 +39,7 @@ namespace BugTrackingSystem.Controllers
             _notificationService = notificationService;
         }
 
+
         [Authorize]
         public async Task<IActionResult> Index()
         {
@@ -66,6 +67,7 @@ namespace BugTrackingSystem.Controllers
             return View(tickets);
         }
 
+
         [Authorize(Roles = "Admin, ProjectManager, DemoUser")]
         [HttpGet]
         public async Task<IActionResult> AssignTicket(int? id)
@@ -84,6 +86,7 @@ namespace BugTrackingSystem.Controllers
 
             return View(viewModel);
         }
+
 
         [Authorize(Roles = "Admin, ProjectManager, DemoUser")]
         [HttpPost]
@@ -121,7 +124,6 @@ namespace BugTrackingSystem.Controllers
         }
 
 
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddTicketComment([Bind("Comment,TicketId")] TicketComment ticketComment, int ticketId)
@@ -144,6 +146,7 @@ namespace BugTrackingSystem.Controllers
 
             return View(ticketComment);
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -172,6 +175,7 @@ namespace BugTrackingSystem.Controllers
 
             return RedirectToAction("Details", new { id = ticketAttachment.TicketId, message = statusMessage });
         }
+
 
         [Authorize(Roles = "Admin, ProjectManager, DemoUser")]
         [HttpGet]
@@ -206,6 +210,7 @@ namespace BugTrackingSystem.Controllers
 
             return View(ticket);
         }
+
 
         [Authorize(Roles = "Admin, ProjectManager, DemoUser")]
         [HttpPost]
@@ -260,6 +265,7 @@ namespace BugTrackingSystem.Controllers
             return View(ticket);
         }
 
+
         public async Task<IActionResult> UnassignedTickets()
         {
             // Obtén el companyId del usuario que inició sesión
@@ -287,6 +293,7 @@ namespace BugTrackingSystem.Controllers
             Response.Headers.Add("Content-Disposition", $"inline; filename={fileName}");
             return File(fileData!, $"application/{ext}");
         }
+
 
         [HttpGet]
         public async Task<IActionResult> Details(int? Id)
@@ -380,7 +387,6 @@ namespace BugTrackingSystem.Controllers
         }
 
 
-
         [HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {
@@ -398,6 +404,7 @@ namespace BugTrackingSystem.Controllers
 
             return View(ticket);
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -446,7 +453,6 @@ namespace BugTrackingSystem.Controllers
 
             return View(ticket);
         }
-
 
 
         [HttpGet]
@@ -523,6 +529,7 @@ namespace BugTrackingSystem.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+
         public async Task<IActionResult> Restore(int id)
         {
             Ticket? ticket = await _context.Tickets.FindAsync(id);
@@ -533,6 +540,7 @@ namespace BugTrackingSystem.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
 
         private bool TicketExists(int id)
         {

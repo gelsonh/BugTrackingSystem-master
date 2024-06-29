@@ -3,8 +3,6 @@ using BugTrackingSystem.Models;
 using BugTrackingSystem.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.Design;
-using System.Text.RegularExpressions;
 
 namespace BugTrackingSystem.Services
 {
@@ -168,17 +166,18 @@ namespace BugTrackingSystem.Services
         }
 
         public async Task<Ticket?> GetTicketByIdAsync(int? ticketId, int? companyId)
+{
+    try
+    {
+        // Initialize a new Ticket object
+        Ticket? ticket = new();
+
+        // Check if both ticketId and companyId are provided
+        if (ticketId != null && companyId != null)
         {
-
-            try
-            {
-
-                Ticket? ticket = new();
-
-                if (ticketId != null && companyId != null)
-                {
-                    ticket = await _context.Tickets
-                         .Where(t => t.Project!.CompanyId == companyId && t.Archived == false)
+            // Query the database context for the ticket
+            ticket = await _context.Tickets
+                .Where(t => t.Project!.CompanyId == companyId && t.Archived == false)
                 .Include(t => t.DeveloperUser)
                 .Include(t => t.Project)
                     .ThenInclude(p => p!.Company)
@@ -191,16 +190,18 @@ namespace BugTrackingSystem.Services
                 .Include(t => t.Attachments)
                 .Include(t => t.SubmitterUser)
                 .FirstOrDefaultAsync(t => t.Id == ticketId);
-
-                }
-                return ticket;
-
-            }
-            catch (Exception)
-            {
-                throw;
-            }
         }
+
+        // Return the retrieved ticket (or null if not found)
+        return ticket;
+    }
+    catch (Exception)
+    {
+        // Handle exceptions by rethrowing them
+        throw;
+    }
+}
+
 
         public async Task<BTUser?> GetTicketDeveloperAsync(int? ticketId, int? companyId)
         {
