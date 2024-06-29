@@ -152,14 +152,14 @@
                             <div class="col col-sm-2">
                                 <a asp-action="ShowFile" asp-controller="Tickets" asp-route-Id="@item.Id">
                                     <div class="icon">
-                                        <img src="@BTFileService.GetFileIcon(item.FileName)" style="height:50px;width:50px" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="@item.FileName" />
+                                        <img src="@BTFileService.GetFileIcon(item.FileName!)" style="height:50px;width:50px" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="@item.FileName" />
                                     </div>
                                 </a>
                                 <div style="font-size:x-small">
                                     <div class="file-name">
                                         <strong>@item.Description</strong>
                                     </div>
-                                    <small>Size:@BTFileService.FormatFileSize(item.FileData.Length) </small>
+                                    <small>Size:@BTFileService.FormatFileSize(item.FileData!.Length) </small>
                                 </div>
                             </div>
                         }

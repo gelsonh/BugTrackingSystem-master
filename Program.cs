@@ -3,7 +3,6 @@ using BugTrackingSystem.Extensions;
 using BugTrackingSystem.Models;
 using BugTrackingSystem.Services;
 using BugTrackingSystem.Services.Interfaces;
-using MailKit;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
