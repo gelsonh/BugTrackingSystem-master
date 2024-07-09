@@ -16,6 +16,7 @@ namespace BugTrackingSystem.Controllers
     [Authorize]
     public class TicketsController : BTBaseController
     {
+
         private readonly ApplicationDbContext _context;
         private readonly UserManager<BTUser> _userManager;
         private readonly IBTCompanyService _companyService;
@@ -43,13 +44,21 @@ namespace BugTrackingSystem.Controllers
         [Authorize]
         public async Task<IActionResult> Index()
         {
+
+            // Retrieves the currently logged-in user using the _userManager service
             BTUser? user = await _userManager.GetUserAsync(User);
+
+            // Initializes an empty collection of Ticket objects
             IEnumerable<Ticket> tickets = new List<Ticket>();
 
+            // Checks if the user is in the “Admin” role
+            // If true, executes the following block of code
             if (await _userManager.IsInRoleAsync(user!, "Admin"))
             {
+                // Queries the database to retrieve to all ticket based on it's CompanyId.
                 tickets = await _ticketService.GetAllTicketsByCompanyIdAsync(_companyId);
 
+                // Populates ViewBag properties with ticket counts based on their status (“New,” “Development,” “Testing,” and “Resolved”)
                 ViewBag.TicketCount = tickets.Count();
                 ViewBag.NewCount = tickets.Count(t => t.TicketStatus?.Name == "New");
                 ViewBag.DevelopmentCount = tickets.Count(t => t.TicketStatus?.Name == "Development");
@@ -58,12 +67,15 @@ namespace BugTrackingSystem.Controllers
             }
             else
             {
+                // Checks if the user is in the “Developer” or “ProjectManager” role
+                // If true, retrieves tickets associated with the user’s ID and the specified company ID
                 if (await _userManager.IsInRoleAsync(user!, "Developer") || await _userManager.IsInRoleAsync(user!, "ProjectManager"))
                 {
                     tickets = await _context.Tickets.Where(t => t.DeveloperUserId == user!.Id && t.Project!.CompanyId == _companyId).ToListAsync();
                 }
 
             }
+            // Returns a view with the tickets collection
             return View(tickets);
         }
 
@@ -72,18 +84,34 @@ namespace BugTrackingSystem.Controllers
         [HttpGet]
         public async Task<IActionResult> AssignTicket(int? id)
         {
+            // Check if the ticket ID is null
             if (id == null)
             {
                 return NotFound();
             }
-
+            
+            // Initialize a new instance of the AssignTicketViewModel
             AssignTicketViewModel viewModel = new();
 
+            // Get the ticket by ID and companyID, and assign it to the view model
             viewModel.Ticket = await _ticketService.GetTicketByIdAsync(id, _companyId);
+            
+            // Get the current developer assigned to the ticket
             string? currentDeveloper = viewModel.Ticket?.DeveloperUserId;
-            viewModel.Developers = new SelectList(await _projectService.GetProjectMembersByRoleAsync(viewModel.Ticket?.ProjectId, nameof(BTRoles.Developer), _companyId), "Id", "FullName", currentDeveloper);
 
+            // Get the developers in the project and set them in the view model as a SelectList
+            viewModel.Developers = new SelectList(
+                await _projectService.GetProjectMembersByRoleAsync
+                (viewModel.Ticket?.ProjectId,
+                 nameof(BTRoles.Developer),
+                  _companyId
+                  ),
+                   "Id",
+                    "FullName",
+                     currentDeveloper
+                     );
 
+            // Return the view with the view model
             return View(viewModel);
         }
 
@@ -93,33 +121,39 @@ namespace BugTrackingSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AssignTicket(AssignTicketViewModel viewModel)
         {
+            // Check if both DeveloperId and Ticket Id are not null
             if (viewModel.DeveloperId != null && viewModel.Ticket?.Id != null)
             {
-                // Guarda una copia del ticket antiguo antes de la actualización
+
+                // Save a copy of the old ticket before updating
                 Ticket? oldTicket = await _ticketService.GetTicketAsNoTrackingAsync(viewModel.Ticket?.Id, _companyId);
 
                 try
                 {
+                    // Assign the ticket to the specified developer
                     await _ticketService.AssignTicketAsync(viewModel.Ticket?.Id, viewModel.DeveloperId);
                 }
                 catch (Exception)
                 {
+                    // Handle any exceptions that occur during assignment
                     throw;
                 }
 
-                // Obtiene una instantánea de los nuevos datos del ticket después de la actualización
+                // Get a snapshot of the new ticket data after updating
                 Ticket? newTicket = await _ticketService.GetTicketAsNoTrackingAsync(viewModel.Ticket?.Id, _companyId);
 
-                // Añade el historial
+                // Add the ticket history
                 string? userId = _userManager.GetUserId(User);
                 await _ticketHistoryService.AddHistoryAsync(oldTicket, newTicket, userId);
 
-                // Añade la notificación
+                // Add a notification for the new developer
                 await _notificationService.NewDeveloperNotificationAsync(viewModel.Ticket?.Id, viewModel.DeveloperId, userId);
 
+                // Redirect to the Details action with the ticket ID
                 return RedirectToAction(nameof(Details), new { id = viewModel.Ticket?.Id });
             }
 
+            // Return the view with the view model if DeveloperId or Ticket Id is null
             return View(viewModel);
         }
 
@@ -294,7 +328,7 @@ namespace BugTrackingSystem.Controllers
             return File(fileData!, $"application/{ext}");
         }
 
-
+        // Get: Tickets/Details/5
         [HttpGet]
         public async Task<IActionResult> Details(int? Id)
         {
@@ -308,7 +342,7 @@ namespace BugTrackingSystem.Controllers
             // Obtain the company ID associated with the current user
             int? companyId = _userManager.GetUserAsync(User).Result?.CompanyId;
 
-            // Retrieve the ticket details asynchronously using the TicketService
+            // Queries the database to retrieve a specific ticket based on its ID.
             Ticket? ticket = await _ticketService.GetTicketByIdAsync(Id, companyId);
 
             // Check if the retrieved ticket is null
@@ -326,19 +360,28 @@ namespace BugTrackingSystem.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
+            // Get the current user's ID
             string? userId = _userManager.GetUserId(User);
+
+            // Check if the current user has the role "Admin"
             bool isAdmin = User.IsInRole("Admin");
 
+            // Get the company ID from the user's claims
             int? companyId = int.Parse(User.Claims.First(c => c.Type == "CompanyId").Value);
-
+            
+            // Retrieve all projects for the given company ID
             List<Project> projects = await _projectService.GetAllProjectsByCompanyIdAsync(companyId);
+
+            // Set ViewData properties for "ProjectId" to a SelectList of projects 
             ViewBag.ProjectId = new SelectList(projects, "Id", "Name");
 
+            // Set ViewData properties for project, ticket type, ticket priority, and ticket status
             ViewData["ProjectId"] = new SelectList(projects, "Id", "Name");
             ViewData["TicketTypeId"] = new SelectList(_context.TicketTypes.ToList(), "Id", "Name");
             ViewData["TicketPriorityId"] = new SelectList(_context.TicketPriorities.ToList(), "Id", "Name");
             ViewData["TicketStatusId"] = new SelectList(_context.TicketStatus.ToList(), "Id", "Name");
 
+            // Return the view
             return View();
         }
 

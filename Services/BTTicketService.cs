@@ -165,6 +165,7 @@ namespace BugTrackingSystem.Services
             }
         }
 
+
         public async Task<Ticket?> GetTicketByIdAsync(int? ticketId, int? companyId)
 {
     try
@@ -175,7 +176,8 @@ namespace BugTrackingSystem.Services
         // Check if both ticketId and companyId are provided
         if (ticketId != null && companyId != null)
         {
-            // Query the database context for the ticket
+            // Query the database for the ticket with the specified ID and company ID
+            // Includes related entities 
             ticket = await _context.Tickets
                 .Where(t => t.Project!.CompanyId == companyId && t.Archived == false)
                 .Include(t => t.DeveloperUser)
@@ -237,10 +239,12 @@ namespace BugTrackingSystem.Services
             }
         }
 
+
         public async Task<IEnumerable<TicketPriority>> GetTicketPrioritiesAsync()
         {
             return await _context.TicketPriorities.ToListAsync();
         }
+
 
         public async Task<List<Ticket>> GetTicketsByUserIdAsync(string? userId, int? companyId)
         {
@@ -262,15 +266,18 @@ namespace BugTrackingSystem.Services
             }
         }
 
+
         public async Task<IEnumerable<TicketStatus>> GetTicketStatusAsync()
         {
             return await _context.TicketStatus.ToListAsync();
         }
 
+
         public async Task<IEnumerable<TicketType>> GetTicketTypesAsync()
         {
             return await _context.TicketTypes.ToListAsync();
         }
+
 
         public async Task<List<Ticket>> GetUnassignedTicketsAsync(int? companyId)
         {
@@ -288,6 +295,7 @@ namespace BugTrackingSystem.Services
             return unassignedTickets;
         }
 
+
         public async Task RestoreTicketAsync(Ticket? ticket)
         {
             if (ticket != null)
@@ -303,6 +311,7 @@ namespace BugTrackingSystem.Services
                 }
             }
         }
+
 
         public async Task UpdateTicketAsync(Ticket? ticket)
         {

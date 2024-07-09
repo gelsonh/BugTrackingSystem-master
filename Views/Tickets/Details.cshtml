@@ -1,9 +1,13 @@
-﻿@model Ticket
+﻿@* Set the model type for the view to be a Ticket *@
+@model Ticket
 
+@* Import the necessary namesces *@
 @using BugTrackingSystem.Models.Enums
 @using BugTrackingSystem.Services
 @using BugTrackingSystem.Services.Interfaces
 @using Microsoft.AspNetCore.Identity
+
+@* Inject the required services *@
 @inject UserManager<BTUser> _UserManager
 @inject IBTTicketService _TicketService
 @inject IBTFileService BTFileService
@@ -11,17 +15,19 @@
 @inject IBTNotificationService _NotificationService
 @inject IBTProjectService _ProjectService
 
-
+@* Set the title for the ViewData dictionary *@
 @{
     ViewData["Title"] = "Tickets Details";
 }
 
+@* Define a section for the page title with a back button *@
 @section PageTitle {
     <a href="javascript:history.back()">
         <i class="fas fa-arrow-left"></i>
     </a>@ViewData["Title"]
 }
 
+@* Define a section for the breadcrumbs navigation *@
 @section Breadcrumbs {
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb mb-0 p-0">
@@ -31,9 +37,7 @@
     </nav>
 }
 
-
-
-
+@* CSS Custom *@
 <style>
     .custom-tooltip {
         position: relative;
@@ -74,7 +78,6 @@
                 <p class="card-text">
                     @Model.Description
                 </p>
-
             </div>
         </div>
 
@@ -120,7 +123,7 @@
             </div>
         </div>
 
-        @* Attachments *@
+        @* Ticket Attachments *@
         <div class="card card-hover">
             <div class="card-header bg-info">
                 <h4 class="mb-0 text-white">Attachments</h4>
@@ -172,7 +175,7 @@
 
     <div class="col-lg-4">
 
-        @* TicketInfo *@
+        @* Ticket Info *@
         <div class="card card-hover">
             <div class="card-body bg-info">
                 <h4 class="card-title text-white mb-0">
@@ -276,6 +279,7 @@
                 </div>
             </div>
         </div>
+
     </div>
 
 </div>
