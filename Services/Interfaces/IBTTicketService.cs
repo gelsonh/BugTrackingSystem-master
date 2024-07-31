@@ -2,9 +2,13 @@
 
 namespace BugTrackingSystem.Services.Interfaces
 {
+
+    // An interface defines a contract that classes can implement
+    // It contains method signatures without implementations
     public interface IBTTicketService
     {
        
+        // Method asynchronously
         public Task AddTicketAsync(Ticket? ticket);
         public Task AssignTicketAsync(int? ticketId, string? userId);
         public Task AddTicketAttachmentAsync(TicketAttachment? ticketAttachment);

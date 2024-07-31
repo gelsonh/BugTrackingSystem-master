@@ -151,7 +151,7 @@ namespace BugTrackingSystem.Services
                     Created = DataUtility.GetPostGresDate(DateTime.Now),
                     SenderId = senderId,
                     RecipientId = projectManager?.Id ?? senderId,
-                    NotificationTypeId = notificationTypeId.Value
+                    NotificationTypeId = notificationTypeId!.Value
                 };
 
 

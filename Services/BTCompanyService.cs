@@ -47,11 +47,11 @@ namespace BugTrackingSystem.Services
         }
 
 
-
         public Task<List<Invite>> GetInvitesAsync(int? companyId)
         {
             throw new NotImplementedException();
         }
+
 
         public async Task<List<BTUser>> GetMembersAsync(int? companyId)
         {
@@ -71,6 +71,7 @@ namespace BugTrackingSystem.Services
 
 
         public async Task<List<Project>> GetProjectsAsync(int? companyId)
+
         {
             if (companyId == null)
             {
@@ -83,6 +84,8 @@ namespace BugTrackingSystem.Services
 
             return projects;
         }
+       
+       
         public async Task<int?> GetCompanyIdByUserIdAsync(string userId)
         {
             BTUser? user = await _context.Users.FindAsync(userId);

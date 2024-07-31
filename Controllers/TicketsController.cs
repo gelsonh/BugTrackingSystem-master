@@ -27,6 +27,7 @@ namespace BugTrackingSystem.Controllers
         private readonly IBTTicketHistoryService _ticketHistoryService;
         private readonly IBTNotificationService _notificationService;
 
+        // Constructor for dependency injection
         public TicketsController(ApplicationDbContext context, UserManager<BTUser> userManager, IBTCompanyService companyService, IBTTicketService ticketService, IBTFileService fileService, IBTProjectService projectService, IBTRolesService rolesService, IBTTicketHistoryService ticketHistoryService, IBTNotificationService notificationService)
         {
             _context = context;
@@ -333,20 +334,22 @@ namespace BugTrackingSystem.Controllers
         public async Task<IActionResult> Details(int? Id)
         {
             // Check if the provided ticket ID is null
-            if (Id == null)
+            // For nullability checking provides a safer and clearer equality check
+            if (Id is null)
             {
                 // If null, return a "Not Found" response
                 return NotFound();
             }
 
+            
             // Obtain the company ID associated with the current user
             int? companyId = _userManager.GetUserAsync(User).Result?.CompanyId;
 
             // Queries the database to retrieve a specific ticket based on its ID.
-            Ticket? ticket = await _ticketService.GetTicketByIdAsync(Id, companyId);
+            Ticket? ticket = await _ticketService.GetTicketByIdAsync(Id.Value, companyId);
 
             // Check if the retrieved ticket is null
-            if (ticket == null)
+            if (ticket is null)
             {
                 // If null, return a "Not Found" response
                 return NotFound();

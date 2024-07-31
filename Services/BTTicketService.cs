@@ -8,11 +8,19 @@ namespace BugTrackingSystem.Services
 {
     public class BTTicketService : IBTTicketService
     {
+        // Private readonly field for accessing the application database context
         private readonly ApplicationDbContext _context;
+
+        // Private readonly field for managing user-related operations
         private readonly UserManager<BTUser> _userManager;
+
+        // Constructor for the BTTicketService class
         public BTTicketService(ApplicationDbContext context, UserManager<BTUser> userManager)
         {
+            // Assign the injected database context to the private field 
             _context = context;
+
+            // Assign the injected user manager to the private field
             _userManager = userManager;
         }
 
@@ -165,16 +173,17 @@ namespace BugTrackingSystem.Services
             }
         }
 
-
+        
         public async Task<Ticket?> GetTicketByIdAsync(int? ticketId, int? companyId)
-{
-    try
-    {
+        {
+             try
+             {
+        
         // Initialize a new Ticket object
-        Ticket? ticket = new();
+        Ticket? ticket = null;
 
         // Check if both ticketId and companyId are provided
-        if (ticketId != null && companyId != null)
+        if (ticketId is not 0 && companyId is not 0)
         {
             // Query the database for the ticket with the specified ID and company ID
             // Includes related entities 
